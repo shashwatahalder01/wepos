@@ -4,10 +4,12 @@
           admin can view outlets: false
           admin can add outlet: false
           admin can edit outlet: false
+          admin can delete outlet: false
           admin can add counter: false
           admin can edit counter: false
           admin can delete counter: false
-          admin can add cashier: false
+          admin can assign new cashier: false
+          admin can assign existing cashier: false
           admin can delete cashier: false
 
 - page: 'receipts'

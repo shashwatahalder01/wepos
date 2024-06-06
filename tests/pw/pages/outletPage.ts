@@ -1,15 +1,12 @@
-import { ConsoleMessage, Page, expect } from '@playwright/test';
+import { Page } from '@playwright/test';
 import { BasePage } from '@pages/basePage';
 import { selector } from '@pages/selectors';
 import { data } from '@utils/testData';
-import { customerDetails } from '@utils/interfaces';
-import { helpers } from '@utils/helpers';
-
-const { WEPOS_PRO } = process.env;
+import { outlet, counter, cashier } from '@utils/interfaces';
 
 // selectors
 const wepos = selector.admin.wepos;
-const pos = selector.admin.wepos.outlets;
+const outlets = selector.admin.wepos.outlets;
 
 export class Outlets extends BasePage {
     constructor(page: Page) {
@@ -18,206 +15,132 @@ export class Outlets extends BasePage {
 
     // navigation
 
-    async goToPos() {
-        await this.goIfNotThere(data.subUrls.backend.wepos.viewPos);
+    async goToOutlets() {
+        await this.goIfNotThere(data.subUrls.backend.wepos.outlets);
     }
 
-    // pos render properly
-    async posRenderProperly() {
-        await this.goToPos();
+    // outlets render properly
+    async outletRenderProperly() {
+        await this.goToOutlets();
 
-        // serach product
-        await this.toBeVisible(pos.searchProduct);
-        await this.toBeVisible(pos.searchType('Product'));
-        await this.toBeVisible(pos.searchType('Scan'));
+        await this.toBeVisible(outlets.outletsText);
+        await this.toBeVisible(outlets.addOutlet);
 
-        // category
-        await this.toBeVisible(pos.categoryDropdown);
+        const noOutlet = await this.page.isVisible(outlets.noOutletsFound);
 
-        // layout style
-        await this.toBeVisible(pos.layoutStyle('grid'));
-        await this.toBeVisible(pos.layoutStyle('list'));
-
-        // product container
-        await this.toBeVisible(pos.productContainer);
-
-        // customer
-        await this.toBeVisible(pos.searchCustomer);
-        await this.toBeVisible(pos.addNewCustomer);
-
-        // more option
-        await this.toBeVisible(pos.moreOption);
-
-        // cart
-        await this.toBeVisible(pos.cart.cart);
-
-        // subtotal
-        await this.toBeVisible(pos.cart.subtotal);
-
-        // cart options
-        await this.toBeVisible(pos.cart.addDiscount);
-        await this.toBeVisible(pos.cart.addFee);
-        await this.toBeVisible(pos.cart.addNote);
-
-        // pay now
-        await this.toBeVisible(pos.cart.payNow);
+        if (noOutlet) {
+            console.log('No outlet found');
+            return;
+        } else {
+            await this.notToHaveCount(outlets.outlets, 0);
+            //todo: add more checks
+        }
     }
 
-    // search product
-    async searchProduct(productName: string) {
-        await this.goToPos();
-        await this.click(pos.searchType('Product'));
-        await this.clearInputField(pos.searchProduct);
-        await this.type(pos.searchProduct, productName);
-        await this.toBeVisible(pos.searchedProduct(productName));
+    async updateOutletFields(outlet: outlet) {
+        // outlet name
+        await this.clearAndType(outlets.outletDetails.outletName, outlet.outletName);
+
+        // outlet location
+        await this.clearAndType(outlets.outletDetails.outletLocation.address1, outlet.address1);
+        await this.clearAndType(outlets.outletDetails.outletLocation.address2, outlet.address2);
+        //todo: add country
+        await this.clearAndType(outlets.outletDetails.outletLocation.state, outlet.state);
+        await this.clearAndType(outlets.outletDetails.outletLocation.city, outlet.city);
+        await this.clearAndType(outlets.outletDetails.outletLocation.zipCode, outlet.zipCode);
+
+        // contact details
+        await this.clearAndType(outlets.outletDetails.contactDetails.email, outlet.email);
+        await this.clearAndType(outlets.outletDetails.contactDetails.phone, outlet.phone);
+        await this.clearAndType(outlets.outletDetails.contactDetails.fax, outlet.fax);
+        await this.clearAndType(outlets.outletDetails.contactDetails.website, outlet.website);
     }
 
-    // filter product
-    async filterProducts(categoryName: string) {
-        await this.goToPos();
-        await this.click(pos.categoryDropdown);
-        await this.click(pos.uncategorized);
-        await this.toBeVisible(pos.selectedCategory(categoryName));
+    // add outlet
+    async addOutlet(outlet: outlet) {
+        await this.goToOutlets();
+        await this.click(outlets.addOutlet);
+        await this.updateOutletFields(outlet);
+        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.createOutlet);
+        await this.toBeVisible(outlets.outlet(outlet.outletName));
     }
 
-    // toggle layout
-    async toggleLayout(style: string) {
-        await this.goToPos();
-        await this.click(pos.layoutStyle(style));
-        await this.toContainClass(pos.productContainer, style);
+    // edit outlet
+    async editOutlet(outletName: string, outlet: outlet) {
+        await this.goToOutlets();
+        await this.click(outlets.outletMoreOption(outletName));
+        await this.click(outlets.outletMoreOptions.editOutlet);
+        await this.updateOutletFields(outlet);
+        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.updateOutlet);
     }
 
-    // search customer
-    async searchCustomer(customerName: string) {
-        await this.goToPos();
-        await this.type(pos.searchCustomer, customerName);
-        await this.toContainText(pos.searchedCustomer, customerName);
+    // delete outlet
+    async deleteOutlet(outletName: string, outlet: outlet) {
+        await this.goToOutlets();
+        await this.click(outlets.outletMoreOption(outletName));
+        await this.click(outlets.outletMoreOptions.deleteOutlet);
+        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, wepos.confirmAction);
+        await this.notToBeVisible(outlets.outlet(outlet.outletName));
     }
 
-    // add new customer
-    async addCustomer(customerdetails: customerDetails) {
-        await this.goToPos();
-        await this.click(pos.addNewCustomer);
-        await this.clearAndType(pos.customerdetails.firstName, customerdetails.firstName);
-        await this.clearAndType(pos.customerdetails.lastName, customerdetails.lastName);
-        await this.clearAndType(pos.customerdetails.email, customerdetails.email);
-        await this.clearAndType(pos.customerdetails.address1, customerdetails.address1);
-        await this.clearAndType(pos.customerdetails.address2, customerdetails.address2);
-        // await this.click(pos.customerdetails.countryDropdown);
-        // await this.clearAndType(pos.customerdetails.countryInput, customerdetails.country);
-        // await this.click(pos.customerdetails.searchedCountry);
-        await this.clearAndType(pos.customerdetails.state, customerdetails.state);
-        await this.clearAndType(pos.customerdetails.city, customerdetails.city);
-        await this.clearAndType(pos.customerdetails.zipCode, customerdetails.zipCode);
-        await this.clearAndType(pos.customerdetails.phone, customerdetails.phone);
-
-        await this.click(pos.customerdetails.addCustomer);
-        await this.toHaveValue(pos.searchCustomer, `${customerdetails.firstName} ${customerdetails.lastName}`);
+    // add counter
+    async addCounter(outletName: string, counter: counter) {
+        await this.goToOutlets();
+        await this.click(outlets.outletMoreOption(outletName));
+        await this.click(outlets.outletMoreOptions.addCounter);
+        await this.clearAndType(outlets.counter.name, counter.name);
+        await this.clearAndType(outlets.counter.number, counter.number);
+        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.counter.addCounter);
+        await this.toBeVisible(outlets.outletContent.counter(counter.name));
     }
 
-    // empty cart
-    async emptyCart() {
-        await this.goToPos();
-        await this.click(pos.moreOption);
-        await this.click(pos.moreoptions.emptyCart);
-        await this.toBeVisible(pos.cart.emptyCart);
+    // edit counter
+    async editCounter(counterName: string, counter: counter) {
+        await this.goToOutlets();
+        await this.hover(outlets.outletContent.counter(counterName));
+        await this.click(outlets.outletContent.editCounter(counterName));
+        await this.clearAndType(outlets.counter.name, counter.name);
+        await this.clearAndType(outlets.counter.number, counter.number);
+        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.counter.updateCounter);
     }
 
-    // view keyboard shortcut
-    async viewKeyboardShortcut() {
-        await this.goToPos();
-        await this.click(pos.moreOption);
-        await this.click(pos.moreoptions.help);
-        await this.toBeVisible(pos.shortcutKeys);
-        await this.click(wepos.modal.closeModal);
+    // delete counter
+    async deleteCounter(counterName: string) {
+        await this.goToOutlets();
+        await this.hover(outlets.outletContent.counter(counterName));
+        await this.click(outlets.outletContent.deleteCounter(counterName));
+        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmdelete);
+        await this.toBeVisible(outlets.outletContent.counter(counterName));
     }
 
-    //  logout
-    async logout() {
-        await this.goToPos();
-        await this.click(pos.moreOption);
-        await this.clickAndWaitForLoadState(pos.moreoptions.logout);
-        await this.toBeVisible(selector.frontend.myAccount);
+    // add cashier
+    async addCashier(outletName: string, cashier: cashier) {
+        await this.goToOutlets();
+        await this.click(outlets.outletMoreOption(outletName));
+        await this.click(outlets.outletMoreOptions.addCashier);
+
+        await this.click(outlets.cashier.cashierDropdown);
+        await this.clearAndType(outlets.cashier.cashierInput, cashier.firstName);
+        cashier.firstName ? await this.click(outlets.cashier.searchedCashier) : await this.click(outlets.cashier.createCashier); // send emypty string to create new cashier
+
+        // cashier details
+        await this.clearAndType(outlets.cashier.cashierDetails.firstName, cashier.firstName);
+        await this.clearAndType(outlets.cashier.cashierDetails.lastName, cashier.lastName);
+        await this.clearAndType(outlets.cashier.cashierDetails.email, cashier.email);
+        await this.clearAndType(outlets.cashier.cashierDetails.phone, cashier.phone);
+        await this.clearAndType(outlets.cashier.cashierDetails.website, cashier.website);
+        await this.clearAndType(outlets.cashier.cashierDetails.create, cashier.create);
+
+        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.assignCashier);
+        await this.toBeVisible(outlets.outletContent.cashier(`${cashier.firstName} ${cashier.lastName}`));
     }
 
-    // add product to cart
-    async addToCart(productName: string) {
-        await this.searchProduct(productName);
-        await this.pressOnSelector(pos.searchedProduct(productName), 'Enter');
-        await this.toBeVisible(pos.cart.cartProduct(productName));
-    }
-
-    // update cart product quantity
-    async editCartProductQuantity(productName: string, quantity: string) {
-        await this.addToCart(productName);
-        await this.click(pos.cart.editCartProduct(productName));
-        await this.clearAndType(pos.cart.productQuantityInput(productName), quantity);
-        await this.toContainText(pos.cart.cartProductQuantity(productName), quantity);
-    }
-
-    // remove product from cart
-    async removeCartProduct(productName: string) {
-        await this.addToCart(productName);
-        await this.click(pos.cart.removeCartProduct(productName));
-        await this.notToBeVisible(pos.cart.cartProduct(productName));
-    }
-
-    // add discount
-    async addDiscount(productName: string, type: string, amount: string) {
-        await this.addToCart(productName);
-        await this.click(pos.cart.addDiscount);
-        await this.clearAndType(pos.cart.feeDetails.feeInput, amount);
-        await this.click(pos.cart.feeDetails.feeType(type));
-        await this.toContainText(pos.cart.feeDetails.feeAmount('Discount'), amount);
-    }
-
-    // add fee
-    async addFee(productName: string, type: string, amount: string) {
-        await this.addToCart(productName);
-        await this.click(pos.cart.addFee);
-        await this.clearAndType(pos.cart.feeDetails.feeInput, amount);
-        await this.click(pos.cart.feeDetails.feeType(type));
-        await this.toContainText(pos.cart.feeDetails.feeAmount('Fee'), amount);
-    }
-
-    // add note
-    async addnote(productName: string, note: string) {
-        await this.addToCart(productName);
-        await this.click(pos.cart.addNote);
-        await this.clearAndType(pos.cart.noteDetails.noteInput, note);
-        await this.click(pos.cart.noteDetails.addNote);
-        await this.toContainText(pos.cart.noteText, note);
-    }
-
-    // complete sale
-    async completeSale(productName: string, closeModal: boolean = true) {
-        await this.addToCart(productName);
-        await this.click(pos.cart.payNow);
-        const amount = (await this.getElementText(pos.saleSummary.payAmount)) as string;
-        await this.clearAndType(pos.saleSummary.cashInput, helpers.removeCurrencySign(amount));
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wc.orders, pos.saleSummary.processPayment, 201);
-        await this.toBeVisible(pos.saleSummary.saleCompleted);
-        await this.toBeVisible(pos.saleSummary.printReceipt);
-
-        // close modal
-        closeModal && (await this.click(wepos.modal.closeModal));
-    }
-
-    // complete sale with print receipt
-    async completeSaleWithPrintReceipt(productName: string) {
-        await this.completeSale(productName, false);
-
-        // add event listener to print button for assertion
-        const pageFunction = (node: any) => node.addEventListener('click', () => console.log('Print button clicked!'));
-        await this.evaluate(pos.saleSummary.printReceipt, pageFunction);
-        const res = (await this.clickAndWaitForEvent('console', pos.saleSummary.printReceipt)) as unknown as ConsoleMessage;
-        expect(res.text()).toBe('Print button clicked!');
-
-        // await this.click(pos.saleSummary.printReceipt);
-        await this.toBeVisible(pos.saleSummary.saleCompleted);
-        await this.toBeVisible(pos.saleSummary.printReceipt);
-
-        // close modal
-        await this.click(wepos.modal.closeModal);
+    // delete cashier
+    async deleteCashier(cashierName: string) {
+        await this.goToOutlets();
+        await this.hover(outlets.outletContent.cashier(cashierName));
+        await this.click(outlets.outletContent.deletecashier(cashierName));
+        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmdelete);
+        await this.toBeVisible(outlets.outletContent.cashier(cashierName));
     }
 }

@@ -114,29 +114,56 @@ export const selector = {
             outlets: {
                 outletsText: '//h2//span[text()="Outlets"]',
                 addOutlet: '//a[contains(text(),"Add Outlet")]',
+                noOutletsFound: 'div.no-outlet-found p',
 
-                outletName: '//input[@placeholder="Outlet Name"]',
-                outletLocation: {
-                    address1: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Address 1")]',
-                    address2: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Address 2")]',
-                    countryDropdown: 'div.customer-country  div.multiselect__select',
-                    countryInput: 'input.multiselect__input',
-                    searchedCountry: 'span.multiselect__option--highlight',
-                    state: '//div[@class="wepos-modal"]//input[contains(@placeholder,"State")]',
-                    city: '//div[@class="wepos-modal"]//input[contains(@placeholder,"City")]',
-                    zipCode: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Postal/Zip Code")]',
+                outlets: 'div.outlet',
+
+                outlet: (outletName: string) => `//div[@class='outlet']//h3[text()='${outletName}']/../../..`,
+
+                outletContent: {
+                    // outlet tabs
+                    outletCounter: (outletName: string) => `//div[@class='outlet']//h3[text()='${outletName}']/../../..//div[@class="tabs"]//span[text()='Counter']/..`,
+                    outletCashier: (outletName: string) => `//div[@class='outlet']//h3[text()='${outletName}']/../../..//div[@class="tabs"]//span[text()='Cashier']/..`,
+
+                    // counter
+                    counter: (counterName: string) => `//div[@class='counter-content']//span[text()='${counterName}']/../..`,
+                    editCounter: (counterName: string) => `//div[@class='counter-content']//span[text()='${counterName}']/../..//span[@class="flaticon-circle-edit"]/..`,
+                    deleteCounter: (counterName: string) => `//div[@class='counter-content']//span[text()='${counterName}']/../..//span[@class="flaticon-delete"]/..`,
+
+                    // cashier
+                    cashier: (counterName: string) => `//div[@class='cashier-content']//span[text()='${counterName}']/../..`,
+                    deletecashier: (counterName: string) => `//div[@class='cashier-content']//span[text()='${counterName}']/../..//span[@class="flaticon-delete"]/..`,
+
+                    canceldelete: '//div[@class="confirm-action"]//button[text()="Cancel"]',
+                    confirmdelete: '//div[@class="confirm-action"]//button[text()="Delete"]',
                 },
-                contactDetails: {
-                    email: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Email")]',
-                    phone: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Phone")]',
-                    fax: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Fax")]',
-                    website: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Website")]',
+
+                outletDetails: {
+                    outletName: '//input[@placeholder="Outlet Name"]',
+                    outletLocation: {
+                        address1: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Address 1")]',
+                        address2: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Address 2")]',
+                        countryDropdown: 'div.customer-country  div.multiselect__select',
+                        countryInput: 'input.multiselect__input',
+                        searchedCountry: 'span.multiselect__option--highlight',
+                        state: '//div[@class="wepos-modal"]//input[contains(@placeholder,"State")]',
+                        city: '//div[@class="wepos-modal"]//input[contains(@placeholder,"City")]',
+                        zipCode: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Postal/Zip Code")]',
+                    },
+                    contactDetails: {
+                        email: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Email")]',
+                        phone: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Phone")]',
+                        fax: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Fax")]',
+                        website: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Website")]',
+                    },
                 },
 
                 createOutlet: '//button[text()="Create Outlet"]',
+                updateOutlet: '//button[text()="Update Outlet"]',
 
-                outletMoreOption: 'div.outlet div.v-popover',
-                outletOptions: {
+                // outletMoreOption: 'div.outlet div.v-popover',
+                outletMoreOption: (outletName: string) => `//div[@class='outlet']//h3[text()='${outletName}']/../../..//div[@class="v-popover"]`,
+                outletMoreOptions: {
                     addCounter: '//div[contains(@class,"wepos-outlet-settings")]//a[contains(text(),"Add Counter")]',
                     addCashier: '//div[contains(@class,"wepos-outlet-settings")]//a[contains(text(),"Add Cashier")]',
                     editOutlet: '//div[contains(@class,"wepos-outlet-settings")]//a[contains(text(),"Edit")]',
@@ -148,6 +175,7 @@ export const selector = {
                     name: '//div[@class="wepos-modal"]//input[@placeholder="Counter Name"]',
                     number: '//div[@class="wepos-modal"]//input[@placeholder="Counter Number"]',
                     addCounter: '//div[@class="wepos-modal"]//button[text()="Create Counter"]',
+                    updateCounter: '//div[@class="wepos-modal"]//button[text()="Update Counter"]',
                 },
 
                 addCashier: 'div.cashier-content a',
@@ -157,6 +185,8 @@ export const selector = {
                     searchedCashier: 'span.multiselect__option--highlight',
 
                     createCashier: 'a.create-new-cashier-link',
+
+                    // cashier details
                     cashierDetails: {
                         firstName: '//div[@class="wepos-modal"]//input[contains(@placeholder,"First Name")]',
                         lastName: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Last Name")]',

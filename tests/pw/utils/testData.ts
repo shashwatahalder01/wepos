@@ -200,7 +200,9 @@ export const data = {
         },
 
         api: {
-            wepos: {},
+            wepos: {
+                outlet: 'wepos/v1/outlets',
+            },
 
             wc: {
                 products: 'wc/v3/products',
