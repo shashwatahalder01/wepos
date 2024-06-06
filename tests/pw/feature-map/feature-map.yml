@@ -1,0 +1,66 @@
+- page: 'outlets'
+  features:
+      admin:
+          admin can view outlets: false
+          admin can add outlet: false
+          admin can edit outlet: false
+          admin can add counter: false
+          admin can edit counter: false
+          admin can delete counter: false
+          admin can add cashier: false
+          admin can delete cashier: false
+
+- page: 'receipts'
+  features:
+      admin:
+          admin can view receipt: false
+          admin can set receipt logo: false
+          admin can set receipt style: false
+          admin can set receipt header details: false
+          admin can set receipt item details: false
+          admin can set receipt footer details: false
+
+- page: 'reports'
+  features:
+      admin:
+          admin can view sales report: false
+          admin can filter sales report: false
+          admin can export sales report: false
+
+- page: 'settings'
+  features:
+      admin:
+          admin can view settings menu page [lite]: true
+          admin can set Wepos general settings [lite]: true
+          admin can set Wepos receipts settings [lite]: true
+
+- page: 'pos'
+  features:
+      cashier:
+          cashier can view pos [lite]: true
+          cashier can search product [lite]: true
+          cashier can filter product [lite]: true
+          cashier can toggle product view layout [lite]: true
+          cashier can search customer [lite]: true
+          cashier can add new customer [lite]: true
+          cashier can empty cart [lite]: true
+          cashier can view keyboard shortcuts [lite]: true
+          cashier can logout [lite]: true
+          cashier can add product to cart [lite]: true
+          cashier can edit product quantity [lite]: true
+          cashier can remove product from cart [lite]: true
+          cashier can add discount [lite]: true
+          cashier can add fee [lite]: true
+          cashier can add note [lite]: true
+          cashier can complete sale [lite]: true
+          cashier can complete sale with print receipt [lite]: true
+          cashier can switch counter: false
+
+- page: 'license'
+  features:
+      admin:
+          admin can view license menu page: true
+          admin can't activate license with incorrect key: true
+          admin can activate license: true
+          admin can refresh license: true
+          admin can deactivate license: true
