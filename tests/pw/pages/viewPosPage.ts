@@ -132,6 +132,14 @@ export class ViewPos extends BasePage {
         await this.click(wepos.modal.closeModal);
     }
 
+    //  switch counter
+    async switchCounter() {
+        await this.goToPos();
+        await this.click(pos.moreOption);
+        await this.clickAndWaitForLoadState(pos.moreoptions.switchCounter);
+        // todo: add switch counter logic
+    }
+
     //  logout
     async logout() {
         await this.goToPos();

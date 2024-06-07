@@ -207,7 +207,29 @@ export const selector = {
 
             // reports
             reports: {
-                //todo: need to add selectors
+                reportText: '//h1[text()="Reports"]',
+                exportReport: 'div.reports-filtering-buttons button.export-btn',
+
+                // filters
+                filterReport: 'div.reports-filtering-buttons button.filter-btn',
+                filters: {
+                    filterByPaymentMethod: '',
+                    filterByCustomer: '',
+                    filterByOutlet: '', //todo: need to add selectors
+                    filterByCashier: '',
+                    filterByDate: '',
+                    filterByOther: '//select[@name="filter_by_other"]',
+                    reset: 'a.filtering-reset-btn',
+                },
+
+                overview: {
+                    salesAmount: '//div[@class="overview-section"]//div[@class="summary-single summary-amount"]',
+                    totalItems: '//div[@class="overview-section"]//div[@class="summary-single summary-order-qty"]',
+                    totalOrders: '//div[@class="overview-section"]//div[@class="summary-single summary-order-qty"]',
+                    chart: 'canvas#line-chart',
+                },
+
+                //todo: need to add selectors reports
             },
 
             // settings
@@ -298,6 +320,7 @@ export const selector = {
                 moreoptions: {
                     emptyCart: '//a[.="Empty Cart"]',
                     help: '//a[.="Help"]',
+                    switchCounter: '//a[.="Switch Counter"]',
                     logout: '//a[.="Logout"]',
                 },
 

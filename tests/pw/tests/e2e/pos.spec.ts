@@ -54,6 +54,10 @@ test.describe('View POS test', () => {
         await cashier.viewKeyboardShortcut();
     });
 
+    test.skip('cashier can switch counter', { tag: ['@pro'] }, async () => {
+        await cashier.switchCounter();
+    });
+
     test.skip('cashier can logout', { tag: ['@lite'] }, async () => {
         await cashier.logout();
     });

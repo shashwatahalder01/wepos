@@ -25,9 +25,14 @@
 - page: 'reports'
   features:
       admin:
-          admin can view sales report: false
-          admin can filter sales report: false
-          admin can export sales report: false
+          admin can view report: false
+          admin can filter report by payment method: false
+          admin can filter report by customer: false
+          admin can filter report by outlet: false
+          admin can filter report by cashier: false
+          admin can filter report by date: false
+          admin can clear filter: false
+          admin can export report: false
 
 - page: 'settings'
   features:

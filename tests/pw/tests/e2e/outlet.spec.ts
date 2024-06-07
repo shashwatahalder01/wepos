@@ -22,8 +22,8 @@ test.describe('Outlets test', () => {
         admin = new Outlets(page);
     });
 
-    test('admin can view Outlets', { tag: ['@pro'] }, async () => {
-        await admin.outletRenderProperly();
+    test('admin can view outlets', { tag: ['@pro'] }, async () => {
+        await admin.outletsRenderProperly();
     });
 
     test('admin can add outlet', { tag: ['@pro'] }, async () => {

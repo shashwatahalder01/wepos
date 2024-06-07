@@ -20,7 +20,7 @@ export class Outlets extends BasePage {
     }
 
     // outlets render properly
-    async outletRenderProperly() {
+    async outletsRenderProperly() {
         await this.goToOutlets();
 
         await this.toBeVisible(outlets.outletsText);
