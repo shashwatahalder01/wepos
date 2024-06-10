@@ -19,7 +19,7 @@ teardown.describe('get api test coverage', () => {
     });
 
     teardown('get coverage', async () => {
-        const endpoints = [endPoints.getAllDokanEndpointsAdmin, endPoints.getAllDokanEndpointsV1, endPoints.getAllDokanEndpointsV2];
+        const endpoints = [endPoints.getAllWeposEndpointsV1];
         const allRoutes: string[] = [];
         const allRouteObjValues = [];
         for (const endpoint of endpoints) {
@@ -42,17 +42,19 @@ function getCoverage(coverageArray: any[], outputFile?: string) {
         total_endpoints: 0,
         covered_endpoints: 0,
         coverage: '',
-        uncovered_Endpoints: [],
+        covered_EndpointsList: [],
+        uncovered_EndpointsList: [],
     };
 
     const totalEndPoints = coverageArray.length;
     let coveredEndPoints = 0;
-    const uncoveredEndpoints: string[] = [];
+    const coveredEndPointsList: string[] = [];
+    const uncoveredEndpointsList: string[] = [];
     // Iterates through the coverageArray to grep each file in the test directory looking for matches
     for (const route of coverageArray) {
         const pattern = `COVERAGE_TAG: ${helpers.escapeRegex(route)}$`;
         const output = execSync(`grep -irl -E '${pattern}' tests/api | cat  `, { encoding: 'utf-8' });
-        output.toString() != '' ? (coveredEndPoints += 1) : uncoveredEndpoints.push(route);
+        output.toString() != '' ? (coveredEndPoints += 1 && coveredEndPointsList.push(route)) : uncoveredEndpointsList.push(route);
     }
     const percentCovered = ((coveredEndPoints / totalEndPoints) * 100).toFixed(2) + '%';
 
@@ -60,14 +62,15 @@ function getCoverage(coverageArray: any[], outputFile?: string) {
         coverageReport.total_endpoints = totalEndPoints;
         coverageReport.covered_endpoints = coveredEndPoints;
         coverageReport.coverage = percentCovered;
-        coverageReport.uncovered_Endpoints = uncoveredEndpoints;
+        coverageReport.covered_EndpointsList = coveredEndPointsList;
+        coverageReport.uncovered_EndpointsList = uncoveredEndpointsList;
         if (!fs.existsSync(path.dirname(outputFile))) {
             fs.mkdirSync(path.dirname(outputFile), { recursive: true });
         }
         fs.writeFileSync(outputFile, JSON.stringify(coverageReport));
     } else {
-        console.log('Uncovered Endpoints: ', uncoveredEndpoints);
-        console.log('Total Endpoints: ' + totalEndPoints);
+        console.log('Covered Endpoints List: ', coveredEndPointsList);
+        console.log('Uncovered Endpoints List: ', uncoveredEndpointsList);
         console.log('Covered Endpoints: ' + coveredEndPoints);
         console.log('Coverage: ' + percentCovered + '%');
     }

@@ -1971,4 +1971,22 @@ export class ApiUtils {
             await this.deleteProductAddon(productAddonId, auth);
         }
     }
+
+    /**
+     * wepos api methods
+     */
+
+    // create outlet
+    async createOutlet(payload: object, auth?: auth): Promise<[responseBody, string]> {
+        const [, responseBody] = await this.post(endPoints.createOutlet, { data: payload, headers: auth });
+        const outletId = String(responseBody?.id);
+        return [responseBody, outletId];
+    }
+
+    // create counter
+    async createCounter(outletId: string, payload: object, auth?: auth): Promise<[responseBody, string]> {
+        const [, responseBody] = await this.post(endPoints.createCounter(outletId), { data: payload, headers: auth });
+        const counterId = String(responseBody?.id);
+        return [responseBody, counterId];
+    }
 }

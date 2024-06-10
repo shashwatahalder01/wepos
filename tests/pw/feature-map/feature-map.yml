@@ -15,7 +15,7 @@
 - page: 'receipts'
   features:
       admin:
-          admin can view receipt: false
+          admin can view receipts: false
           admin can set receipt logo: false
           admin can set receipt style: false
           admin can set receipt header details: false

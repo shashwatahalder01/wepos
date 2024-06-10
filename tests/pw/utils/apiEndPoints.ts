@@ -5,389 +5,65 @@ const SERVER_URL = process.env.SERVER_URL ? process.env.SERVER_URL : process.env
 
 export const endPoints = {
     serverUrl: `${SERVER_URL}`,
-    getAllDokanEndpointsV1: `${SERVER_URL}/wepos/v1`,
-
-    // gateways: `${SERVER_URL}/wepos/v1/payment/gateways`,
-    // process: `${SERVER_URL}/wepos/v1/payment/process`,
-    // settings: `${SERVER_URL}/wepos/v1/settings`,
-    // settings: `${SERVER_URL}/wepos/v1/taxes`,
-    // settings: `${SERVER_URL}/wepos/v1/customers`,
-    // settings: `${SERVER_URL}/wepos/v1/products`,
-    // settings: `${SERVER_URL}/wepos/v1/coupons`,
-    // settings: `${SERVER_URL}/wepos/v1/coupons/(?P<id>[\d]+)`,
-    // settings: `${SERVER_URL}/wepos/v1/coupons/batch`,
-    // settings: `${SERVER_URL}/wepos/v1/outlets`,
-    // settings: `${SERVER_URL}/wepos/v1/outlets/(?P<id>[\d]+)`,
-    // settings: `${SERVER_URL}/wepos/v1/outlets/(?P<outlet_id>[\d]+)/counters`,
-    // settings: `${SERVER_URL}/wepos/v1/outlets/(?P<outlet_id>[\d]+)/counters/(?P<id>[\d]+)`,
-    // settings: `${SERVER_URL}/wepos/v1/outlets/(?P<outlet_id>[\d]+)/cashiers`,
-    // settings: `${SERVER_URL}/wepos/v1/outlets/(?P<outlet_id>[\d]+)/cashiers/create`,
-    // settings: `${SERVER_URL}/wepos/v1/cashiers/(?P<id>[\d]+)`,
-    // settings: `${SERVER_URL}/wepos/v1/cashiers/(?P<id>[\d]+)/login`,
-    // settings: `${SERVER_URL}/wepos/v1/outlets/(?P<outlet_id>[\d]+)/cashiers/(?P<user_id>[\d]+)`,
-    // settings: `${SERVER_URL}/wepos/v1/receipts`,
-    // settings: `${SERVER_URL}/wepos/v1/orders`,
-    // settings: `${SERVER_URL}/wepos/v1/orders/(?P<id>[\d]+)`,
-    // settings: `${SERVER_URL}/wepos/v1/orders/(?P<order_id>[\d]+)/notes`,
-    // settings: `${SERVER_URL}/wepos/v1/orders/(?P<order_id>[\d]+)/notes/(?P<id>[\d]+)`,
-    // settings: `${SERVER_URL}/wepos/v1/profile/(?P<cashier_id>[\d]+)`,
-    // settings: `${SERVER_URL}/wepos/v1/products/(?P<id>[\d]+)`,
-    // settings: `${SERVER_URL}/wepos/v1/payment/summary`,
-    // settings: `${SERVER_URL}/wepos/v1/payment/reports`,
-    // settings: `${SERVER_URL}/wepos/v1/payment/reports/export`,
-
-    // stores
-    getAllStores: `${SERVER_URL}/dokan/v1/stores`,
-    getSingleStore: (sellerId: string) => `${SERVER_URL}/dokan/v1/stores/${sellerId}`,
-    createStore: `${SERVER_URL}/dokan/v1/stores`,
-    updateStore: (sellerId: string) => `${SERVER_URL}/dokan/v1/stores/${sellerId}`,
-    deleteStore: (sellerId: string) => `${SERVER_URL}/dokan/v1/stores/${sellerId}`,
-    getStoresSlugAvaility: `${SERVER_URL}/dokan/v1/stores/check`,
-    getStoreCurrentVisitor: `${SERVER_URL}/dokan/v1/stores/current-visitor`,
-    getStoreStats: (sellerId: string) => `${SERVER_URL}/dokan/v1/stores/${sellerId}/stats`,
-    getStoreCategories: (sellerId: string) => `${SERVER_URL}/dokan/v1/stores/${sellerId}/categories`,
-    getStoreProducts: (sellerId: string) => `${SERVER_URL}/dokan/v1/stores/${sellerId}/products`,
-    updateStoreStatus: (sellerId: string) => `${SERVER_URL}/dokan/v1/stores/${sellerId}/status`,
-    clientContactStore: (sellerId: string) => `${SERVER_URL}/dokan/v1/stores/${sellerId}/contact`, // post
-    adminEmailStore: (sellerId: string) => `${SERVER_URL}/dokan/v1/stores/${sellerId}/email`, // post
-    updateBatchStores: `${SERVER_URL}/dokan/v1/stores/batch`, // method: approved, pending, delete
-
-    // products
-    getAllProducts: `${SERVER_URL}/dokan/v1/products`,
-    getSingleProduct: (productId: string) => `${SERVER_URL}/dokan/v1/products/${productId}`,
-    createProduct: `${SERVER_URL}/dokan/v1/products`,
-    updateProduct: (productId: string) => `${SERVER_URL}/dokan/v1/products/${productId}`,
-    deleteProduct: (productId: string) => `${SERVER_URL}/dokan/v1/products/${productId}`,
-    getAllRelatedProducts: (productId: string) => `${SERVER_URL}/dokan/v1/products/${productId}/related`,
-    getProductsSummary: `${SERVER_URL}/dokan/v1/products/summary`,
-    getTopRatedProducts: `${SERVER_URL}/dokan/v1/products/top_rated`,
-    getBestSellingProducts: `${SERVER_URL}/dokan/v1/products/best_selling`,
-    getFeaturedProducts: `${SERVER_URL}/dokan/v1/products/featured`,
-    getLatestProducts: `${SERVER_URL}/dokan/v1/products/latest`,
-    getAllMultiStepCategories: `${SERVER_URL}/dokan/v1/products/multistep-categories`,
-
-    // product attributes
-    getAllAttributes: `${SERVER_URL}/dokan/v1/products/attributes`,
-    getSingleAttribute: (attributeId: string) => `${SERVER_URL}/dokan/v1/products/attributes/${attributeId}`,
-    createAttribute: `${SERVER_URL}/dokan/v1/products/attributes`,
-    updateAttribute: (attributeId: string) => `${SERVER_URL}/dokan/v1/products/attributes/${attributeId}`,
-    deleteAttribute: (attributeId: string) => `${SERVER_URL}/dokan/v1/products/attributes/${attributeId}`,
-    batchUpdateAttributes: `${SERVER_URL}/dokan/v1/products/attributes/batch`, // method: create, update, delete
-    setDefaultAttribute: (productId: string) => `${SERVER_URL}/dokan/v1/products/attributes/set-default/${productId}`,
-    updateProductAttribute: (productId: string) => `${SERVER_URL}/dokan/v1/products/attributes/edit-product/${productId}`,
-
-    // product attribute terms
-    getAllAttributeTerms: (attributeId: string) => `${SERVER_URL}/dokan/v1/products/attributes/${attributeId}/terms`,
-    getSingleAttributeTerm: (attributeId: string, attributeTermId: string) => `${SERVER_URL}/dokan/v1/products/attributes/${attributeId}/terms/${attributeTermId}`,
-    createAttributeTerm: (attributeId: string) => `${SERVER_URL}/dokan/v1/products/attributes/${attributeId}/terms`,
-    updateAttributeTerm: (attributeId: string, attributeTermId: string) => `${SERVER_URL}/dokan/v1/products/attributes/${attributeId}/terms/${attributeTermId}`,
-    deleteAttributeTerm: (attributeId: string, attributeTermId: string) => `${SERVER_URL}/dokan/v1/products/attributes/${attributeId}/terms/${attributeTermId}`,
-    updateBatchAttributeTerms: (attributeId: string) => `${SERVER_URL}/dokan/v1/products/attributes/${attributeId}/terms/batch`, // method: create, update, delete
-
-    // product variations
-    getAllProductVariations: (productId: string) => `${SERVER_URL}/dokan/v1/products/${productId}/variations`,
-    getSingleProductVariation: (productId: string, variationId: string) => `${SERVER_URL}/dokan/v1/products/${productId}/variations/${variationId}`,
-    createProductVariation: (productId: string) => `${SERVER_URL}/dokan/v1/products/${productId}/variations`,
-    updateProductVariation: (productId: string, variationId: string) => `${SERVER_URL}/dokan/v1/products/${productId}/variations/${variationId}`,
-    deleteProductVariation: (productId: string, variationId: string) => `${SERVER_URL}/dokan/v1/products/${productId}/variations/${variationId}`,
-    batchUpdateProductVariations: (productId: string) => `${SERVER_URL}/dokan/v1/products/${productId}/variations/batch`, // method: create, update, delete
-
-    // orders
-    getOrdersSummary: `${SERVER_URL}/dokan/v1/orders/summary`,
-    getAllOrders: `${SERVER_URL}/dokan/v1/orders`,
-    getSingleOrder: (orderId: string) => `${SERVER_URL}/dokan/v1/orders/${orderId}`,
-    updateOrder: (orderId: string) => `${SERVER_URL}/dokan/v1/orders/${orderId}`,
-
-    // order notes
-    getAllOrderNotes: (orderId: string) => `${SERVER_URL}/dokan/v1/orders/${orderId}/notes`,
-    getSingleOrderNote: (orderId: string, noteId: string) => `${SERVER_URL}/dokan/v1/orders/${orderId}/notes/${noteId}`,
-    createOrderNote: (orderId: string) => `${SERVER_URL}/dokan/v1/orders/${orderId}/notes`,
-    deleteOrderNote: (orderId: string, noteId: string) => `${SERVER_URL}/dokan/v1/orders/${orderId}/notes/${noteId}`,
-
-    // withdraws
-    getWithdrawPaymentMethods: `${SERVER_URL}/dokan/v1/withdraw/payment_methods`,
-    getBalanceDetails: `${SERVER_URL}/dokan/v1/withdraw/balance`,
-    getAllWithdraws: `${SERVER_URL}/dokan/v1/withdraw`,
-    getSingleWithdraw: (withdrawId: string) => `${SERVER_URL}/dokan/v1/withdraw/${withdrawId}`,
-    createWithdraw: `${SERVER_URL}/dokan/v1/withdraw`, // post
-    updateWithdraw: (withdrawId: string) => `${SERVER_URL}/dokan/v1/withdraw/${withdrawId}`,
-    cancelWithdraw: (withdrawId: string) => `${SERVER_URL}/dokan/v1/withdraw/${withdrawId}`,
-    updateBatchWithdraws: `${SERVER_URL}/dokan/v1/withdraw/batch`, // method: approved, pending, delete, cancelled
-    getAllWithdrawMethodCharges: `${SERVER_URL}/dokan/v1/withdraw/charges`,
-    getWithdrawCharge: `${SERVER_URL}/dokan/v1/withdraw/charge`,
-
-    // store settings
-    getSettings: `${SERVER_URL}/dokan/v1/settings`,
-    updateSettings: `${SERVER_URL}/dokan/v1/settings`,
-
-    // dummy data
-    getDummyDataStatus: `${SERVER_URL}/dokan/v1/dummy-data/status`,
-    importDummyData: `${SERVER_URL}/dokan/v1/dummy-data/import`,
-    clearDummyData: `${SERVER_URL}/dokan/v1/dummy-data/clear`,
-
-    // store categories
-    getDefaultStoreCategory: `${SERVER_URL}/dokan/v1/store-categories/default-category`,
-    setDefaultStoreCategory: `${SERVER_URL}/dokan/v1/store-categories/default-category`, // post
-    getAllStoreCategories: `${SERVER_URL}/dokan/v1/store-categories`,
-    getSingleStoreCategory: (categoryId: string) => `${SERVER_URL}/dokan/v1/store-categories/${categoryId}`,
-    createStoreCategory: `${SERVER_URL}/dokan/v1/store-categories`,
-    updateStoreCategory: (categoryId: string) => `${SERVER_URL}/dokan/v1/store-categories/${categoryId}`,
-    deleteStoreCategory: (categoryId: string) => `${SERVER_URL}/dokan/v1/store-categories/${categoryId}`,
-
-    // coupons
-    getAllCoupons: `${SERVER_URL}/dokan/v1/coupons`,
-    getSingleCoupon: (couponId: string) => `${SERVER_URL}/dokan/v1/coupons/${couponId}`,
-    createCoupon: `${SERVER_URL}/dokan/v1/coupons`,
-    updateCoupon: (couponId: string) => `${SERVER_URL}/dokan/v1/coupons/${couponId}`,
-    deleteCoupon: (couponId: string) => `${SERVER_URL}/dokan/v1/coupons/${couponId}`,
-
-    // reports
-    getSalesOverviewReport: `${SERVER_URL}/dokan/v1/reports/sales_overview`,
-    getSummaryReport: `${SERVER_URL}/dokan/v1/reports/summary`,
-    getTopEarnersReport: `${SERVER_URL}/dokan/v1/reports/top_earners`,
-    getTopSellingProductsReport: `${SERVER_URL}/dokan/v1/reports/top_selling`,
-
-    // product reviews
-    getAllProductReviews: `${SERVER_URL}/dokan/v1/reviews`,
-    getProductReviewSummary: `${SERVER_URL}/dokan/v1/reviews/summary`,
-    updateReview: (reviewId: string) => `${SERVER_URL}/dokan/v1/reviews/${reviewId}`,
-
-    // store reviews
-    getStoreReviews: (sellerId: string) => `${SERVER_URL}/dokan/v1/stores/${sellerId}/reviews`,
-    createStoreReview: (sellerId: string) => `${SERVER_URL}/dokan/v1/stores/${sellerId}/reviews`,
-    getAllStoreReviews: `${SERVER_URL}/dokan/v1/store-reviews`,
-    getSingleStoreReview: (reviewId: string) => `${SERVER_URL}/dokan/v1/store-reviews/${reviewId}`,
-    updateStoreReview: (reviewId: string) => `${SERVER_URL}/dokan/v1/store-reviews/${reviewId}`,
-    deleteStoreReview: (reviewId: string) => `${SERVER_URL}/dokan/v1/store-reviews/${reviewId}`,
-    restoreDeletedStoreReview: (reviewId: string) => `${SERVER_URL}/dokan/v1/store-reviews/${reviewId}/restore`, // put
-    updateBatchStoreReviews: `${SERVER_URL}/dokan/v1/store-reviews/batch`, // method: trash, delete, restore
-
-    // announcements
-    getAllAnnouncements: `${SERVER_URL}/dokan/v1/announcement`,
-    getSingleAnnouncement: (announcementId: string) => `${SERVER_URL}/dokan/v1/announcement/${announcementId}`,
-    createAnnouncement: `${SERVER_URL}/dokan/v1/announcement`,
-    updateAnnouncement: (announcementId: string) => `${SERVER_URL}/dokan/v1/announcement/${announcementId}`,
-    deleteAnnouncement: (announcementId: string) => `${SERVER_URL}/dokan/v1/announcement/${announcementId}`,
-    restoreDeletedAnnouncement: (announcementId: string) => `${SERVER_URL}/dokan/v1/announcement/${announcementId}/restore`, // put
-    updateBatchAnnouncements: `${SERVER_URL}/dokan/v1/announcement/batch`, // method: trash, delete, restore
-
-    // announcement notice
-    getSingleAnnouncementNotice: (noticeId: string) => `${SERVER_URL}/dokan/v1/announcement/notice/${noticeId}`,
-    updateAnnouncementNotice: (noticeId: string) => `${SERVER_URL}/dokan/v1/announcement/notice/${noticeId}`,
-    deleteAnnouncementNotice: (noticeId: string) => `${SERVER_URL}/dokan/v1/announcement/notice/${noticeId}`,
-
-    // refunds
-    getAllRefunds: `${SERVER_URL}/dokan/v1/refunds`,
-    approveRefund: (refundId: string) => `${SERVER_URL}/dokan/v1/refunds/${refundId}/approve`, // put
-    cancelRefund: (refundId: string) => `${SERVER_URL}/dokan/v1/refunds/${refundId}/cancel`, // put
-    deleteRefund: (refundId: string) => `${SERVER_URL}/dokan/v1/refunds/${refundId}`,
-    updateBatchRefunds: `${SERVER_URL}/dokan/v1/refunds/batch`, // method: completed, cancelled
-
-    // follow store
-    getStoreFollowStatus: `${SERVER_URL}/dokan/v1/follow-store`,
-    followUnfollowStore: `${SERVER_URL}/dokan/v1/follow-store`, // post
-    getFollowers: `${SERVER_URL}/dokan/v1/follow-store/followers`, // post
-
-    // abuse reports
-    getAllAbuseReportReasons: `${SERVER_URL}/dokan/v1/abuse-reports/abuse-reasons`,
-    getAllAbuseReports: `${SERVER_URL}/dokan/v1/abuse-reports`,
-    deleteAbuseReport: (abuseReportId: string) => `${SERVER_URL}/dokan/v1/abuse-reports/${abuseReportId}`,
-    deleteBatchAbuseReports: `${SERVER_URL}/dokan/v1/abuse-reports/batch`, //  delete  // method: items
-
-    // product advertisements
-    getAllProductAdvertisementStores: `${SERVER_URL}/dokan/v1/product_adv/stores`,
-    getAllProductAdvertisements: `${SERVER_URL}/dokan/v1/product_adv`,
-    createProductAdvertisement: `${SERVER_URL}/dokan/v1/product_adv/create`,
-    expireProductAdvertisement: (productAdvertisementId: string) => `${SERVER_URL}/dokan/v1/product_adv/${productAdvertisementId}/expire`, // put
-    deleteProductAdvertisement: (productAdvertisementId: string) => `${SERVER_URL}/dokan/v1/product_adv/${productAdvertisementId}`,
-    updateBatchProductAdvertisements: `${SERVER_URL}/dokan/v1/product_adv/batch`, // method: delete
-
-    // wholesale customers
-    getAllWholesaleCustomers: `${SERVER_URL}/dokan/v1/wholesale/customers`,
-    createWholesaleCustomer: `${SERVER_URL}/dokan/v1/wholesale/register`,
-    updateWholesaleCustomer: (wholesaleCustomerId: string) => `${SERVER_URL}/dokan/v1/wholesale/customer/${wholesaleCustomerId}`,
-    updateBatchWholesaleCustomer: `${SERVER_URL}/dokan/v1/wholesale/customers/batch`, // method: activate, deactivate, delete
-
-    // request quote rules
-    getAllQuoteRules: `${SERVER_URL}/dokan/v1/request-for-quote/quote-rule`,
-    getSingleQuoteRule: (quoteRuleId: string) => `${SERVER_URL}/dokan/v1/request-for-quote/quote-rule/${quoteRuleId}`,
-    createQuoteRule: `${SERVER_URL}/dokan/v1/request-for-quote/quote-rule`,
-    updateQuoteRule: (quoteRuleId: string) => `${SERVER_URL}/dokan/v1/request-for-quote/quote-rule/${quoteRuleId}`,
-    deleteQuoteRule: (quoteRuleId: string) => `${SERVER_URL}/dokan/v1/request-for-quote/quote-rule/${quoteRuleId}`,
-    restoreQuoteRule: (quoteRuleId: string) => `${SERVER_URL}/dokan/v1/request-for-quote/quote-rule/${quoteRuleId}/restore`, // put
-    updateBatchQuoteRules: `${SERVER_URL}/dokan/v1/request-for-quote/quote-rule/batch`, // method: trash, delete, restore
-
-    // request quotes
-    getAllQuoteRequests: `${SERVER_URL}/dokan/v1/request-for-quote`,
-    getSingleRequestQuote: (quoteRequestId: string) => `${SERVER_URL}/dokan/v1/request-for-quote/${quoteRequestId}`,
-    createQuoteRequest: `${SERVER_URL}/dokan/v1/request-for-quote`,
-    updateRequestQuote: (quoteRequestId: string) => `${SERVER_URL}/dokan/v1/request-for-quote/${quoteRequestId}`,
-    deleteQuoteRequest: (quoteRequestId: string) => `${SERVER_URL}/dokan/v1/request-for-quote/${quoteRequestId}`,
-    restoreRequestQuote: (quoteRequestId: string) => `${SERVER_URL}/dokan/v1/request-for-quote/${quoteRequestId}/restore`, // put
-    updateBatchRequestQuotes: `${SERVER_URL}/dokan/v1/request-for-quote/batch`, // method: trash
-    convertRequestQuoteToOrder: `${SERVER_URL}/dokan/v1/request-for-quote/convert-to-order`, // post
-    // customers (rfq)
-    getAllCustomers: `${SERVER_URL}/dokan/v1/request-for-quote/customers`,
-    getSingleCustomer: (customerId: string) => `${SERVER_URL}/dokan/v1/request-for-quote/customers/${customerId}`,
-    createCustomer: `${SERVER_URL}/dokan/v1/request-for-quote/customers`,
-    updateCustomer: (customerId: string) => `${SERVER_URL}/dokan/v1/request-for-quote/customers/${customerId}`,
-    deleteCustomer: (customerId: string) => `${SERVER_URL}/dokan/v1/request-for-quote/customers/${customerId}`,
-    updateBatchCustomers: `${SERVER_URL}/dokan/v1/request-for-quote/customers/batch`, // method: create, update, delete
-    // roles (rfq)
-    getAllUserRoles: `${SERVER_URL}/dokan/v1/request-for-quote/roles`,
-
-    // reverse withdrawal
-    getReverseWithdrawalVendorDueStatus: `${SERVER_URL}/dokan/v1/reverse-withdrawal/vendor-due-status`,
-    getReverseWithdrawalAddProductToCart: `${SERVER_URL}/dokan/v1/reverse-withdrawal/add-to-cart`,
-    getReverseWithdrawalTransactionTypes: `${SERVER_URL}/dokan/v1/reverse-withdrawal/transaction-types`,
-    getAllReverseWithdrawalStores: `${SERVER_URL}/dokan/v1/reverse-withdrawal/stores`,
-    getAllReverseWithdrawalStoreBalance: `${SERVER_URL}/dokan/v1/reverse-withdrawal/stores-balance`,
-    getAllReverseWithdrawalTransactions: `${SERVER_URL}/dokan/v1/reverse-withdrawal/transactions`,
-
-    // modules
-    getAllModules: `${SERVER_URL}/dokan/v1/admin/modules`,
-    activateModule: `${SERVER_URL}/dokan/v1/admin/modules/activate`, // put
-    deactivateModule: `${SERVER_URL}/dokan/v1/admin/modules/deactivate`, // put
-
-    // support tickets
-    getAllSupportTicketCustomers: `${SERVER_URL}/dokan/v1/admin/support-ticket/customers`,
-    getAllSupportTickets: `${SERVER_URL}/dokan/v1/admin/support-ticket`,
-    getSingleSupportTicket: (supportTicketId: string) => `${SERVER_URL}/dokan/v1/admin/support-ticket/${supportTicketId}`,
-    createSupportTicketComment: (supportTicketId: string) => `${SERVER_URL}/dokan/v1/admin/support-ticket/${supportTicketId}`,
-    updateSupportTicketStatus: (supportTicketId: string) => `${SERVER_URL}/dokan/v1/admin/support-ticket/${supportTicketId}/status`, // post
-    updateSupportTicketEmailNotification: (supportTicketId: string) => `${SERVER_URL}/dokan/v1/admin/support-ticket/${supportTicketId}/email-notification`, // post
-    deleteSupportTicketComment: (supportTicketCommentId: string) => `${SERVER_URL}/dokan/v1/admin/support-ticket/${supportTicketCommentId}/comment`,
-    updateBatchSupportTickets: `${SERVER_URL}/dokan/v1/admin/support-ticket/batch`, // method: close
-
-    // admin
-    getAdminReportSummary: `${SERVER_URL}/dokan/v1/admin/report/summary`,
-    getAdminReportOverview: `${SERVER_URL}/dokan/v1/admin/report/overview`,
-    getAdminDashboardFeed: `${SERVER_URL}/dokan/v1/admin/dashboard/feed`,
-    getAdminHelp: `${SERVER_URL}/dokan/v1/admin/help`,
-    getAdminChangelogLite: `${SERVER_URL}/dokan/v1/admin/changelog/lite`,
-    getAdminChangelogPro: `${SERVER_URL}/dokan/v1/admin/changelog/pro`,
-    getAdminNotices: `${SERVER_URL}/dokan/v1/admin/notices/admin`,
-    getAdminPromoNotices: `${SERVER_URL}/dokan/v1/admin/notices/promo`,
-    getAdminLogs: `${SERVER_URL}/dokan/v1/admin/logs`,
-    getAdminExportLogs: `${SERVER_URL}/dokan/v1/admin/logs/export`,
-
-    // seller badge
-    getVerifiedSellerVerificationTypes: `${SERVER_URL}/dokan/v1/seller-badge/verification-types`,
-    getAllSellerBadgeEvents: `${SERVER_URL}/dokan/v1/seller-badge/events`,
-    getAllSellerBadges: `${SERVER_URL}/dokan/v1/seller-badge`,
-    getSingleSellerBadge: (badgeId: string) => `${SERVER_URL}/dokan/v1/seller-badge/${badgeId}`,
-    createSellerBadge: `${SERVER_URL}/dokan/v1/seller-badge`,
-    updateSellerBadge: (badgeId: string) => `${SERVER_URL}/dokan/v1/seller-badge/${badgeId}`,
-    deleteSellerBadge: (badgeId: string) => `${SERVER_URL}/dokan/v1/seller-badge/${badgeId}`,
-    updateBatchSellerBadges: `${SERVER_URL}/dokan/v1/seller-badge/bulk-actions`,
-    setSellerBadgeRowActions: `${SERVER_URL}/dokan/v1/seller-badge/row-actions`,
-    getVendorUnseenSellerBadges: `${SERVER_URL}/dokan/v1/seller-badge/vendor-unseen-badges`,
-    setSellerBadgeAsSeen: `${SERVER_URL}/dokan/v1/seller-badge/set-badge-as-seen`,
-
-    // new v1
-
-    // product
-    getProductBlockDetails: (productId: string) => `${SERVER_URL}/dokan/v1/blocks/products/${productId}`,
-    getVariableProductBlockDetails: (productId: string) => `${SERVER_URL}/dokan/v1/blocks/product-variation/${productId}`,
-
-    // vendor dashboard
-    getVendorDashboardStatistics: `${SERVER_URL}/dokan/v1/vendor-dashboard`,
-    getVendorProfileInformation: `${SERVER_URL}/dokan/v1/vendor-dashboard/profile`,
-    getVendorSalesReport: `${SERVER_URL}/dokan/v1/vendor-dashboard/sales`,
-    getVendorProductReportsSummary: `${SERVER_URL}/dokan/v1/vendor-dashboard/products`,
-    getVendorOrderReportsSummary: `${SERVER_URL}/dokan/v1/vendor-dashboard/orders`,
-    getVendorStorePreferences: `${SERVER_URL}/dokan/v1/vendor-dashboard/preferences`,
-    getVendorProfileProgressBarData: `${SERVER_URL}/dokan/v1/vendor-dashboard/profile-progressbar`,
-
-    // vendor staff
-    getAllVendorStaffs: `${SERVER_URL}/dokan/v1/vendor-staff`,
-    getSingleVendorStaff: (staffId: string) => `${SERVER_URL}/dokan/v1/vendor-staff/${staffId}`,
-    createVendorStaff: `${SERVER_URL}/dokan/v1/vendor-staff`,
-    updateVendorStaff: (staffId: string) => `${SERVER_URL}/dokan/v1/vendor-staff/${staffId}`,
-    deleteVendorStaff: (staffId: string) => `${SERVER_URL}/dokan/v1/vendor-staff/${staffId}`,
-    getAllVendorStaffCapabilities: `${SERVER_URL}/dokan/v1/vendor-staff/capabilities`,
-    getVendorStaffCapabilities: (staffId: string) => `${SERVER_URL}/dokan/v1/vendor-staff/${staffId}/capabilities`,
-    updateVendorStaffCapabilities: (staffId: string) => `${SERVER_URL}/dokan/v1/vendor-staff/${staffId}/capabilities`,
-
-    // vendor subscriptions
-    getAllVendorSubscriptions: `${SERVER_URL}/dokan/v1/subscription`,
-    getAllVendorSubscriptionPackages: `${SERVER_URL}/dokan/v1/subscription/packages`,
-    getAllVendorSubscriptionNonRecurringPackages: `${SERVER_URL}/dokan/v1/subscription/nonrecurring-packages`,
-    getVendorActiveSubscriptionPack: (vendorId: string) => `${SERVER_URL}/dokan/v1/subscription/vendor/${vendorId}`,
-    updateVendorSubscription: (packId: string) => `${SERVER_URL}/wp-json/dokan/v1/subscription/${packId}`,
-    updateBatchVendorSubscriptions: `${SERVER_URL}/dokan/v1/subscription/batch`, // method: delete, read, unread
-
-    // v2
-
-    // rank math
-    rankMath: (productId: string) => `${SERVER_URL}/dokan/v2/rank-math/${productId}/store-current-editable-post`,
-
-    // product duplicate
-    createDuplicateProduct: (productId: string) => `${SERVER_URL}/dokan/v2/products/${productId}/duplicate`,
-
-    getAllProductsV2: `${SERVER_URL}/dokan/v2/products`,
-    getAllOrdersV2: `${SERVER_URL}/dokan/v2/products`,
-
-    // product filter
-    getProductsFilterByData: `${SERVER_URL}/dokan/v2/products/filter-by-data`,
-
-    // withdraw
-    getWithdrawSettings: `${SERVER_URL}/dokan/v2/withdraw/settings`,
-    getWithdrawSummary: `${SERVER_URL}/dokan/v2/withdraw/summary`,
-    getWithdrawDisbursementSettings: `${SERVER_URL}/dokan/v2/withdraw/disbursement`,
-    updateWithdrawDisbursementSettings: `${SERVER_URL}/dokan/v2/withdraw/disbursement`,
-    disableWithdrawDisbursement: `${SERVER_URL}/dokan/v2/withdraw/disbursement/disable`,
-
-    // orders
-    // all orders & order notes from v1 also work with v2
-    updateBatchOrders: `${SERVER_URL}/dokan/v2/orders/bulk-actions`,
-
-    // order downloads
-    getAllOrderDownloads: (orderId: string) => `${SERVER_URL}/dokan/v2/orders/${orderId}/downloads`,
-    createOrderDownload: (orderId: string) => `${SERVER_URL}/dokan/v2/orders/${orderId}/downloads`,
-    deleteOrderDownload: (orderId: string) => `${SERVER_URL}/dokan/v2/orders/${orderId}/downloads`,
+    getAllWeposEndpointsV1: `${SERVER_URL}/wepos/v1`,
 
     // settings
-    getStoreSettings: `${SERVER_URL}/dokan/v2/settings`,
-    getSingleSettingGroup: (groupId: string) => `${SERVER_URL}/dokan/v2/settings/${groupId}`,
-    getSubSettingFromSingleSettingGroup: (groupId: string, subGroupId: string) => `${SERVER_URL}/dokan/v2/settings/${groupId}/${subGroupId}`,
-    getSubSubSettingFromSingleSettingGroup: (groupId: string, subGroupId: string, subSubSettingsId: string) => `${SERVER_URL}/dokan/v2/settings/${groupId}/${subGroupId}/${subSubSettingsId}`,
-    updateSingleSettingGroup: (groupId: string) => `${SERVER_URL}/dokan/v2/settings/${groupId}`,
-    updateSubSettingFromSingleSettingGroup: (groupId: string, subGroupId: string) => `${SERVER_URL}/dokan/v2/settings/${groupId}/${subGroupId}`,
-    updateSubSubSettingFromSingleSettingGroup: (groupId: string, subGroupId: string, subSubSettingsId: string) => `${SERVER_URL}/dokan/v2/settings/${groupId}/${subGroupId}/${subSubSettingsId}`,
+    getWeposSettings: `${SERVER_URL}/wepos/v1/settings`,
+    getTaxSettings: `${SERVER_URL}/wepos/v1/taxes`,
 
-    // spmv
-    getSpmvSettings: `${SERVER_URL}/dokan/v1/spmv-product/settings`,
-    getSpmvProducts: `${SERVER_URL}/dokan/v1/spmv-product/search`,
-    addToStore: `${SERVER_URL}/dokan/v1/spmv-product/add-to-store`, // post
+    // customers
+    getAllCustomers: `${SERVER_URL}/wepos/v1/customers`,
+    createCustomer: `${SERVER_URL}/wepos/v1/customers`,
 
-    // product question answers
-    getAllProductQuestions: `${SERVER_URL}/dokan/v1/product-questions`,
-    getSingleProductQuestion: (questionId: string) => `${SERVER_URL}/dokan/v1/product-questions/${questionId}`,
-    createProductQuestion: `${SERVER_URL}/dokan/v1/product-questions`,
-    updateProductQuestion: (questionId: string) => `${SERVER_URL}/dokan/v1/product-questions/${questionId}`,
-    deleteProductQuestion: (questionId: string) => `${SERVER_URL}/dokan/v1/product-questions/${questionId}`,
-    updateBatchProductQuestions: `${SERVER_URL}/dokan/v1/product-questions/bulk_action`, // method: delete, read, unread
+    // coupons
+    getAllCoupons: `${SERVER_URL}/wepos/v1/coupons`,
+    getSingleCoupon: (couponId: string) => `${SERVER_URL}/wepos/v1/coupons/${couponId}`,
+    createCoupon: `${SERVER_URL}/wepos/v1/coupons`,
+    updateCoupon: (couponId: string) => `${SERVER_URL}/wepos/v1/coupons/${couponId}`,
+    deleteCoupon: (couponId: string) => `${SERVER_URL}/wepos/v1/coupons/${couponId}`,
+    updateBatchCoupons: `${SERVER_URL}/wepos/v1/coupons/batch`, // method: approved, pending, delete
 
-    getAllProductQuestionAnswers: `${SERVER_URL}/dokan/v1/product-answers`,
-    getSingleProductQuestionAnswer: (answerId: string) => `${SERVER_URL}/dokan/v1/product-answers/${answerId}`,
-    createProductQuestionAnswer: `${SERVER_URL}/dokan/v1/product-answers`,
-    updateProductQuestionAnswer: (answerId: string) => `${SERVER_URL}/dokan/v1/product-answers/${answerId}`,
-    deleteProductQuestionAnswer: (answerId: string) => `${SERVER_URL}/dokan/v1/product-answers/${answerId}`,
+    // products
+    getAllProducts: `${SERVER_URL}/wepos/v1/products`,
+    updateProduct: (productId: string) => `${SERVER_URL}/wepos/v1/products/${productId}`,
 
-    // vendor verification
-    getAllVerificationMethods: `${SERVER_URL}/dokan/v1/verification-methods`,
-    getSingleVerificationMethod: (methodId: string) => `${SERVER_URL}/dokan/v1/verification-methods/${methodId}`,
-    createVerificationMethod: `${SERVER_URL}/dokan/v1/verification-methods`,
-    updateVerificationMethod: (methodId: string) => `${SERVER_URL}/dokan/v1/verification-methods/${methodId}`,
-    deleteVerificationMethod: (methodId: string) => `${SERVER_URL}/dokan/v1/verification-methods/${methodId}`,
+    // orders
+    getAllOrders: `${SERVER_URL}/wepos/v1/orders`,
+    getSingleOrder: (orderId: string) => `${SERVER_URL}/wepos/v1/orders/${orderId}`,
 
-    getAllVerificationRequests: `${SERVER_URL}/dokan/v1/verification-requests`,
-    getSingleVerificationRequest: (requestId: string) => `${SERVER_URL}/dokan/v1/verification-requests/${requestId}`,
-    createVerificationRequest: `${SERVER_URL}/dokan/v1/verification-requests`,
-    updateVerificationRequest: (requestId: string) => `${SERVER_URL}/dokan/v1/verification-requests/${requestId}`,
-    deleteVerificationRequest: (requestId: string) => `${SERVER_URL}/dokan/v1/verification-requests/${requestId}`,
+    // order notes
+    getAllOrderNotes: (orderId: string) => `${SERVER_URL}/wepos/v1/orders/${orderId}/notes`,
+    createOrderNote: (orderId: string) => `${SERVER_URL}/wepos/v1/orders/${orderId}/notes`,
+    deleteOrderNote: (orderId: string, noteId: string) => `${SERVER_URL}/wepos/v1/orders/${orderId}/notes/${noteId}`,
 
+    // outlets
+    getAllOutlets: `${SERVER_URL}/wepos/v1/outlets`,
+    createOutlet: `${SERVER_URL}/wepos/v1/outlets`,
+    updateOutlet: (outletId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}`,
+    deleteOutlet: (outletId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}`,
+    createCounter: (outletId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}/counters`,
+    updateCounter: (outletId: string, counterId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}/counters/${counterId}`,
+    deleteCounter: (outletId: string, counterId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}/counters/${counterId}`,
+    getAllOutletCashiers: (outletId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}cashiers`,
+    createOutletCashier: (outletId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}/cashiers/create`,
+    getSingleCashier: (cashierId: string) => `${SERVER_URL}/wepos/v1/cashiers/${cashierId}`,
+
+    // settings: `${SERVER_URL}/wepos/v1/cashiers/(?P<id>[\d]+)/login`,
+    // settings: `${SERVER_URL}/wepos/v1/outlets/(?P<outlet_id>[\d]+)/cashiers/(?P<user_id>[\d]+)`,
+    // settings: `${SERVER_URL}/wepos/v1/profile/(?P<cashier_id>[\d]+)`,
+
+    // receipts
+    getReceipt: `${SERVER_URL}/wepos/v1/receipts`,
+    updateReceipt: `${SERVER_URL}/wepos/v1/receipts`,
+
+    // payment
+    getAllPaymentGateways: `${SERVER_URL}/wepos/v1/payment/gateways`,
+    getPaymentSummary: `${SERVER_URL}/wepos/v1/payment/summary`,
+    getPaymentReports: `${SERVER_URL}/wepos/v1/payment/reports`,
+    getExportedReport: `${SERVER_URL}/wepos/v1/payment/reports/export`, // todo: title, schema might need to be updated
+    // process: `${SERVER_URL}/wepos/v1/payment/process`,
+
+    // wooCommerce
     wc: {
         // coupons
         getAllCoupons: `${SERVER_URL}/wc/v3/coupons`,
