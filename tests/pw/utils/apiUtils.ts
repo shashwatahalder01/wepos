@@ -4,6 +4,7 @@ import { payloads } from '@utils/payloads';
 import { helpers } from '@utils/helpers';
 import fs from 'fs';
 import { auth, user_api, taxRate, coupon_api, marketPlaceCoupon, reqOptions, params, headers, storageState, responseBody } from '@utils/interfaces';
+import { th } from '@faker-js/faker';
 
 const { VENDOR_ID, CUSTOMER_ID } = process.env;
 
@@ -1988,5 +1989,27 @@ export class ApiUtils {
         const [, responseBody] = await this.post(endPoints.createCounter(outletId), { data: payload, headers: auth });
         const counterId = String(responseBody?.id);
         return [responseBody, counterId];
+    }
+
+    // create cashier
+    async createCashier(outletId: string, payload: object, auth?: auth): Promise<[responseBody, string]> {
+        const [, responseBody] = await this.post(endPoints.createCashier(outletId), { data: payload, headers: auth });
+        const counterId = String(responseBody?.id);
+        return [responseBody, counterId];
+    }
+
+    // assign cashier
+    async assignCashier(outletId: string, cashierIds: string[], auth?: auth): Promise<[responseBody]> {
+        const [, responseBody] = await this.post(endPoints.assignCashier(outletId), { data: { user_ids: cashierIds }, headers: auth });
+        return [responseBody];
+    }
+
+    // login cashier
+    async loginCahiser(cashierId: string, outletId: string, counterId: string, auth?: auth): Promise<[responseBody]> {
+        const [, responseBody] = await this.post(endPoints.loginCahiser(cashierId), { data: { outlet_id: outletId, counter_id: counterId }, headers: auth }, false);
+        if (responseBody.code === 'already-loggedin') {
+            console.log('Cashier already logged in');
+        }
+        return [responseBody];
     }
 }

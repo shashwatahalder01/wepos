@@ -7,10 +7,10 @@ const linksSchema = z.object({
 
 const customerSchema = z.object({
     id: z.number(),
-    date_created: z.string(),
-    date_created_gmt: z.string(),
-    date_modified: z.string(),
-    date_modified_gmt: z.string(),
+    date_created: z.coerce.date(),
+    date_created_gmt: z.coerce.date(),
+    date_modified: z.coerce.date(),
+    date_modified_gmt: z.coerce.date(),
     email: z.string().email(),
     first_name: z.string(),
     last_name: z.string(),
@@ -174,10 +174,10 @@ const productSchema = z.object({
     name: z.string(),
     slug: z.string(),
     permalink: z.string().url(),
-    date_created: z.string().datetime(),
-    date_created_gmt: z.string().datetime(),
-    date_modified: z.string().datetime(),
-    date_modified_gmt: z.string().datetime(),
+    date_created: z.coerce.date(),
+    date_created_gmt: z.coerce.date(),
+    date_modified: z.coerce.date(),
+    date_modified_gmt: z.coerce.date(),
     type: z.string(),
     status: z.string(),
     featured: z.boolean(),
@@ -245,6 +245,15 @@ const productSchema = z.object({
     _links: linksSchema,
 });
 
+const addressSchema = z.object({
+    address_1: z.string(),
+    address_2: z.string(),
+    country: z.string(),
+    state: z.string(),
+    city: z.string(),
+    postcode: z.string(),
+});
+
 const outletSchema = z.object({
     id: z.number(),
     name: z.string(),
@@ -254,18 +263,11 @@ const outletSchema = z.object({
     website: z.string(),
     created_at: z.coerce.date(),
     updated_at: z.coerce.date(),
-    address: z.object({
-        address_1: z.string(),
-        address_2: z.string(),
-        country: z.string(),
-        state: z.string(),
-        city: z.string(),
-        postcode: z.string(),
-    }),
+    address: addressSchema,
     meta: z.array(z.unknown()).optional(),
-    cashiers: z.array(z.unknown()),
-    counters: z.array(z.unknown()),
-    _links: linksSchema,
+    cashiers: z.array(z.unknown()).optional(),
+    counters: z.array(z.unknown()).optional(),
+    _links: linksSchema.optional(),
 });
 
 const counterSchema = z.object({
@@ -316,7 +318,11 @@ export const schemas = {
     couponsSchema: {
         couponSchema: couponSchema,
         couponsSchema: z.array(couponSchema),
-        // updateBatchCoupons:  // todo: need to check the response schema
+        updateBatchCoupons: z.object({
+            create: z.array(couponSchema).optional(),
+            update: z.array(couponSchema).optional(),
+            delete: z.array(couponSchema).optional(),
+        }),
     },
 
     productsSchema: {
@@ -396,6 +402,61 @@ export const schemas = {
         number: z.string(),
         _links: linksSchema,
     }),
+
+    cashierSchema: z.object({
+        id: z.number(),
+        avatar: z.string().url(),
+        full_name: z.string(),
+        first_name: z.string(),
+        last_name: z.string(),
+        email: z.string().email(),
+        display_name: z.string(),
+        created_at: z.coerce.date(),
+        phone: z.string().optional(),
+        address: z.string().optional(),
+        outlets: z.array(outletSchema).optional(),
+        _links: linksSchema.optional(),
+    }),
+
+    updateCahierSchema: z.number(),
+
+    cashierLoginSchema: z
+        .object({
+            id: z.string(),
+            user_id: z.string(),
+            outlet_id: z.string(),
+            counter_id: z.string(),
+            is_logged_in: z.union([z.string(), z.number()]),
+            login_at: z.string(),
+            logout_at: z.nullable(z.string()),
+            outlet_name: z.string(),
+            counter_name: z.string(),
+            number: z.string(),
+        })
+        .or(z.boolean()),
+
+    loginLogoutCashier: z.object({
+        id: z.number(),
+        outlet_id: z.string(),
+        counter_id: z.string(),
+    }),
+
+    assignCashierSchema: z.array(
+        z.object({
+            data: z.object({
+                id: z.number(),
+                avatar: z.string().url(),
+                full_name: z.string(),
+                first_name: z.string(),
+                last_name: z.string(),
+                email: z.string().email(),
+                display_name: z.string(),
+                created_at: z.coerce.date(),
+            }),
+            headers: z.array(z.unknown()), // assuming headers can be of any type
+            status: z.number(),
+        }),
+    ),
 
     receiptSchema: z.object({
         style: z.object({

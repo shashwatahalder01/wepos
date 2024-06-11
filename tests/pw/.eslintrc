@@ -6,7 +6,7 @@
         // "plugin:@typescript-eslint/stylistic", // stylistic, stylistic-type-checked
         // "plugin:@typescript-eslint/stylistic-type-checked", // for ts typed check
         "plugin:playwright/recommended",
-        "prettier"
+        "prettier",
     ],
     "plugins": ["@typescript-eslint"],
     "parser": "@typescript-eslint/parser",
@@ -25,7 +25,8 @@
         "playwright/expect-expect": "off",
         "playwright/no-skipped-test": "off",
         "playwright/no-conditional-in-test": "off",
-        "playwright/no-standalone-expect": "off"
+        "playwright/no-standalone-expect": "off",
+        "playwright/no-conditional-expect": "off",
         // custom rules
         // "no-restricted-syntax": [
         //     "error",
@@ -34,5 +35,5 @@
         //         "message": "test.only is not allowed."
         //     },
         // ],
-    }
+    },
 }

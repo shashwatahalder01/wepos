@@ -4,6 +4,8 @@ import { dbData } from '@utils/dbData';
 
 const basicAuth = (username: string, password: string) => 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
 
+const { ADMIN, ADMIN_PASSWORD, USER_PASSWORD } = process.env;
+
 export const payloads = {
     // wp
     createPost: {
@@ -56,30 +58,30 @@ export const payloads = {
     // user auth
 
     adminAuth: {
-        Authorization: basicAuth(process.env.ADMIN, process.env.ADMIN_PASSWORD),
+        Authorization: basicAuth(ADMIN, ADMIN_PASSWORD),
     },
 
     vendorAuth: {
-        Authorization: basicAuth(process.env.VENDOR, process.env.USER_PASSWORD),
+        Authorization: basicAuth(process.env.VENDOR, USER_PASSWORD),
     },
 
     customerAuth: {
-        Authorization: basicAuth(process.env.CUSTOMER, process.env.USER_PASSWORD),
+        Authorization: basicAuth(process.env.CUSTOMER, USER_PASSWORD),
     },
 
     admin: {
-        username: process.env.ADMIN,
-        password: process.env.ADMIN_PASSWORD,
+        username: ADMIN,
+        password: ADMIN_PASSWORD,
     },
 
     vendor: {
         username: process.env.VENDOR,
-        password: process.env.USER_PASSWORD,
+        password: USER_PASSWORD,
     },
 
     customer: {
         username: process.env.CUSTOMER,
-        password: process.env.USER_PASSWORD,
+        password: USER_PASSWORD,
     },
 
     setupStore: {
@@ -1190,7 +1192,7 @@ export const payloads = {
         last_name: faker.person.lastName(),
         email: faker.internet.email(),
         roles: 'customer',
-        password: process.env.USER_PASSWORD,
+        password: USER_PASSWORD,
     }),
 
     // vendor
@@ -2351,7 +2353,7 @@ export const payloads = {
         last_name: faker.person.lastName(),
         role: 'customer',
         username: faker.person.firstName() + faker.string.nanoid(5),
-        password: String(process.env.USER_PASSWORD),
+        password: String(USER_PASSWORD),
         billing: {
             first_name: 'customer1',
             last_name: 'c1',
@@ -2384,7 +2386,7 @@ export const payloads = {
         first_name: faker.person.firstName(),
         last_name: faker.person.lastName(),
         role: 'customer',
-        password: String(process.env.USER_PASSWORD),
+        password: String(USER_PASSWORD),
         billing: {
             first_name: 'customer1',
             last_name: 'c1',
@@ -2458,7 +2460,7 @@ export const payloads = {
         last_name: 's1',
         email: 'staff1@email.c',
         phone: '0123456789',
-        password: String(process.env.USER_PASSWORD),
+        password: String(USER_PASSWORD),
     },
 
     createStaff: () => ({
@@ -2467,7 +2469,7 @@ export const payloads = {
         last_name: faker.person.lastName('male'),
         phone: '0123456789',
         email: faker.person.firstName('male') + '@email.com',
-        password: String(process.env.USER_PASSWORD),
+        password: String(USER_PASSWORD),
     }),
 
     updateStaff: () => ({
@@ -2476,7 +2478,7 @@ export const payloads = {
         last_name: faker.person.lastName('male'),
         phone: '0123456789',
         email: faker.person.firstName('male') + '@email.com',
-        // password: String(process.env.USER_PASSWORD), // todo: fatal error exists dokan issue, for updating password
+        // password: String(USER_PASSWORD), // todo: fatal error exists dokan issue, for updating password
     }),
 
     updateCapabilities: {
@@ -2648,7 +2650,7 @@ export const payloads = {
         ],
         vendor_data: {
             email: 'dummystore1@yopmail.com',
-            password: String(process.env.USER_PASSWORD),
+            password: String(USER_PASSWORD),
             store_name: 'dummyStore1',
             social: [],
             payment: [],
@@ -2673,7 +2675,7 @@ export const payloads = {
 
     createStore: () => ({
         user_login: faker.person.firstName() + faker.string.nanoid(5),
-        user_pass: String(process.env.USER_PASSWORD),
+        user_pass: String(USER_PASSWORD),
         role: 'seller',
         email: faker.internet.email(),
         store_name: faker.person.firstName() + '_store',
@@ -2923,7 +2925,7 @@ export const payloads = {
 
     createStore1: {
         user_login: process.env.VENDOR,
-        user_pass: process.env.USER_PASSWORD,
+        user_pass: USER_PASSWORD,
         user_nicename: process.env.VENDOR + 'store',
         role: 'seller',
         email: process.env.VENDOR + '@yopmail.com',
@@ -3048,7 +3050,7 @@ export const payloads = {
 
     createStore2: {
         user_login: process.env.VENDOR2,
-        user_pass: process.env.USER_PASSWORD,
+        user_pass: USER_PASSWORD,
         user_nicename: process.env.VENDOR2 + 'store',
         role: 'seller',
         email: process.env.VENDOR2 + '@yopmail.com',
@@ -3175,7 +3177,7 @@ export const payloads = {
 
     createStore3: {
         user_login: process.env.VENDOR3,
-        user_pass: process.env.USER_PASSWORD,
+        user_pass: USER_PASSWORD,
         user_nicename: process.env.VENDOR3 + 'store',
         role: 'seller',
         email: process.env.VENDOR3 + '@yopmail.com',
@@ -3306,7 +3308,7 @@ export const payloads = {
         last_name: 'c1',
         role: 'customer',
         username: process.env.CUSTOMER,
-        password: process.env.USER_PASSWORD,
+        password: USER_PASSWORD,
         billing: {
             first_name: process.env.CUSTOMER,
             last_name: 'c1',
@@ -3340,7 +3342,7 @@ export const payloads = {
         last_name: 'c2',
         role: 'customer',
         username: process.env.CUSTOMER2,
-        password: process.env.USER_PASSWORD,
+        password: USER_PASSWORD,
         billing: {
             first_name: process.env.CUSTOMER2,
             last_name: 'c2',
@@ -3398,7 +3400,7 @@ export const payloads = {
 
     // update password
     updatePassword: {
-        password: String(process.env.USER_PASSWORD),
+        password: String(USER_PASSWORD),
     },
 
     // quote rule
@@ -3798,4 +3800,33 @@ export const payloads = {
         name: 'counter_' + faker.company.buzzNoun(),
         number: faker.string.numeric(5),
     }),
+
+    createCashier: () => ({
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        username: faker.person.firstName() + '_' + faker.string.nanoid(5),
+        email: faker.internet.email(),
+        website: 'cashier.com',
+        phone: faker.phone.number(),
+        password: USER_PASSWORD,
+    }),
+
+    updateCahiserProfile: () => ({
+        first_name: faker.person.firstName(),
+        last_name: faker.person.lastName(),
+        full_name: faker.person.firstName() + faker.person.lastName(),
+        phone: faker.phone.number(),
+    }),
+
+    loginLogoutCashier: {
+        outlet_id: '',
+        counter_id: '',
+    },
+
+    adminProfile: {
+        first_name: 'admin',
+        last_name: 'a1',
+        full_name: 'admin a1',
+        phone: '0123456789',
+    },
 };

@@ -4,6 +4,8 @@
 //COVERAGE_TAG: PUT /wepos/v1/coupons/(?P<id>[\d]+)
 //COVERAGE_TAG: POST /wepos/v1/coupons/(?P<id>[\d]+)
 //COVERAGE_TAG: DELETE /wepos/v1/coupons/(?P<id>[\d]+)
+//COVERAGE_TAG: PUT /wepos/v1/coupons/batch
+//COVERAGE_TAG: POST /wepos/v1/coupons/batch
 
 import { test, expect, request } from '@playwright/test';
 import { ApiUtils } from '@utils/apiUtils';
@@ -68,12 +70,21 @@ test.describe('coupon api test', () => {
         expect(responseBody).toMatchSchema(schemas.couponsSchema.couponSchema);
     });
 
-    // //todo: need to check the response schema
-    // test('update batch coupons', { tag: ['@pro'] }, async () => {
-    //     const allCouponIds = (await apiUtils.getAllCoupons())?.map((a: { id: unknown }) => a.id);
-    //     const [response, responseBody] = await apiUtils.put(endPoints.updateBatchCoupons, { data: { items: allCouponIds } });
-    //     expect(response.ok()).toBeTruthy();
-    //     expect(responseBody).toBeTruthy();
-    //     expect(responseBody).toMatchSchema(schemas.couponsSchema.updateBatchCoupons);
-    // });
+    test('update batch coupons [put]', { tag: ['@pro'] }, async () => {
+        await apiUtils.createCoupon([productId], payloads.createCoupon());
+        const allCouponIds = (await apiUtils.getAllCoupons())?.map((a: { id: unknown }) => a.id);
+        const [response, responseBody] = await apiUtils.put(endPoints.updateBatchCoupons, { data: { delete: allCouponIds } });
+        expect(response.ok()).toBeTruthy();
+        expect(responseBody).toBeTruthy();
+        expect(responseBody).toMatchSchema(schemas.couponsSchema.updateBatchCoupons);
+    });
+
+    test('update batch coupons [post]', { tag: ['@pro'] }, async () => {
+        await apiUtils.createCoupon([productId], payloads.createCoupon());
+        const allCouponIds = (await apiUtils.getAllCoupons())?.map((a: { id: unknown }) => a.id);
+        const [response, responseBody] = await apiUtils.post(endPoints.updateBatchCoupons, { data: { delete: allCouponIds } });
+        expect(response.ok()).toBeTruthy();
+        expect(responseBody).toBeTruthy();
+        expect(responseBody).toMatchSchema(schemas.couponsSchema.updateBatchCoupons);
+    });
 });

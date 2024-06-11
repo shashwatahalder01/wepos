@@ -41,16 +41,26 @@ export const endPoints = {
     createOutlet: `${SERVER_URL}/wepos/v1/outlets`,
     updateOutlet: (outletId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}`,
     deleteOutlet: (outletId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}`,
+
+    // counters
     createCounter: (outletId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}/counters`,
     updateCounter: (outletId: string, counterId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}/counters/${counterId}`,
     deleteCounter: (outletId: string, counterId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}/counters/${counterId}`,
-    getAllOutletCashiers: (outletId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}cashiers`,
-    createOutletCashier: (outletId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}/cashiers/create`,
-    getSingleCashier: (cashierId: string) => `${SERVER_URL}/wepos/v1/cashiers/${cashierId}`,
 
-    // settings: `${SERVER_URL}/wepos/v1/cashiers/(?P<id>[\d]+)/login`,
-    // settings: `${SERVER_URL}/wepos/v1/outlets/(?P<outlet_id>[\d]+)/cashiers/(?P<user_id>[\d]+)`,
-    // settings: `${SERVER_URL}/wepos/v1/profile/(?P<cashier_id>[\d]+)`,
+    // cashiers
+    getSingleCashier: (cashierId: string) => `${SERVER_URL}/wepos/v1/cashiers/${cashierId}`,
+    createCashier: (outletId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}/cashiers/create`,
+    assignCashier: (outletId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}/cashiers`,
+    deleteCashier: (outletId: string, cashierId: string) => `${SERVER_URL}/wepos/v1/outlets/${outletId}/cashiers/${cashierId}`,
+
+    // cashier profile
+    getCashierProfile: (cashierId: string) => `${SERVER_URL}/wepos/v1/profile/${cashierId}`,
+    updateCashierProfile: (cashierId: string) => `${SERVER_URL}/wepos/v1/profile/${cashierId}`,
+
+    // cashier login
+    getLoginStatus: (cashierId: string) => `${SERVER_URL}/wepos/v1/cashiers/${cashierId}/login`,
+    loginCahiser: (cashierId: string) => `${SERVER_URL}/wepos/v1/cashiers/${cashierId}/login`,
+    logoutCashier: (cashierId: string) => `${SERVER_URL}/wepos/v1/cashiers/${cashierId}/login`,
 
     // receipts
     getReceipt: `${SERVER_URL}/wepos/v1/receipts`,
