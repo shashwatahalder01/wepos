@@ -58,7 +58,7 @@ export const payloads = {
     // user auth
 
     adminAuth: {
-        Authorization: basicAuth(ADMIN, ADMIN_PASSWORD),
+        Authorization: basicAuth(process.env.ADMIN, process.env.ADMIN_PASSWORD),
     },
 
     vendorAuth: {

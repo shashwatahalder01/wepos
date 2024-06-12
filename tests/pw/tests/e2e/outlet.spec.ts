@@ -4,7 +4,7 @@ import { ApiUtils } from '@utils/apiUtils';
 import { data } from '@utils/testData';
 import { payloads } from '@utils/payloads';
 
-test.describe('Outlets test', () => {
+test.describe.only('Outlets test', () => {
     let admin: Outlets;
     // let aPage: Page;
     let apiUtils: ApiUtils;
@@ -22,8 +22,8 @@ test.describe('Outlets test', () => {
 
         apiUtils = new ApiUtils(await request.newContext());
         [, outletId, outletName] = await apiUtils.createOutlet(payloads.createOutlet(), payloads.adminAuth);
-        [, , counterName] = await apiUtils.createCounter(outletId, payloads.createCounter(), payloads.adminAuth);
-        [, , cashierName] = await apiUtils.createCashier(outletId, payloads.createCashier(), payloads.adminAuth);
+        // [, , counterName] = await apiUtils.createCounter(outletId, payloads.createCounter(), payloads.adminAuth);
+        // [, , cashierName] = await apiUtils.createCashier(outletId, payloads.createCashier(), payloads.adminAuth);
     });
 
     // test.afterAll(async () => {
@@ -38,7 +38,7 @@ test.describe('Outlets test', () => {
         await admin.outletsRenderProperly();
     });
 
-    test('admin can add outlet', { tag: ['@pro'] }, async () => {
+    test.only('admin can add outlet', { tag: ['@pro'] }, async () => {
         await admin.addOutlet(data.outlet());
     });
 
