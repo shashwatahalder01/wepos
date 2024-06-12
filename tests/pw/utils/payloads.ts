@@ -915,8 +915,10 @@ export const payloads = {
     },
 
     createOrder: {
-        payment_method: 'bacs',
-        payment_method_title: 'Direct Bank Transfer',
+        // payment_method: 'bacs',
+        // payment_method_title: 'Direct Bank Transfer',
+        payment_method: 'wepos_cash',
+        payment_method_title: 'Cash',
         set_paid: true,
         customer_id: 0,
         billing: {
@@ -963,6 +965,32 @@ export const payloads = {
         ],
 
         coupon_lines: [],
+        meta_data: [
+            {
+                key: '_wepos_is_pos_order',
+                value: true,
+            },
+            {
+                key: '_wepos_cash_tendered_amount',
+                value: '',
+            },
+            {
+                key: '_wepos_cash_change_amount',
+                value: '0',
+            },
+            // {
+            //     key: '_wepos_cashier_id',
+            //     value: '',
+            // },
+            // {
+            //     key: '_wepos_counter_id',
+            //     value: '',
+            // },
+            // {
+            //     key: '_wepos_outlet_id',
+            //     value: '',
+            // },
+        ],
     },
 
     createOrderCod: {
@@ -1008,12 +1036,10 @@ export const payloads = {
     },
 
     createOrderNote: {
-        status: 'processing',
         note: 'test order note',
     },
 
     createOrderNoteForCustomer: {
-        status: 'processing',
         note: 'test order note' + faker.string.nanoid(10),
         customer_note: 'true',
     },
@@ -3821,6 +3847,11 @@ export const payloads = {
     loginLogoutCashier: {
         outlet_id: '',
         counter_id: '',
+    },
+
+    processPayment: {
+        id: '',
+        payment_method: 'wepos_cash',
     },
 
     adminProfile: {

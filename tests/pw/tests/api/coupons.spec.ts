@@ -28,49 +28,49 @@ test.describe('coupon api test', () => {
         await apiUtils.dispose();
     });
 
-    test('get all coupons', { tag: ['@pro'] }, async () => {
+    test('get all coupons', { tag: ['@lite'] }, async () => {
         const [response, responseBody] = await apiUtils.get(endPoints.getAllCoupons);
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         expect(responseBody).toMatchSchema(schemas.couponsSchema.couponsSchema);
     });
 
-    test('get single coupon', { tag: ['@pro'] }, async () => {
+    test('get single coupon', { tag: ['@lite'] }, async () => {
         const [response, responseBody] = await apiUtils.get(endPoints.getSingleCoupon(couponId));
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         expect(responseBody).toMatchSchema(schemas.couponsSchema.couponSchema);
     });
 
-    test('create a coupon', { tag: ['@pro'] }, async () => {
+    test('create a coupon', { tag: ['@lite'] }, async () => {
         const [response, responseBody] = await apiUtils.post(endPoints.createCoupon, { data: { ...payloads.createCoupon(), product_ids: productId } });
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         expect(responseBody).toMatchSchema(schemas.couponsSchema.couponSchema);
     });
 
-    test('update a coupon [put]', { tag: ['@pro'] }, async () => {
+    test('update a coupon [put]', { tag: ['@lite'] }, async () => {
         const [response, responseBody] = await apiUtils.put(endPoints.updateCoupon(couponId), { data: payloads.updateCoupon() });
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         expect(responseBody).toMatchSchema(schemas.couponsSchema.couponSchema);
     });
 
-    test('update a coupon [post]', { tag: ['@pro'] }, async () => {
+    test('update a coupon [post]', { tag: ['@lite'] }, async () => {
         const [response, responseBody] = await apiUtils.post(endPoints.updateCoupon(couponId), { data: payloads.updateCoupon() });
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         expect(responseBody).toMatchSchema(schemas.couponsSchema.couponSchema);
     });
 
-    test('delete a coupon', { tag: ['@pro'] }, async () => {
+    test('delete a coupon', { tag: ['@lite'] }, async () => {
         const [response, responseBody] = await apiUtils.delete(endPoints.deleteCoupon(couponId), { params: payloads.paramsForceDelete });
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         expect(responseBody).toMatchSchema(schemas.couponsSchema.couponSchema);
     });
 
-    test('update batch coupons [put]', { tag: ['@pro'] }, async () => {
+    test('update batch coupons [put]', { tag: ['@lite'] }, async () => {
         await apiUtils.createCoupon([productId], payloads.createCoupon());
         const allCouponIds = (await apiUtils.getAllCoupons())?.map((a: { id: unknown }) => a.id);
         const [response, responseBody] = await apiUtils.put(endPoints.updateBatchCoupons, { data: { delete: allCouponIds } });
@@ -79,7 +79,7 @@ test.describe('coupon api test', () => {
         expect(responseBody).toMatchSchema(schemas.couponsSchema.updateBatchCoupons);
     });
 
-    test('update batch coupons [post]', { tag: ['@pro'] }, async () => {
+    test('update batch coupons [post]', { tag: ['@lite'] }, async () => {
         await apiUtils.createCoupon([productId], payloads.createCoupon());
         const allCouponIds = (await apiUtils.getAllCoupons())?.map((a: { id: unknown }) => a.id);
         const [response, responseBody] = await apiUtils.post(endPoints.updateBatchCoupons, { data: { delete: allCouponIds } });

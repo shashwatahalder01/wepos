@@ -28,14 +28,14 @@ test.describe('products api test', () => {
         // expect(responseBody).toMatchSchema(schemas.productsSchema.productsSchema); //todo: need to fix
     });
 
-    test('update a product [put]', { tag: ['@lite'] }, async () => {
+    test('update a product [put]', { tag: ['@pro'] }, async () => {
         const [response, responseBody] = await apiUtils.put(endPoints.updateProduct(productId), { data: payloads.updateProduct() });
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         // expect(responseBody).toMatchSchema(schemas.productsSchema.updateProductSchema); //todo: need to fix
     });
 
-    test('update a product [post]', { tag: ['@lite'] }, async () => {
+    test('update a product [post]', { tag: ['@pro'] }, async () => {
         const [response, responseBody] = await apiUtils.post(endPoints.updateProduct(productId), { data: payloads.updateProduct() });
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();

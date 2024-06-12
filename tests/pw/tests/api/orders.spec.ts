@@ -20,15 +20,14 @@ test.describe('orders api test', () => {
         await apiUtils.dispose();
     });
 
-    test('get all orders', { tag: ['@lite'] }, async () => {
-        // todo : need to update all test tags
+    test('get all orders', { tag: ['@pro'] }, async () => {
         const [response, responseBody] = await apiUtils.get(endPoints.getAllOrders);
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         // expect(responseBody).toMatchSchema(schemas.ordersSchema.ordersSchema); //todo: need to fix
     });
 
-    test('get single order', { tag: ['@lite'] }, async () => {
+    test('get single order', { tag: ['@pro'] }, async () => {
         const [response, responseBody] = await apiUtils.get(endPoints.getSingleOrder(orderId));
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();

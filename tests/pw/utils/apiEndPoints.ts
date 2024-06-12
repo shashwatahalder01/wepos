@@ -71,7 +71,7 @@ export const endPoints = {
     getPaymentSummary: `${SERVER_URL}/wepos/v1/payment/summary`,
     getPaymentReports: `${SERVER_URL}/wepos/v1/payment/reports`,
     getExportedReport: `${SERVER_URL}/wepos/v1/payment/reports/export`, // todo: title, schema might need to be updated
-    // process: `${SERVER_URL}/wepos/v1/payment/process`,
+    processPayment: `${SERVER_URL}/wepos/v1/payment/process`,
 
     // wooCommerce
     wc: {

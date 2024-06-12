@@ -369,6 +369,10 @@ export const schemas = {
         }),
     }),
 
+    processPaymentSchema: z.object({
+        result: z.string(),
+    }),
+
     outletsSchema: {
         outletSchema: outletSchema,
         outletsSchema: z.array(outletSchema),

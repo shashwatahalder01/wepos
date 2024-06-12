@@ -1,3 +1,71 @@
+// api interfaces
+
+export interface auth {
+    [key: string]: string;
+    Authorization: string;
+}
+
+export interface user_api {
+    username: string;
+    password: string;
+}
+
+export interface taxRate {
+    // [key: string]: string | number | boolean | string [];
+    country: string;
+    state: string;
+    postcode: string;
+    city: string;
+    rate: string;
+    name: string;
+    priority: number;
+    compound: boolean;
+    shipping: boolean;
+    order: number;
+    class: string;
+    postcodes: string[];
+    cities: string[];
+}
+
+export interface reqOptions {
+    data?: any;
+    failOnStatusCode?: boolean | undefined;
+    form?: Record<string, string | number | boolean> | undefined;
+    headers?: Record<string, string> | undefined;
+    ignoreHTTPSErrors?: boolean | undefined;
+    maxRedirects?: number | undefined;
+    multipart?: Record<string, string | number | boolean | fs.ReadStream | { name: string; mimeType: string; buffer: Buffer }> | undefined;
+    params?: Record<string, string | number | boolean> | undefined;
+    timeout?: number | undefined;
+}
+
+export type params = Record<string, string | number | boolean> | undefined;
+
+export type headers = Record<string, string>;
+
+export interface storageState {
+    cookies: {
+        name: string;
+        value: string;
+        domain: string;
+        path: string;
+        expires: number;
+        httpOnly: boolean;
+        secure: boolean;
+        sameSite: 'Strict' | 'Lax' | 'None';
+    }[];
+    origins: {
+        origin: string;
+        localStorage: {
+            name: string;
+            value: string;
+        }[];
+    }[];
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export type responseBody = any;
+
 // customer details
 export interface customerDetails {
     firstName: string;

@@ -22,14 +22,14 @@ test.describe('order note api test', () => {
         await apiUtils.dispose();
     });
 
-    test('get all order notes', { tag: ['@lite'] }, async () => {
+    test('get all order notes', { tag: ['@pro'] }, async () => {
         const [response, responseBody] = await apiUtils.get(endPoints.getAllOrderNotes(orderId));
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         //todo: need to validate the response schema
     });
 
-    test('create an order note', { tag: ['@lite'] }, async () => {
+    test('create an order note', { tag: ['@pro'] }, async () => {
         const [response, responseBody] = await apiUtils.post(endPoints.createOrderNote(orderId), { data: payloads.createOrderNote });
         expect(response.status()).toBe(201);
         expect(response.ok()).toBeTruthy();
@@ -37,7 +37,7 @@ test.describe('order note api test', () => {
         //todo: need to validate the response schema
     });
 
-    test('delete an order note', { tag: ['@lite'] }, async () => {
+    test('delete an order note', { tag: ['@pro'] }, async () => {
         const [response, responseBody] = await apiUtils.delete(endPoints.deleteOrderNote(orderId, orderNoteId), { params: payloads.paramsForceDelete });
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();

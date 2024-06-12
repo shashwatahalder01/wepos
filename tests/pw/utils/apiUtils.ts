@@ -3,8 +3,7 @@ import { endPoints } from '@utils/apiEndPoints';
 import { payloads } from '@utils/payloads';
 import { helpers } from '@utils/helpers';
 import fs from 'fs';
-import { auth, user_api, taxRate, coupon_api, marketPlaceCoupon, reqOptions, params, headers, storageState, responseBody } from '@utils/interfaces';
-import { th } from '@faker-js/faker';
+import { auth, user_api, taxRate, reqOptions, params, headers, storageState, responseBody } from '@utils/interfaces';
 
 const { VENDOR_ID, CUSTOMER_ID } = process.env;
 
@@ -241,7 +240,7 @@ export class ApiUtils {
 
     // get single product
     async getSingleProduct(productId: string, auth?: auth): Promise<responseBody> {
-        const [, responseBody] = await this.get(endPoints.getSingleProduct(productId), { headers: auth });
+        const [, responseBody] = await this.get(endPoints.wc.getSingleProduct(productId), { headers: auth });
         return responseBody;
     }
 

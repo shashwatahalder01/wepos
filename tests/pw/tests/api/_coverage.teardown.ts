@@ -5,6 +5,7 @@ import { helpers } from '@utils/helpers';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
+import { el } from '@faker-js/faker';
 
 teardown.describe('get api test coverage', () => {
     const outputFile = 'playwright-report/api/coverage-report/coverage.json';
@@ -54,7 +55,7 @@ function getCoverage(coverageArray: any[], outputFile?: string) {
     for (const route of coverageArray) {
         const pattern = `COVERAGE_TAG: ${helpers.escapeRegex(route)}$`;
         const output = execSync(`grep -irl -E '${pattern}' tests/api | cat  `, { encoding: 'utf-8' });
-        output.toString() != '' ? (coveredEndPoints += 1 && coveredEndPointsList.push(route)) : uncoveredEndpointsList.push(route);
+        output.toString() != '' ? ((coveredEndPoints += 1), coveredEndPointsList.push(route)) : uncoveredEndpointsList.push(route);
     }
     const percentCovered = ((coveredEndPoints / totalEndPoints) * 100).toFixed(2) + '%';
 

@@ -18,14 +18,14 @@ test.describe('customers api test', () => {
         await apiUtils.dispose();
     });
 
-    test('get all customers', { tag: ['@pro'] }, async () => {
+    test('get all customers', { tag: ['@lite'] }, async () => {
         const [response, responseBody] = await apiUtils.get(endPoints.getAllCustomers);
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         expect(responseBody).toMatchSchema(schemas.customersSchema.customersSchema);
     });
 
-    test('create a customer', { tag: ['@pro'] }, async () => {
+    test('create a customer', { tag: ['@lite'] }, async () => {
         const [response, responseBody] = await apiUtils.post(endPoints.createCustomer, { data: payloads.createCustomer() });
         expect(response.status()).toBe(201);
         expect(response.ok()).toBeTruthy();
