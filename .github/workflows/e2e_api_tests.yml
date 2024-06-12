@@ -70,15 +70,15 @@ jobs:
               if: success()
               uses: actions/setup-node@v4
               with:
-                  node-version: 20
+                  node-version: 16
                   cache: npm
 
-            - name: Composer install and build (Dokan-lite)
+            - name: Composer install and build (Wepos-lite)
               if: success()
               run: |
                   composer i --no-dev -o || composer update --no-dev -o
 
-            - name: Npm install and build (Dokan-lite)
+            - name: Npm install and build (Wepos-lite)
               if: success()
               run: |
                   npm ci || npm i
