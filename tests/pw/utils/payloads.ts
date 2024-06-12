@@ -3823,7 +3823,7 @@ export const payloads = {
     }),
 
     createCounter: () => ({
-        name: 'counter_' + faker.company.buzzNoun(),
+        name: 'counter_' + faker.string.nanoid(5),
         number: faker.string.numeric(5),
     }),
 

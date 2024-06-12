@@ -135,5 +135,4 @@ export interface cashier {
     email: string;
     phone: string;
     website: string;
-    create: string;
 }

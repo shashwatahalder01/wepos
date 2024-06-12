@@ -75,12 +75,12 @@ export class Outlets extends BasePage {
     }
 
     // delete outlet
-    async deleteOutlet(outletName: string, outlet: outlet) {
+    async deleteOutlet(outletName: string) {
         await this.goToOutlets();
         await this.click(outlets.outletMoreOption(outletName));
         await this.click(outlets.outletMoreOptions.deleteOutlet);
         await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, wepos.confirmAction);
-        await this.notToBeVisible(outlets.outlet(outlet.outletName));
+        await this.notToBeVisible(outlets.outlet(outletName));
     }
 
     // add counter
@@ -114,25 +114,32 @@ export class Outlets extends BasePage {
     }
 
     // add cashier
-    async addCashier(outletName: string, cashier: cashier) {
+    async addCashier(outletName: string, cashier: cashier | string, existingCashier: boolean = false) {
         await this.goToOutlets();
         await this.click(outlets.outletMoreOption(outletName));
         await this.click(outlets.outletMoreOptions.addCashier);
-
         await this.click(outlets.cashier.cashierDropdown);
-        await this.clearAndType(outlets.cashier.cashierInput, cashier.firstName);
-        cashier.firstName ? await this.click(outlets.cashier.searchedCashier) : await this.click(outlets.cashier.createCashier); // send emypty string to create new cashier
 
-        // cashier details
-        await this.clearAndType(outlets.cashier.cashierDetails.firstName, cashier.firstName);
-        await this.clearAndType(outlets.cashier.cashierDetails.lastName, cashier.lastName);
-        await this.clearAndType(outlets.cashier.cashierDetails.email, cashier.email);
-        await this.clearAndType(outlets.cashier.cashierDetails.phone, cashier.phone);
-        await this.clearAndType(outlets.cashier.cashierDetails.website, cashier.website);
-        await this.clearAndType(outlets.cashier.cashierDetails.create, cashier.create);
+        if (existingCashier) {
+            await this.clearAndType(outlets.cashier.cashierInput, cashier as string);
+            await this.click(outlets.cashier.searchedCashier);
+        } else {
+            await this.clearAndType(outlets.cashier.cashierInput, '   '); // to invoke add cashier option
+            await this.click(outlets.cashier.createCashier);
+
+            if (typeof cashier !== 'string') {
+                // cashier details
+                await this.clearAndType(outlets.cashier.cashierDetails.firstName, cashier.firstName);
+                await this.clearAndType(outlets.cashier.cashierDetails.lastName, cashier.lastName);
+                await this.clearAndType(outlets.cashier.cashierDetails.email, cashier.email);
+                await this.clearAndType(outlets.cashier.cashierDetails.phone, cashier.phone);
+                await this.clearAndType(outlets.cashier.cashierDetails.website, cashier.website);
+                await this.click(outlets.cashier.cashierDetails.create);
+            }
+        }
 
         await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.assignCashier);
-        await this.toBeVisible(outlets.outletContent.cashier(`${cashier.firstName} ${cashier.lastName}`));
+        typeof cashier !== 'string' ? await this.toBeVisible(outlets.outletContent.cashier(`${cashier.firstName} ${cashier.lastName}`)) : await this.toBeVisible(outlets.outletContent.cashier(cashier));
     }
 
     // delete cashier

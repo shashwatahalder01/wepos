@@ -70,7 +70,7 @@ jobs:
               if: success()
               uses: actions/setup-node@v4
               with:
-                  node-version: 16
+                  node-version: 20
                   cache: npm
 
             - name: Composer install and build (Wepos-lite)
@@ -81,7 +81,7 @@ jobs:
             - name: Npm install and build (Wepos-lite)
               if: success()
               run: |
-                  npm ci || npm i
+                  npm i
                   npm run build
 
             # Install test dependencies

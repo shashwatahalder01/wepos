@@ -1977,24 +1977,27 @@ export class ApiUtils {
      */
 
     // create outlet
-    async createOutlet(payload: object, auth?: auth): Promise<[responseBody, string]> {
+    async createOutlet(payload: object, auth?: auth): Promise<[responseBody, string, string]> {
         const [, responseBody] = await this.post(endPoints.createOutlet, { data: payload, headers: auth });
         const outletId = String(responseBody?.id);
-        return [responseBody, outletId];
+        const outletName = String(responseBody?.name);
+        return [responseBody, outletId, outletName];
     }
 
     // create counter
-    async createCounter(outletId: string, payload: object, auth?: auth): Promise<[responseBody, string]> {
+    async createCounter(outletId: string, payload: object, auth?: auth): Promise<[responseBody, string, string]> {
         const [, responseBody] = await this.post(endPoints.createCounter(outletId), { data: payload, headers: auth });
         const counterId = String(responseBody?.id);
-        return [responseBody, counterId];
+        const counterName = String(responseBody?.name);
+        return [responseBody, counterId, counterName];
     }
 
     // create cashier
-    async createCashier(outletId: string, payload: object, auth?: auth): Promise<[responseBody, string]> {
+    async createCashier(outletId: string, payload: object, auth?: auth): Promise<[responseBody, string, string]> {
         const [, responseBody] = await this.post(endPoints.createCashier(outletId), { data: payload, headers: auth });
-        const counterId = String(responseBody?.id);
-        return [responseBody, counterId];
+        const cashierId = String(responseBody?.id);
+        const cashierName = String(responseBody?.display_name);
+        return [responseBody, cashierId, cashierName];
     }
 
     // assign cashier

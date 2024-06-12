@@ -1,6 +1,8 @@
 import { faker } from '@faker-js/faker';
 import 'dotenv/config';
 
+const { USER_PASSWORD } = process.env;
+
 interface user {
     username: string;
     password: string;
@@ -124,6 +126,38 @@ export const data = {
             saveSuccessMessage: 'Setting has been saved successfully.',
         },
     },
+
+    // outlet
+    outlet: () => ({
+        outletName: 'outlet_' + faker.company.buzzNoun(),
+
+        address1: 'abc street',
+        address2: 'xyz street',
+        country: 'US',
+        state: 'NY',
+        city: 'New York',
+        zipCode: '10006',
+
+        email: faker.string.nanoid(10) + '@yopmail.com',
+        phone: faker.phone.number(),
+        fax: faker.string.alphanumeric(10),
+        website: faker.company.buzzNoun() + '.com',
+    }),
+
+    // counter
+    counter: () => ({
+        name: 'counter_' + faker.string.nanoid(5),
+        number: faker.string.numeric(5),
+    }),
+
+    // cashier
+    cashier: () => ({
+        firstName: faker.person.firstName(),
+        lastName: faker.person.lastName(),
+        email: faker.internet.email(),
+        phone: faker.phone.number(),
+        website: 'cashier.com',
+    }),
 
     // wepos license
     weposLicense: {
