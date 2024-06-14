@@ -15,6 +15,7 @@ test.describe('receipts api test', () => {
     });
 
     test.afterAll(async () => {
+        // reset receipt
         await apiUtils.post(endPoints.updateReceipt, { data: payloads.createReceipt });
         await apiUtils.dispose();
     });

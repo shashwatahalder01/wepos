@@ -213,12 +213,12 @@ export const selector = {
                 // filters
                 filterReport: 'div.reports-filtering-buttons button.filter-btn',
                 filters: {
-                    filterByPaymentMethod: '',
-                    filterByCustomer: '',
-                    filterByOutlet: '', //todo: need to add selectors
-                    filterByCashier: '',
-                    filterByDate: '',
-                    filterByOther: '//select[@name="filter_by_other"]',
+                    filterByPaymentMethod: '(//span[@class="select2-selection__arrow"])[1]',
+                    filterByCustomer: '(//span[@class="select2-selection__arrow"])[2]',
+                    filterByOutlet: '(//span[@class="select2-selection__arrow"])[3]',
+                    filterByCashier: '(//span[@class="select2-selection__arrow"])[4]',
+                    filterByDate: '', //todo: need to add selectors
+                    filterInput: '.select2-search.select2-search--dropdown .select2-search__field',
                     reset: 'a.filtering-reset-btn',
                 },
 
@@ -270,10 +270,26 @@ export const selector = {
             },
 
             viewPos: {
+                loginForm: 'div.wepos-entrance-form',
                 outlet: 'select#outlet',
                 counter: 'select#counter',
                 goToPos: 'input[value="Go to POS"]',
                 backToMainSite: '.footer a',
+
+                //sidebar
+                sideBar: {
+                    sidebar: 'div.wepos-sidebar-nav',
+                    cashierAvatar: 'div.wepos-sidebar-nav div.avatar',
+
+                    //menus
+                    home: '//li//span[contains(text(),"Home")]/..',
+                    products: '//li//span[contains(text(),"Products")]/..', //todo: has more locators of this menus
+                    orders: '//li//span[contains(text(),"Orders")]/..',
+                    customers: '//li//span[contains(text(),"Customers")]/..',
+                    settings: '//li//span[contains(text(),"Settings")]/..',
+                    help: '//li//span[contains(text(),"Help")]/..',
+                    logout: '//span[contains(text(),"Logout")]',
+                },
 
                 // search product
                 searchProduct: 'input#product-search',

@@ -12,14 +12,27 @@ const wepos = selector.admin.wepos;
 const pos = selector.admin.wepos.viewPos;
 
 export class ViewPos extends BasePage {
-    constructor(page: Page) {
+    outlet: string;
+    counter: string;
+
+    constructor(page: Page, outlet = '', counter = '') {
         super(page);
+        this.outlet = outlet;
+        this.counter = counter;
     }
 
     // navigation
 
     async goToPos() {
         await this.goIfNotThere(data.subUrls.backend.wepos.viewPos);
+
+        const isLoginVisible = await this.isVisible(pos.loginForm);
+        if (WEPOS_PRO && isLoginVisible) {
+            await this.selectByLabel(pos.outlet, this.outlet);
+            await this.selectByLabel(pos.counter, this.counter);
+            await this.clickAndAcceptAndWaitForResponseAndLoadState(data.subUrls.api.wepos.cashiers, pos.goToPos); //todo: need to fix
+            // await this.clickAndWaitForLoadState(pos.goToPos);
+        }
     }
 
     // pos render properly

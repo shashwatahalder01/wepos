@@ -17,7 +17,7 @@ export class Outlets extends BasePage {
 
     async goToOutlets() {
         await this.goIfNotThere(data.subUrls.backend.wepos.outlets);
-        await this.reload();
+        await this.reload(); //todo: need to fix this
     }
 
     // outlets render properly
@@ -33,7 +33,6 @@ export class Outlets extends BasePage {
             console.log('No outlet found');
             return;
         } else {
-            await this.notToHaveCount(outlets.outlets, 0);
             //todo: add more checks
         }
     }

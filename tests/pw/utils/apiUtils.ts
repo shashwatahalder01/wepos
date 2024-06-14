@@ -820,7 +820,7 @@ export class ApiUtils {
             return;
         }
         const allCustomersIds = allCustomers.map((o: { id: unknown }) => o.id);
-        const [, responseBody] = await this.put(endPoints.updateBatchCustomers, { data: { delete: allCustomersIds }, headers: payloads.adminAuth });
+        const [, responseBody] = await this.put(endPoints.wc.updateBatchCustomers, { data: { delete: allCustomersIds }, headers: payloads.adminAuth });
         return responseBody;
     }
 
@@ -2051,6 +2051,15 @@ export class ApiUtils {
         const [, responseBody] = await this.post(endPoints.loginCahiser(cashierId), { data: { outlet_id: outletId, counter_id: counterId }, headers: auth }, false);
         if (responseBody.code === 'already-loggedin') {
             console.log('Cashier already logged in');
+        }
+        return [responseBody];
+    }
+
+    // logout cashier
+    async logoutCahiser(cashierId: string, outletId: string, counterId: string, auth?: auth): Promise<[responseBody]> {
+        const [, responseBody] = await this.delete(endPoints.logoutCashier(cashierId), { data: { outlet_id: outletId, counter_id: counterId }, headers: auth }, false);
+        if (responseBody.code === 'already-loggedin') {
+            console.log('Cashier already logged out');
         }
         return [responseBody];
     }

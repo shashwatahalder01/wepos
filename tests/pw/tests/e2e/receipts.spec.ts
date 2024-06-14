@@ -15,6 +15,7 @@ test.describe('Receipts test', () => {
     // });
 
     // test.afterAll(async () => {
+    // await apiUtils.dispose();
     //     await cPage.close();
     // });
 

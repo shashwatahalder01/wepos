@@ -236,6 +236,8 @@ export const data = {
         api: {
             wepos: {
                 outlet: 'wepos/v1/outlets',
+                cashiers: 'wepos/v1/cashiers',
+                payment: '/wepos/v1/payment',
             },
 
             wc: {
