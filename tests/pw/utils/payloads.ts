@@ -3808,7 +3808,7 @@ export const payloads = {
     },
 
     createOutlet: () => ({
-        name: 'outlet_' + faker.company.buzzNoun(),
+        name: 'outlet_' + faker.string.nanoid(10),
         email: faker.string.nanoid(10) + '@yopmail.com',
         phone: faker.phone.number(),
         fax: faker.string.alphanumeric(10),

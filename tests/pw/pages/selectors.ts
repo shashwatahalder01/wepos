@@ -131,11 +131,11 @@ export const selector = {
                     deleteCounter: (counterName: string) => `//div[@class='counter-content']//span[text()='${counterName}']/../..//span[@class="flaticon-delete"]/..`,
 
                     // cashier
-                    cashier: (counterName: string) => `//div[@class='cashier-content']//span[text()='${counterName}']/../..`,
-                    deletecashier: (counterName: string) => `//div[@class='cashier-content']//span[text()='${counterName}']/../..//span[@class="flaticon-delete"]/..`,
+                    cashier: (counterName: string) => `//div[@class='cashier-content']//span[translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='${counterName}']/../..`,
+                    deleteCashier: (counterName: string) => `//div[@class='cashier-content']//span[text()='${counterName}']/../..//span[@class="flaticon-delete"]/..`,
 
-                    canceldelete: '//div[@class="confirm-action"]//button[text()="Cancel"]',
-                    confirmdelete: '//div[@class="confirm-action"]//button[text()="Delete"]',
+                    cancelDelete: '//div[@class="confirm-action"]//button[text()="Cancel"]',
+                    confirmDelete: '//div[@class="confirm-action"]//button[text()="Delete"]',
                 },
 
                 outletDetails: {
@@ -180,7 +180,7 @@ export const selector = {
 
                 addCashier: 'div.cashier-content a',
                 cashier: {
-                    cashierDropdown: 'div.customer-country  div.multiselect__select',
+                    cashierDropdown: 'div.wepos-new-cashier-form  div.multiselect__select',
                     cashierInput: 'input.multiselect__input',
                     searchedCashier: 'span.multiselect__option--highlight',
 
@@ -188,7 +188,7 @@ export const selector = {
 
                     // cashier details
                     cashierDetails: {
-                        firstName: '//div[@class="wepos-modal"]//input[contains(@placeholder,"First Name")]',
+                        firstName: '//div[@class="wepos-modal"]//input[contains(@placeholder,"First name")]',
                         lastName: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Last Name")]',
                         email: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Email")]',
                         phone: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Phone")]',
@@ -360,7 +360,7 @@ export const selector = {
                     payNow: 'tr.pay-now',
                 },
 
-                // saleSummary
+                // sale Summary
                 saleSummary: {
                     payAmount: 'span.pay-amount',
 

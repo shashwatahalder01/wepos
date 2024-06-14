@@ -17,6 +17,7 @@ export class Outlets extends BasePage {
 
     async goToOutlets() {
         await this.goIfNotThere(data.subUrls.backend.wepos.outlets);
+        await this.reload();
     }
 
     // outlets render properly
@@ -45,7 +46,7 @@ export class Outlets extends BasePage {
         await this.clearAndType(outlets.outletDetails.outletLocation.address1, outlet.address1);
         await this.clearAndType(outlets.outletDetails.outletLocation.address2, outlet.address2);
         //todo: add country
-        await this.clearAndType(outlets.outletDetails.outletLocation.state, outlet.state);
+        // await this.clearAndType(outlets.outletDetails.outletLocation.state, outlet.state); // todo; become dropdown while in edit
         await this.clearAndType(outlets.outletDetails.outletLocation.city, outlet.city);
         await this.clearAndType(outlets.outletDetails.outletLocation.zipCode, outlet.zipCode);
 
@@ -109,8 +110,8 @@ export class Outlets extends BasePage {
         await this.goToOutlets();
         await this.hover(outlets.outletContent.counter(counterName));
         await this.click(outlets.outletContent.deleteCounter(counterName));
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmdelete);
-        await this.toBeVisible(outlets.outletContent.counter(counterName));
+        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmDelete);
+        await this.notToBeVisible(outlets.outletContent.counter(counterName));
     }
 
     // add cashier
@@ -123,8 +124,10 @@ export class Outlets extends BasePage {
         if (existingCashier) {
             await this.clearAndType(outlets.cashier.cashierInput, cashier as string);
             await this.click(outlets.cashier.searchedCashier);
+            await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.assignCashier);
+            await this.toBeVisible(outlets.outletContent.cashier((cashier as string).toLowerCase()));
         } else {
-            await this.clearAndType(outlets.cashier.cashierInput, '   '); // to invoke add cashier option
+            await this.clearAndType(outlets.cashier.cashierInput, '......'); // to invoke add cashier option
             await this.click(outlets.cashier.createCashier);
 
             if (typeof cashier !== 'string') {
@@ -134,20 +137,19 @@ export class Outlets extends BasePage {
                 await this.clearAndType(outlets.cashier.cashierDetails.email, cashier.email);
                 await this.clearAndType(outlets.cashier.cashierDetails.phone, cashier.phone);
                 await this.clearAndType(outlets.cashier.cashierDetails.website, cashier.website);
-                await this.click(outlets.cashier.cashierDetails.create);
+                await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.cashierDetails.create);
+                await this.toBeVisible(outlets.outletContent.cashier(`${cashier.firstName} ${cashier.lastName}`.toLowerCase()));
             }
         }
-
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.assignCashier);
-        typeof cashier !== 'string' ? await this.toBeVisible(outlets.outletContent.cashier(`${cashier.firstName} ${cashier.lastName}`)) : await this.toBeVisible(outlets.outletContent.cashier(cashier));
     }
 
     // delete cashier
-    async deleteCashier(cashierName: string) {
+    async deleteCashier(outletName: string, cashierName: string) {
         await this.goToOutlets();
-        await this.hover(outlets.outletContent.cashier(cashierName));
-        await this.click(outlets.outletContent.deletecashier(cashierName));
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmdelete);
-        await this.toBeVisible(outlets.outletContent.cashier(cashierName));
+        await this.click(outlets.outletContent.outletCashier(outletName));
+        await this.hover(outlets.outletContent.cashier(cashierName.toLowerCase()));
+        await this.click(outlets.outletContent.deleteCashier(cashierName));
+        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmDelete);
+        await this.notToBeVisible(outlets.outletContent.cashier(cashierName.toLowerCase()));
     }
 }

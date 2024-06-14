@@ -129,7 +129,7 @@ export const data = {
 
     // outlet
     outlet: () => ({
-        outletName: 'outlet_' + faker.company.buzzNoun(),
+        outletName: 'outlet_' + faker.string.nanoid(10),
 
         address1: 'abc street',
         address2: 'xyz street',

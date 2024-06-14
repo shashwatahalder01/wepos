@@ -1435,10 +1435,11 @@ export class ApiUtils {
     }
 
     // create user [administrator,  customer, seller]
-    async createUser(payload: object, auth?: auth): Promise<[responseBody, string]> {
+    async createUser(payload: object, auth?: auth): Promise<[responseBody, string, string]> {
         const [, responseBody] = await this.post(endPoints.wp.createUser, { data: payload, headers: auth });
         const userId = String(responseBody?.id);
-        return [responseBody, userId];
+        const fullname = String(responseBody?.name);
+        return [responseBody, userId, fullname];
     }
 
     // update user
@@ -1449,8 +1450,21 @@ export class ApiUtils {
 
     // delete user
     async deleteUser(userId: string, auth?: auth): Promise<responseBody> {
-        const [, responseBody] = await this.delete(endPoints.wp.deleteUser(userId), { headers: auth });
+        const [, responseBody] = await this.delete(endPoints.wp.deleteUser(userId), { params: { ...payloads.paramsForceDelete, reassign: '' }, headers: auth });
         return responseBody;
+    }
+
+    // delete all users
+    async deleteAllUsers(role: string[] = [], auth?: auth): Promise<responseBody> {
+        const allUsers = role ? await this.getAllUsersByRole(role, auth) : await this.getAllUsers(auth);
+        if (!allUsers?.length) {
+            console.log('No user exists');
+            return;
+        }
+        const allUserIds = allUsers.map((o: { id: unknown }) => o.id);
+        for (const userId of allUserIds) {
+            await this.deleteUser(userId, auth);
+        }
     }
 
     // plugins
@@ -1976,12 +1990,38 @@ export class ApiUtils {
      * wepos api methods
      */
 
+    // get all outlets
+    async getAllOutlets(auth?: auth): Promise<responseBody> {
+        const [, responseBody] = await this.get(endPoints.getAllOutlets, { params: { per_page: 100 }, headers: auth });
+        return responseBody;
+    }
+
     // create outlet
     async createOutlet(payload: object, auth?: auth): Promise<[responseBody, string, string]> {
         const [, responseBody] = await this.post(endPoints.createOutlet, { data: payload, headers: auth });
         const outletId = String(responseBody?.id);
         const outletName = String(responseBody?.name);
         return [responseBody, outletId, outletName];
+    }
+
+    // delete outlet
+    async deleteOutlet(outletId: string, auth?: auth): Promise<responseBody> {
+        const [, responseBody] = await this.delete(endPoints.deleteOutlet(outletId), { headers: auth });
+        return responseBody;
+    }
+
+    // delete all outlets
+    async deleteAllOutlets(auth?: auth) {
+        const allOutlets = await this.getAllOutlets(auth);
+        if (!allOutlets?.length) {
+            console.log('No outlet exists');
+            return;
+        }
+
+        const allOutletIds = allOutlets.map((o: { id: unknown }) => o.id);
+        for (const outletId of allOutletIds) {
+            await this.deleteOutlet(outletId, auth);
+        }
     }
 
     // create counter
