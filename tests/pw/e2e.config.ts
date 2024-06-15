@@ -107,20 +107,12 @@ export default defineConfig({
 
     projects: [
         // E2e project
-        // auth_setup
-        {
-            name: 'auth_setup',
-            // testMatch: /.*\.setup\.ts/,
-            testMatch: '_auth.setup.ts',
-        },
 
         // e2e_setup
         {
             name: 'e2e_setup',
             // testMatch: /.*\.setup\.ts/,
             testMatch: '_env.setup.ts',
-            /* whether not to run setup tests before running actual tests */
-            dependencies: NO_SETUP ? [] : ['auth_setup'],
         },
 
         // e2e_tests
@@ -131,20 +123,14 @@ export default defineConfig({
             /* whether not to run setup tests before running actual tests */
             dependencies: NO_SETUP ? [] : ['e2e_setup'],
             /* whether not to run teardown tests after running actual tests */
-            // teardown: NO_SETUP ? undefined : 'coverage_report',
+            teardown: NO_SETUP ? undefined : 'e2e_teardown',
             // teardown: 'global_teardown',
         },
 
-        // coverage_report
+        // e2e_teardown
         {
-            name: 'coverage_report',
+            name: 'e2e_teardown',
             testMatch: '_coverage.teardown.ts',
-        },
-
-        // local site setup project
-        {
-            name: 'site_setup',
-            testMatch: /.*\.install\.ts/,
         },
     ],
 });

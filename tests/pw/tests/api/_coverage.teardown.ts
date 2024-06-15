@@ -5,7 +5,6 @@ import { helpers } from '@utils/helpers';
 import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
-import { el } from '@faker-js/faker';
 
 teardown.describe('get api test coverage', () => {
     const outputFile = 'playwright-report/api/coverage-report/coverage.json';

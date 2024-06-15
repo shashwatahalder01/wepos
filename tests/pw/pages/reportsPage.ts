@@ -33,50 +33,43 @@ export class Reports extends BasePage {
     // filter reports
     async filterReports(input: string, action: string) {
         await this.goToReports();
-        await this.click(reports.filterReport);
+        const filterSectionIsVisible = await this.isVisible(reports.filterSection);
+        !filterSectionIsVisible && await this.click(reports.filterReport);
 
         switch (action) {
             case 'by-paymentMthod':
                 await this.click(reports.filters.filterByPaymentMethod);
-                await this.clearAndType(reports.filters.filterInput, input);
-                await this.pressAndWaitForResponse(data.subUrls.api.wepos.payment, data.key.enter);
                 break;
 
             case 'by-customer':
                 await this.click(reports.filters.filterByCustomer);
-                await this.clearAndType(reports.filters.filterInput, input);
-                await this.pressAndWaitForResponse(data.subUrls.api.wepos.payment, data.key.enter);
-                await this.clearFilter();
                 break;
 
             case 'by-outlet':
                 await this.click(reports.filters.filterByOutlet);
-                await this.clearAndType(reports.filters.filterInput, input);
-                await this.pressAndWaitForResponse(data.subUrls.api.wepos.payment, data.key.enter);
-                await this.clearFilter();
                 break;
 
             case 'by-cashier':
                 await this.click(reports.filters.filterByCashier);
-                await this.clearAndType(reports.filters.filterInput, input);
-                await this.pressAndWaitForResponse(data.subUrls.api.wepos.payment, data.key.enter);
-                await this.clearFilter();
                 break;
 
             default:
                 break;
         }
+        await this.clearAndType(reports.filters.filterInput, input);
+        // await this.click( reports.filters.result(input));
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.payment, reports.filters.result(input));
 
         // const count = (await this.getElementText(abuseReportAdmin.numberOfRowsFound))?.split(' ')[0];  //todo: need to fix
         // expect(Number(count)).toBeGreaterThan(0);
 
-        // await this.clearFilter();
+        await this.clearFilter();
     }
 
     // clear filter
     async clearFilter() {
         await this.goToReports();
-        await this.click(reports.filters.reset); //todo: click and wait for multiple requests
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.payment, reports.filters.reset); //todo: click and wait for multiple requests
 
         //todo: assertion
     }
