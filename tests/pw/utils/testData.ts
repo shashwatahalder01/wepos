@@ -121,8 +121,8 @@ export const data = {
 
         // receipts settings
         receipts: {
-            orderReceiptHeader: 'test order header',
-            orderReceiptFooter: 'test order footer',
+            orderReceiptHeader: 'test header text',
+            orderReceiptFooter: 'test footer text',
             saveSuccessMessage: 'Setting has been saved successfully.',
         },
     },
@@ -158,6 +158,51 @@ export const data = {
         phone: faker.phone.number(),
         website: 'cashier.com',
     }),
+
+    // receipt
+    receipt: {
+        //  logo settings
+        logoDetails: {
+            logo: 'utils/sampleData/avatar.png',
+            height: '50',
+            width: '50',
+        },
+
+        // style settings
+        styleDetails: {
+            paddingTop: '10',
+            paddingRight: '10',
+            paddingBottom: '10',
+            paddingLeft: '10',
+            headerFontSize: '20',
+            paragraphFontSize: '16',
+        },
+
+        // header details
+        headersDetails: {
+            phoneLabel: 'Phone',
+            emailLabel: 'Email',
+            cashierNameLabel: 'Served By',
+            counterNameLabel: 'Counter No',
+            invoiceIdLabel: 'Invoice number',
+            customerNameLabel: 'Customer Name',
+            counterIdLabel: 'Customer ID',
+            taxLabel: 'Tax No',
+            taxNumber: '1234567XXXXX',
+        },
+
+        // item details
+        itemDetails: {
+            productColumnLabel: 'Product',
+            unitCostColumnLabel: 'Cost',
+            quantityColumnLabel: 'Quantity',
+            totalColumnLabel: 'Total',
+        },
+
+        footerDetails: {
+            footerText: 'test footer text',
+        },
+    },
 
     // wepos license
     weposLicense: {
@@ -236,6 +281,7 @@ export const data = {
         api: {
             wepos: {
                 outlet: 'wepos/v1/outlets',
+                receipts: '/wepos/v1/receipts',
                 cashiers: 'wepos/v1/cashiers',
                 payment: '/wepos/v1/payment',
             },
@@ -252,7 +298,6 @@ export const data = {
     image: {
         avatar: 'utils/sampleData/avatar.png',
         wepos: 'utils/sampleData/wepos.png',
-        license: 'utils/sampleData/license.png',
     },
 
     // command

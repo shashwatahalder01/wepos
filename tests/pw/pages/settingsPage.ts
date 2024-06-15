@@ -58,8 +58,8 @@ export class SettingsPage extends BasePage {
         await this.click(settings.menus.receipts);
 
         // order receipt header & footer
-        await this.typeFrameSelector(settings.receipts.orderReceiptHeaderIframe, settings.receipts.orderReceiptHeaderHtmlBody, receipts.orderReceiptHeader);
-        await this.typeFrameSelector(settings.receipts.orderReceiptFooterIframe, settings.receipts.orderReceiptFooterHtmlBody, receipts.orderReceiptFooter);
+        await this.typeFrameSelector(settings.receipts.headerIframe, settings.receipts.headerHtmlBody, receipts.orderReceiptHeader);
+        await this.typeFrameSelector(settings.receipts.footerIframe, settings.receipts.footerHtmlBody, receipts.orderReceiptFooter);
 
         // save settings
         await this.clickAndWaitForResponseAndLoadState(data.subUrls.ajax, settings.saveChanges('receipts'));

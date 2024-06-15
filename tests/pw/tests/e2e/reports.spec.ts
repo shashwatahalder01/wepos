@@ -2,7 +2,7 @@ import { test, Page } from '@playwright/test';
 import { Reports } from '@pages/reportsPage';
 import { data } from '@utils/testData';
 
-test.describe.only('Reports test', () => {
+test.describe('Reports test', () => {
     let admin: Reports;
     let aPage: Page;
 
@@ -27,7 +27,7 @@ test.describe.only('Reports test', () => {
         await admin.reportsRenderProperly();
     });
 
-    test.only('admin can filter report by payment method', { tag: ['@pro'] }, async () => {
+    test('admin can filter report by payment method', { tag: ['@pro'] }, async () => {
         await admin.filterReports('cash', 'by-paymentMthod');
     });
 

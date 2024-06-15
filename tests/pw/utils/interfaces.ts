@@ -136,3 +136,43 @@ export interface cashier {
     phone: string;
     website: string;
 }
+
+export interface receipt {
+    //  logo settings
+    logoDetails: {
+        logo: string;
+        height: string;
+        width: string;
+    };
+
+    // style settings
+    styleDetails: {
+        paddingTop: string;
+        paddingRight: string;
+        paddingBottom: string;
+        paddingLeft: string;
+        headerFontSize: string;
+        paragraphFontSize: string;
+    };
+
+    // header details
+    headersDetails: {
+        phoneLabel: string;
+        emailLabel: string;
+        cashierNameLabel: string;
+        counterNameLabel: string;
+        invoiceIdLabel: string;
+        customerNameLabel: string;
+        counterIdLabel: string;
+        taxLabel: string;
+        taxNumber: string;
+    };
+
+    // item details
+    itemDetails: {
+        productColumnLabel: string;
+        unitCostColumnLabel: string;
+        quantityColumnLabel: string;
+        totalColumnLabel: string;
+    };
+}

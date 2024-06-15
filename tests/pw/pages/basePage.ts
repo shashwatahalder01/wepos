@@ -1493,7 +1493,7 @@ export class BasePage {
     async enableSwitcher(selector: string): Promise<void> {
         /^(\/\/|\(\/\/)/.test(selector) ? (selector += '//span') : (selector += ' span');
         const value = await this.getElementBackgroundColor(selector);
-        if (!value.includes('rgb(0, 144, 255)')) {
+        if (!value.includes('rgb(59, 128, 244)')) {
             await this.click(selector);
         }
     }
@@ -1502,7 +1502,7 @@ export class BasePage {
     async disableSwitcher(selector: string): Promise<void> {
         /^(\/\/|\(\/\/)/.test(selector) ? (selector += '//span') : (selector += ' span');
         const value = await this.getElementBackgroundColor(selector);
-        if (value.includes('rgb(0, 144, 255)')) {
+        if (value.includes('rgb(59, 128, 244)')) {
             await this.click(selector);
         }
     }

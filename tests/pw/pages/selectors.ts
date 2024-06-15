@@ -69,6 +69,17 @@ export const selector = {
         loginError: '#login_error',
     },
 
+    wpMedia: {
+        // Wp Image Upload
+        wpUploadFiles: '#menu-item-upload',
+        uploadedMedia: 'div.attachment-preview',
+        uploadedMediaFirst: '(//div[contains(@class,"attachment-preview")])[1]',
+        selectFiles: '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[@class="browser button button-hero"]',
+        selectFilesInput: '//div[@class="supports-drag-drop" and @style="position: relative;"]//input[@type="file"]',
+        selectUploadedMedia: '(//h2[contains(text(),"Media list")]/..//ul//li)[1]',
+        select: '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[contains(@class, "media-button-select")]',
+    },
+
     // Admin
 
     admin: {
@@ -202,7 +213,85 @@ export const selector = {
 
             // receipts
             receipts: {
-                //todo: need to add selectors
+                receiptsText: '//span[text()="Receipt Settings"]',
+                backToOutlets: '//a[contains(text(), "Back to Outlets")]',
+                saveReceipt: '//button[text()="Save Receipt"]',
+
+                receiptSection: 'div.preivew-section',
+                settingsSection: 'div.settings-section',
+
+                receiptPage: 'div.preivew-section div.receipt-page',
+
+                // sections
+                sections: {
+                    stylesSection: '//h2[text()="Styles"]/..//span',
+                    headerDetailsSection: '//h2[text()="Header Details"]/..//span',
+                    itemDetailsSection: '//h2[text()="Items Details"]/..//span',
+                    footerDetailsSection: '//h2[text()="Footer Details"]/..//span',
+                },
+
+                // logo settings
+                logoDetails: {
+                    uploadLogo: 'div.image',
+                    uploadedImage: '//img/../..//div[@class="image"]',
+                    height: 'div.height input',
+                    width: 'div.width input',
+                },
+
+                // style settings
+                styleDetails: {
+                    paddingTop: '//div[text()="Padding (px)"]/..//input[1]',
+                    paddingRight: '//div[text()="Padding (px)"]/..//input[2]',
+                    paddingBottom: '//div[text()="Padding (px)"]/..//input[3]',
+                    paddingLeft: '//div[text()="Padding (px)"]/..//input[4]',
+                    headerFontSize: '//div[text()="Heading Font Size (px)"]/..//input',
+                    paragraphFontSize: '//div[text()="Paragraph Font Size (px)"]/..//input',
+                },
+
+                // header details
+                headersDetails: {
+                    showOutletName: '//div[text()="Show Outlet Name"]/..//label',
+                    showOutletPhone: '//div[text()="Show Outlet Phone"]/..//label',
+                    phoneLabel: '//div[text()="Phone Label"]/..//input',
+                    showOutletEmail: '//div[text()="Show Outlet Email"]/..//label',
+                    emailLabel: '//div[text()="Email Label"]/..//input',
+                    showOutletFaxNumber: '//div[text()="Show Outlet Fax Number"]/..//label',
+                    showOutletWebsite: '//div[text()="Show Outlet Website"]/..//label',
+                    showOutletAddress: '//div[text()="Show Outlet Address"]/..//label',
+                    showCashierCounterInfo: '//div[text()="Show Cashier/Counter Info"]/..//label',
+                    cashierNameLabel: '//div[text()="Cashier Name Label"]/..//input',
+                    counterNameLabel: '//div[text()="Counter Name Label"]/..//input',
+                    showOrderDate: '//div[text()="Show Order Date"]/..//label',
+                    showOrderInvoiceNumber: '//div[text()="Show Order/Invoice Number"]/..//label',
+                    invoiceIdLabel: '//div[text()="Invoice/Order ID Label"]/..//input',
+                    showCustomerInfo: '//div[text()="Show Customer Info"]/..//label',
+                    customerNameLabel: '//div[text()="Customer Name Label"]/..//input',
+                    counterIdLabel: '//div[text()="Counter ID Label"]/..//input',
+                    showTaxNumber: '//div[text()="Show Vat/Tax Number"]/..//label',
+                    taxLabel: '//div[text()="Vat/Tax Label"]/..//input',
+                    taxNumber: '//div[text()="Vat/Tax Number"]/..//input',
+                    showOrderNote: '//div[text()="Show Order Note"]/..//label',
+                },
+
+                // item details
+                itemDetails: {
+                    showUnitCostColumn: '//div[text()="Show Unit Cost Column"]/..//label',
+                    productColumnLabel: '//div[text()="Product Column Label"]/..//input',
+                    unitCostColumnLabel: '//div[text()="Unit Cost Column Label"]/..//input',
+                    quantityColumnLabel: '//div[text()="Quantity Column Label"]/..//input',
+                    totalColumnLabel: '//div[text()="Total Column Label"]/..//input',
+                    showDiscountRow: '//div[text()="Show Discount Row"]/..//label',
+                    showTaxRow: '//div[text()="Show Tax Row"]/..//label',
+                    showFeeRow: '//div[text()="Show Fee Row"]/..//label',
+                    showPaymentMethod: '//div[text()="Show Payment Method"]/..//label',
+                },
+
+                // footer details
+                footerDetails: {
+                    showFooterSection: '//div[text()="Show Footer section"]/..//label',
+                    footerIframe: '//div[text()="Footer Text"]/..//iframe',
+                    footerHtmlBody: '#tinymce',
+                },
             },
 
             // reports
@@ -256,10 +345,10 @@ export const selector = {
                 },
 
                 receipts: {
-                    orderReceiptHeaderIframe: 'tr.receipt_header iframe',
-                    orderReceiptHeaderHtmlBody: '#tinymce',
-                    orderReceiptFooterIframe: 'tr.receipt_footer iframe',
-                    orderReceiptFooterHtmlBody: '#tinymce',
+                    headerIframe: 'tr.receipt_header iframe',
+                    headerHtmlBody: '#tinymce',
+                    footerIframe: 'tr.receipt_footer iframe',
+                    footerHtmlBody: '#tinymce',
                 },
             },
 
