@@ -23,7 +23,6 @@ export class LicensePage extends BasePage {
         // license section elements are visible
         const { activateLicense, ...activateSection } = licenseAdmin.activateSection;
         await this.multipleElementVisible(activateSection);
-
     }
 
     // activate license

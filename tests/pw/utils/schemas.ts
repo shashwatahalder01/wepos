@@ -151,7 +151,7 @@ const categorySchema = z.object({
     slug: z.string(),
 });
 
-const metaDataSchema = z.object({
+const productMetaDataSchema = z.object({
     id: z.number(),
     key: z.string(),
     value: z.union([
@@ -234,7 +234,7 @@ const productSchema = z.object({
     menu_order: z.number(),
     price_html: z.string(),
     related_ids: z.array(z.number()),
-    meta_data: z.array(metaDataSchema),
+    meta_data: z.array(productMetaDataSchema),
     stock_status: z.string(),
     has_options: z.boolean(),
     post_password: z.string().optional(),
@@ -242,6 +242,129 @@ const productSchema = z.object({
     regular_display_price: z.string().regex(/^\d+(\.\d+)?$/),
     sales_display_price: z.string().regex(/^\d+(\.\d+)?$/),
     barcode: z.string().optional(),
+    _links: linksSchema,
+});
+
+const orderMetaDataSchema = z.object({
+    id: z.number(),
+    key: z.string(),
+    value: z.string(),
+});
+
+const taxSchema = z.object({
+    id: z.number(),
+    total: z.string(),
+    subtotal: z.string(),
+});
+
+const lineItemSchema = z.object({
+    id: z.number().or(z.string()),
+    name: z.string(),
+    product_id: z.number(),
+    variation_id: z.number(),
+    quantity: z.number(),
+    tax_class: z.string(),
+    subtotal: z.string(),
+    subtotal_tax: z.string(),
+    total: z.string(),
+    total_tax: z.string(),
+    taxes: z.array(taxSchema),
+    meta_data: z.array(z.any()), // Assuming meta_data can have various structures
+    sku: z.string().nullable(),
+    price: z.number(),
+    image: z
+        .object({
+            id: z.string().or(z.number()).optional(),
+            src: z.string().optional(),
+        })
+        .optional(),
+    parent_name: z.string().nullable(),
+});
+
+const taxLineSchema = z.object({
+    id: z.number(),
+    rate_code: z.string(),
+    rate_id: z.number(),
+    label: z.string(),
+    compound: z.boolean(),
+    tax_total: z.string(),
+    shipping_tax_total: z.string(),
+    rate_percent: z.number(),
+    meta_data: z.array(z.any()), // Assuming meta_data can have various structures
+});
+
+const shippingLineSchema = z.object({
+    id: z.number(),
+    method_title: z.string(),
+    method_id: z.string(),
+    instance_id: z.string().optional(),
+    total: z.string(),
+    total_tax: z.string(),
+    taxes: z.array(taxSchema),
+    meta_data: z.array(z.any()), // Assuming meta_data can have various structures
+});
+
+const orderAddressSchema = z.object({
+    first_name: z.string(),
+    last_name: z.string(),
+    company: z.string().optional(),
+    address_1: z.string(),
+    address_2: z.string(),
+    city: z.string(),
+    state: z.string(),
+    postcode: z.string(),
+    country: z.string(),
+    email: z.string().optional(),
+    phone: z.string().optional(),
+});
+
+const orderSchema = z.object({
+    id: z.number(),
+    parent_id: z.number(),
+    status: z.string(),
+    currency: z.string(),
+    version: z.string(),
+    prices_include_tax: z.boolean(),
+    date_created: z.string(),
+    date_modified: z.string(),
+    discount_total: z.string(),
+    discount_tax: z.string(),
+    shipping_total: z.string(),
+    shipping_tax: z.string(),
+    cart_tax: z.string(),
+    total: z.string(),
+    total_tax: z.string(),
+    customer_id: z.number(),
+    order_key: z.string(),
+    billing: orderAddressSchema,
+    shipping: orderAddressSchema,
+    payment_method: z.string(),
+    payment_method_title: z.string(),
+    transaction_id: z.string().optional(),
+    customer_ip_address: z.string().optional(),
+    customer_user_agent: z.string().optional(),
+    created_via: z.string(),
+    customer_note: z.string().optional(),
+    date_completed: z.string().nullable(),
+    date_paid: z.string(),
+    cart_hash: z.string().optional(),
+    number: z.string(),
+    meta_data: z.array(orderMetaDataSchema),
+    line_items: z.array(lineItemSchema),
+    tax_lines: z.array(taxLineSchema),
+    shipping_lines: z.array(shippingLineSchema),
+    fee_lines: z.array(z.any()), // Assuming fee_lines can have various structures
+    coupon_lines: z.array(z.any()), // Assuming coupon_lines can have various structures
+    refunds: z.array(z.any()), // Assuming refunds can have various structures
+    payment_url: z.string(),
+    is_editable: z.boolean(),
+    needs_payment: z.boolean(),
+    needs_processing: z.boolean(),
+    date_created_gmt: z.string(),
+    date_modified_gmt: z.string(),
+    date_completed_gmt: z.string().nullable(),
+    date_paid_gmt: z.string(),
+    currency_symbol: z.string(),
     _links: linksSchema,
 });
 
@@ -327,13 +450,13 @@ export const schemas = {
 
     productsSchema: {
         productSchema: productSchema,
-        productsSchema: z.array(productSchema), //todo: need to fix
+        productsSchema: z.array(productSchema),
     },
 
-    // ordersSchema: {
-    //     orderSchema: orderSchema,
-    //     ordersSchema: z.array(orderSchema),  //todo: need to fix
-    // },
+    ordersSchema: {
+        orderSchema: orderSchema,
+        ordersSchema: z.array(orderSchema),
+    },
 
     paymentMethodsSchema: z.array(paymentMethodSchema),
     paymentSummarySchema: z.array(

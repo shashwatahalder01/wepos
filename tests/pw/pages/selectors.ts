@@ -301,6 +301,7 @@ export const selector = {
 
                 // filters
                 filterReport: 'div.reports-filtering-buttons button.filter-btn',
+                filterSection: 'div.reports-filtering-section',
                 filters: {
                     filterByPaymentMethod: '(//span[@class="select2-selection__arrow"])[1]',
                     filterByCustomer: '(//span[@class="select2-selection__arrow"])[2]',
@@ -308,6 +309,7 @@ export const selector = {
                     filterByCashier: '(//span[@class="select2-selection__arrow"])[4]',
                     filterByDate: '', //todo: need to add selectors
                     filterInput: '.select2-search.select2-search--dropdown .select2-search__field',
+                    result: (value: string) => `//li[contains(@class, "select2-results__option select2-results__option--selectable") and contains(text(),"${value}")]`,
                     reset: 'a.filtering-reset-btn',
                 },
 

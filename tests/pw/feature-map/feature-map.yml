@@ -1,38 +1,38 @@
 - page: 'outlets'
   features:
       admin:
-          admin can view outlets: false
-          admin can add outlet: false
-          admin can edit outlet: false
-          admin can delete outlet: false
-          admin can add counter: false
-          admin can edit counter: false
-          admin can delete counter: false
-          admin can assign new cashier: false
-          admin can assign existing cashier: false
-          admin can delete cashier: false
+          admin can view outlets: true
+          admin can add outlet: true
+          admin can edit outlet: true
+          admin can delete outlet: true
+          admin can add counter: true
+          admin can edit counter: true
+          admin can delete counter: true
+          admin can assign new cashier: true
+          admin can assign existing cashier: true
+          admin can delete cashier: true
 
 - page: 'receipts'
   features:
       admin:
-          admin can view receipts: false
-          admin can set receipt logo: false
-          admin can set receipt style: false
-          admin can set receipt header details: false
-          admin can set receipt item details: false
-          admin can set receipt footer details: false
+          admin can view receipts: true
+          admin can set receipt logo: true
+          admin can set receipt style: true
+          admin can set receipt header details: true
+          admin can set receipt item details: true
+          admin can set receipt footer details: true
 
 - page: 'reports'
   features:
       admin:
-          admin can view report: false
-          admin can filter report by payment method: false
-          admin can filter report by customer: false
-          admin can filter report by outlet: false
-          admin can filter report by cashier: false
+          admin can view report: true
+          admin can filter report by payment method: true
+          admin can filter report by customer: true
+          admin can filter report by outlet: true
+          admin can filter report by cashier: true
           admin can filter report by date: false
-          admin can clear filter: false
-          admin can export report: false
+          admin can clear filter: true
+          admin can export report: true
 
 - page: 'settings'
   features:
@@ -62,6 +62,26 @@
           cashier can complete sale [lite]: true
           cashier can complete sale with print receipt [lite]: true
           cashier can switch counter: false
+          cashier can view products: false
+          cashier can search products: false
+          cashier can edit product: false
+          cashier can delete product: false
+          cashier can perform bulk action on products: false
+          cashier can view orders: false
+          cashier can view order details: false
+          cashier can search orders: false
+          cashier can filter orders: false
+          cashier can add order note: false
+          cashier can delete order note: false
+          cashier can perform bulk action on orders: false
+          cashier can refund order: false
+          cashier can view customers: false
+          cashier can search customers: false
+          cashier can add new customer on customer page: true
+          cashier can edit customer: false
+          cashier can delete customer: false
+          cashier can perform bulk action on customers: false
+          cashier can update cashier profile: false
 
 - page: 'license'
   features:

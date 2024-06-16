@@ -4,7 +4,7 @@ import { Reports } from '@pages/reportsPage';
 import { payloads } from '@utils/payloads';
 import { data } from '@utils/testData';
 
-test.describe.only('Reports test', () => {
+test.describe('Reports test', () => {
     let apiUtils: ApiUtils;
     let admin: Reports;
     let aPage: Page;
@@ -37,19 +37,19 @@ test.describe.only('Reports test', () => {
         await admin.reportsRenderProperly();
     });
 
-    test.only('admin can filter report by payment method', { tag: ['@pro'] }, async () => {
+    test('admin can filter report by payment method', { tag: ['@pro'] }, async () => {
         await admin.filterReports('Cash', 'by-paymentMthod');
     });
 
-    test.only('admin can filter report by customer', { tag: ['@pro'] }, async () => {
+    test('admin can filter report by customer', { tag: ['@pro'] }, async () => {
         await admin.filterReports('customer1', 'by-customer');
     });
 
-    test.only('admin can filter report by outlet', { tag: ['@pro'] }, async () => {
+    test('admin can filter report by outlet', { tag: ['@pro'] }, async () => {
         await admin.filterReports(outletName, 'by-outlet');
     });
 
-    test.only('admin can filter report by cashier', { tag: ['@pro'] }, async () => {
+    test('admin can filter report by cashier', { tag: ['@pro'] }, async () => {
         await admin.filterReports(cashierName, 'by-cashier');
     });
 

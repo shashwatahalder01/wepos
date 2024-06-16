@@ -34,7 +34,7 @@ export class Reports extends BasePage {
     async filterReports(input: string, action: string) {
         await this.goToReports();
         const filterSectionIsVisible = await this.isVisible(reports.filterSection);
-        !filterSectionIsVisible && await this.click(reports.filterReport);
+        !filterSectionIsVisible && (await this.click(reports.filterReport));
 
         switch (action) {
             case 'by-paymentMthod':
