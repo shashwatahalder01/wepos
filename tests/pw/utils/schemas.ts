@@ -407,11 +407,6 @@ const outletSchema = z.object({
     _links: linksSchema.optional(),
 });
 
-const counterSchema = z.object({
-    name: z.string(),
-    number: z.number(),
-});
-
 export const schemas = {
     weposSettingsSchema: z.object({
         wepos_general: z.object({

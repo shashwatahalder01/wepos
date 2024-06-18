@@ -4,11 +4,7 @@ import { Browser, BrowserContextOptions, Page } from '@playwright/test';
 
 export const helpers = {
     // replace '_' to space & capitalize first letter of string
-    replaceAndCapitalize: (str: string) =>
-        str
-            .replace('dokan', 'vendor')
-            .replace('_', ' ')
-            .replace(/^\w{1}/, letter => letter.toUpperCase()),
+    replaceAndCapitalize: (str: string) => str.replace('_', ' ').replace(/^\w{1}/, letter => letter.toUpperCase()),
 
     // replace '_' to space & capitalize first letter of each word
     replaceAndCapitalizeEachWord: (str: string) => str.replace('_', ' ').replace(/(^\w{1})|(\s+\w{1})/g, (letter: string) => letter.toUpperCase()),
@@ -78,50 +74,6 @@ export const helpers = {
     // remove dollar sign
     removeCurrencySign: (str: string): string => str.replace(/[^\d\-.,\\s]/g, ''),
 
-    // dateFormat // todo: remove all date-time , and update date to return date as required formate // also method to return as site date format
-    dateFormatFYJ: (date: string) => new Date(date).toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' }),
-
-    // current year
-    currentYear: new Date().getFullYear(),
-
-    // current day [2023-06-02]
-    currentDate: new Date().toLocaleDateString('en-CA'),
-
-    // current day [August 22, 2023]
-    currentDateFJY: new Date().toLocaleDateString('en-CA', { year: 'numeric', month: 'long', day: 'numeric' }),
-
-    // current date-time [2023-06-02 00:33]
-    currentDateTime: new Date().toLocaleString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric', hourCycle: 'h23', hour: 'numeric', minute: 'numeric' }).replace(',', ''),
-
-    // current date-time [2023-06-02 00:46:11]
-    currentDateTimeFullFormat: new Date().toLocaleString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric', hourCycle: 'h23', hour: 'numeric', minute: 'numeric', second: 'numeric' }).replace(',', ''),
-
-    currentDateTime2: () => new Date().toLocaleString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric', hourCycle: 'h23', hour: 'numeric', minute: 'numeric', second: 'numeric' }).replace(',', ''),
-
-    // add two input days
-    addDays(date: string | number | Date | null, days: number, format: string): string {
-        const result = date ? new Date(date) : new Date();
-        result.setDate(result.getDate() + days);
-
-        if (format === 'full') {
-            // [2023-06-02, 00:33]
-            return result.toLocaleDateString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric', hourCycle: 'h23', hour: 'numeric', minute: 'numeric' }).replace(/,/g, '');
-        } else if (format === 'complete') {
-            // [2023-06-02 00:46:11]
-            return result.toLocaleDateString('en-CA', { year: 'numeric', month: 'numeric', day: 'numeric', hourCycle: 'h23', hour: 'numeric', minute: 'numeric', second: 'numeric' }).replace(/,/g, '');
-        } else {
-            // [2023-06-02]
-            return result.toLocaleDateString('en-CA');
-        }
-    },
-
-    // future date
-    futureDate(date: string | number | Date | null, days: number): Date {
-        const result = date ? new Date(date) : new Date();
-        result.setDate(result.getDate() + days);
-        return result;
-    },
-
     // round to two decimal
     roundToTwo(num: string | number) {
         return Math.round((Number(num) + Number.EPSILON) * 100) / 100;
@@ -141,120 +93,6 @@ export const helpers = {
     // calculate percentage
     percentage1(number: number, percentage: number) {
         return (number * (percentage / 100)).toFixed(2);
-    },
-
-    // subtotal
-    subtotal(price: number[], quantity: number[]) {
-        const subtotal = price.map((e, index) => e * quantity[index]!);
-        return subtotal.reduce((a, b) => a + b, 0);
-    },
-
-    lineItemsToSubtotal(lineItems: object[]) {
-        const arrOfPriceQuantity = lineItems.map(({ price, quantity }) => [price, quantity]);
-        // const arrOfSubtotals = res.map(([price, quantity]) => price * quantity)
-        const subtotal = arrOfPriceQuantity.reduce((sum, [price, quantity]) => sum + price * quantity, 0);
-        return subtotal;
-    },
-
-    // discount
-    discount(subTotal: number, discount: any) {
-        let discount_total = 0;
-        switch (discount.type) {
-            case 'coupon':
-                {
-                    switch (discount.coupon.type) {
-                        case 'percentage':
-                            for (const rate of discount.coupon.amount) {
-                                if (discount.coupon.applySequentially) {
-                                    const discount = this.percentageWithRound(Number(subTotal), Number(rate));
-                                    subTotal -= discount;
-                                    discount_total += discount;
-                                } else {
-                                    discount_total += this.percentageWithRound(Number(subTotal), Number(rate));
-                                }
-                            }
-                            break;
-
-                        case 'fixed':
-                            discount_total = Number(subTotal - discount.amount);
-                            break;
-
-                        default:
-                            break;
-                    }
-                }
-
-                break;
-
-            case 'amount_discount':
-                break;
-
-            case 'quantity_discount':
-                break;
-
-            default:
-                break;
-        }
-        return this.roundToTwo(discount_total);
-    },
-
-    // product tax
-    productTax(taxRate: number, subtotal: number) {
-        const productTax = this.percentage(Number(subtotal), Number(taxRate));
-        return this.roundToTwo(productTax);
-    },
-
-    // product tax
-    shippingTax(taxRate: number, shippingFee = 0) {
-        const shippingTax = this.percentage(Number(shippingFee), Number(taxRate));
-        return this.roundToTwo(shippingTax);
-    },
-
-    // order total
-    orderTotal(subtotal: number, productTax = 0, shippingTax = 0, shippingFee = 0) {
-        const orderTotal = Number(subtotal) + Number(productTax) + Number(shippingTax) + Number(shippingFee);
-        return this.roundToTwo(orderTotal);
-    },
-
-    // calculate admin commission
-    adminCommission(subTotal: number, commission: any, productTax = 0, shippingTax = 0, shippingFee = 0, gatewayFee = 0, feeRecipient: any, gatewayFeeGiver = 'seller') {
-        let subTotalCommission = 0;
-
-        switch (commission.type) {
-            case 'percentage':
-                subTotalCommission = this.percentage(Number(subTotal), Number(commission.amount));
-                break;
-
-            case 'flat':
-                subTotalCommission = Number(commission.amount);
-                break;
-
-            case 'combine':
-                subTotalCommission = this.percentage(Number(subTotal), Number(commission.amount)) + Number(commission.additionalAmount);
-                break;
-
-            default:
-                break;
-        }
-
-        productTax = feeRecipient.taxFeeRecipient === 'seller' ? 0 : productTax;
-        shippingTax = feeRecipient.shippingTaxFeeRecipient === 'seller' ? 0 : shippingTax;
-        shippingFee = feeRecipient.shippingFeeRecipient === 'seller' ? 0 : shippingFee;
-        gatewayFee = gatewayFeeGiver === 'seller' ? 0 : gatewayFee;
-
-        const adminCommission = subTotalCommission - Number(gatewayFee) + Number(productTax) + Number(shippingTax) + Number(shippingFee);
-        return this.roundToTwo(adminCommission);
-    },
-
-    // calculate vendor earning
-    vendorEarning(subTotal: number, commission: number, productTax = 0, shippingTax = 0, shippingFee = 0, gatewayFee = 0, feeRecipient: any, gatewayFeeGiver = 'seller') {
-        productTax = feeRecipient.taxFeeRecipient !== 'seller' ? 0 : productTax;
-        shippingTax = feeRecipient.shippingTaxFeeRecipient !== 'seller' ? 0 : shippingTax;
-        shippingFee = feeRecipient.shippingFeeRecipient !== 'seller' ? 0 : shippingFee;
-        gatewayFee = gatewayFeeGiver !== 'seller' ? 0 : gatewayFee;
-
-        const vendorEarning = Number(subTotal) - Number(commission) - Number(gatewayFee) + Number(productTax) + Number(shippingTax) + Number(shippingFee);
-        return this.roundToTwo(vendorEarning);
     },
 
     // string to slug

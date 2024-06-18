@@ -123,15 +123,15 @@ export default defineConfig({
             /* whether not to run setup tests before running actual tests */
             dependencies: NO_SETUP ? [] : ['e2e_setup'],
             /* whether not to run teardown tests after running actual tests */
-            teardown: NO_SETUP ? undefined : 'e2e_teardown',
+            // teardown: NO_SETUP ? undefined : 'e2e_teardown',
             // teardown: 'global_teardown',
         },
 
-        // e2e_teardown
-        {
-            name: 'e2e_teardown',
-            testMatch: '_coverage.teardown.ts',
-        },
+        // // e2e_teardown
+        // {
+        //     name: 'e2e_teardown',
+        //     testMatch: ['_coverage.teardown.spec.ts', '_resetsite.teardown.ts'],
+        // },
     ],
 });
 

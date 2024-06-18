@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import 'dotenv/config';
 
-const { CUSTOMER, USER_PASSWORD } = process.env;
+const { CUSTOMER } = process.env;
 
 interface user {
     username: string;
@@ -19,7 +19,7 @@ export const data = {
     envData: 'utils/data.json',
 
     env: {
-        DOKAN_PRO: process.env.WEPOS_PRO ? true : false,
+        WEPOS_PRO: process.env.WEPOS_PRO ? true : false,
 
         // db data
         DB_HOST_NAME: process.env.DB_HOST_NAME,
@@ -69,8 +69,8 @@ export const data = {
         weposPro: ['wepos-pro'],
         activeClass: 'active',
         pluginName: {
-            dokanLite: 'wepos',
-            dokanPro: 'wepos-pro',
+            weposLite: 'wepos',
+            weposPro: 'wepos-pro',
         },
     },
 

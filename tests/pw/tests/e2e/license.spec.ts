@@ -15,7 +15,7 @@ test.describe('License test', () => {
     });
 
     test.afterAll(async () => {
-        await dbUtils.setDokanSettings(dbData.wepos.optionName.weposProLicense, dbData.wepos.license);
+        await dbUtils.setWeposSettings(dbData.wepos.optionName.weposProLicense, dbData.wepos.license);
         await aPage.close();
     });
 
@@ -26,22 +26,22 @@ test.describe('License test', () => {
     });
 
     test("admin can't activate license with incorrect key", { tag: ['@pro', '@negative'] }, async () => {
-        await dbUtils.setDokanSettings(dbData.wepos.optionName.weposProLicense, dbData.wepos.deactivateLicense);
+        await dbUtils.setWeposSettings(dbData.wepos.optionName.weposProLicense, dbData.wepos.deactivateLicense);
         await admin.activateLicense(data.weposLicense.incorrectKey, 'incorrect');
     });
 
     test('admin can activate license', { tag: ['@pro'] }, async () => {
-        await dbUtils.setDokanSettings(dbData.wepos.optionName.weposProLicense, dbData.wepos.deactivateLicense);
+        await dbUtils.setWeposSettings(dbData.wepos.optionName.weposProLicense, dbData.wepos.deactivateLicense);
         await admin.activateLicense(data.weposLicense.correctKey);
     });
 
     test('admin can refresh license', { tag: ['@pro'] }, async () => {
-        await dbUtils.setDokanSettings(dbData.wepos.optionName.weposProLicense, dbData.wepos.license);
+        await dbUtils.setWeposSettings(dbData.wepos.optionName.weposProLicense, dbData.wepos.license);
         await admin.refreshLicense();
     });
 
     test('admin can deactivate license', { tag: ['@pro'] }, async () => {
-        await dbUtils.setDokanSettings(dbData.wepos.optionName.weposProLicense, dbData.wepos.license);
+        await dbUtils.setWeposSettings(dbData.wepos.optionName.weposProLicense, dbData.wepos.license);
         await admin.deactivateLicense();
     });
 });

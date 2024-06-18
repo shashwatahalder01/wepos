@@ -1470,7 +1470,7 @@ export class BasePage {
      * custom methods
      */
 
-    // dokan select2
+    // wepos select2
     async select2ByText(selectSelector: string, optionSelector: string, text: string): Promise<void> {
         await this.click(selectSelector);
         await this.typeAndWaitForResponse(data.subUrls.ajax, optionSelector, text);
@@ -1478,7 +1478,7 @@ export class BasePage {
         await this.press('Enter');
     }
 
-    // dokan select2 multi-selector
+    // wepos select2 multi-selector
     async select2ByTextMultiSelector(selectSelector: string, optionSelector: string, text: string): Promise<void> {
         const isExists = await this.isLocatorExists(`//li[@class="select2-selection__choice" and @title="${text}"]`);
         if (!isExists) {
@@ -1529,43 +1529,6 @@ export class BasePage {
         return '';
     }
 
-    // enable switch or checkbox: dokan setup wizard
-    async enableSwitcherSetupWizard(selector: string): Promise<void> {
-        const value = await this.getPseudoElementStyles(selector, 'before', 'background-color');
-        // rgb(251, 203, 196) for switcher & rgb(242, 98, 77) for checkbox
-        if (!value.includes('rgb(251, 203, 196)') && !value.includes('rgb(242, 98, 77)')) {
-            if (selector.includes('withdraw_methods')) selector += '/..';
-            await this.click(selector);
-        }
-    }
-
-    // disable switch or checkbox: dokan setup wizard
-    async disableSwitcherSetupWizard(selector: string): Promise<void> {
-        const value = await this.getPseudoElementStyles(selector, 'before', 'background-color');
-        // rgb(251, 203, 196) for switcher & rgb(242, 98, 77) for checkbox
-        if (value.includes('rgb(251, 203, 196)') || value.includes('rgb(242, 98, 77)')) {
-            if (selector.includes('withdraw_methods')) selector += '/..';
-            await this.click(selector);
-        }
-    }
-
-    // admin enable switcher , if enabled then Skip : vendor dashboard disbursements
-    async enableSwitcherDisbursement(selector: string): Promise<void> {
-        /^(\/\/|\(\/\/)/.test(selector) ? (selector += '//span') : (selector += ' span');
-        const value = await this.getElementBackgroundColor(selector);
-        if (!value.includes('rgb(33, 150, 243)')) {
-            await this.click(selector);
-        }
-    }
-
-    // enable switch or checkbox: vendor dashboard delivery time
-    async enableSwitcherDeliveryTime(selector: string): Promise<void> {
-        const value = await this.hasClass((selector += '//div[contains(@class,"minitoggle")]'), 'active');
-        if (!value) {
-            await this.click(selector);
-        }
-    }
-
     // admin Enable payment methods via Slider
     async enablePaymentMethod(selector: string): Promise<void> {
         const classValueBefore = await this.getClassValue(selector);
@@ -1583,15 +1546,6 @@ export class BasePage {
             if (!isCheckBoxChecked) {
                 await element.click();
             }
-        }
-    }
-
-    // delete element if exist (only first will delete) : dokan rma,report abuse, company verifications // todo: delete all
-    async deleteIfExists(selector: string): Promise<void> {
-        const elementExists = await this.isVisible(selector);
-        if (elementExists) {
-            const element = this.getElement(selector);
-            await element.click();
         }
     }
 

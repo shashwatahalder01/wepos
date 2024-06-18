@@ -302,7 +302,7 @@ export class ViewPos extends BasePage {
         await this.click(pos.products.editProduct);
 
         await this.clearAndType(pos.products.quickEdit.title, productdetails.title);
-        
+
         await this.click(pos.products.quickEdit.categoryDropdown);
         await this.clearAndType(pos.products.quickEdit.categoryInput, productdetails.category);
         await this.click(pos.products.quickEdit.searchedCategory);

@@ -1,6 +1,5 @@
 import 'dotenv/config';
 
-// const { BASE_URL, SERVER_URL } = process.env;
 const SERVER_URL = process.env.SERVER_URL ? process.env.SERVER_URL : process.env.BASE_URL + '/wp-json';
 
 export const endPoints = {
@@ -70,7 +69,7 @@ export const endPoints = {
     getAllPaymentGateways: `${SERVER_URL}/wepos/v1/payment/gateways`,
     getPaymentSummary: `${SERVER_URL}/wepos/v1/payment/summary`,
     getPaymentReports: `${SERVER_URL}/wepos/v1/payment/reports`,
-    getExportedReport: `${SERVER_URL}/wepos/v1/payment/reports/export`, // todo: title, schema might need to be updated
+    getExportedReport: `${SERVER_URL}/wepos/v1/payment/reports/export`,
     processPayment: `${SERVER_URL}/wepos/v1/payment/process`,
 
     // wooCommerce
@@ -235,48 +234,6 @@ export const endPoints = {
 
         // data
         getCurrentCurrency: `${SERVER_URL}/wc/v3/data/currencies/current`,
-
-        booking: {
-            getAllBookableProducts: `${SERVER_URL}/wc-bookings/v1/products`,
-            getSingleBookableProduct: (productId: string) => `${SERVER_URL}/wc-bookings/v1/products/${productId}`,
-            createBookableProduct: `${SERVER_URL}/wc-bookings/v1/products`,
-            updateBookableProduct: (productId: string) => `${SERVER_URL}/wc-bookings/v1/products/${productId}`,
-            deleteBookableProduct: (productId: string) => `${SERVER_URL}/wc-bookings/v1/products/${productId}`,
-            updateBatchBookableProducts: `${SERVER_URL}/wc-bookings/v1/products/batch`,
-            getBookingsSlots: `${SERVER_URL}/wc-bookings/v1/products/slots`,
-
-            // categories
-            getAllBookableProductCategories: `${SERVER_URL}/wc-bookings/v1/products/categories`,
-            getSingleBookableProductCategory: (categoryId: string) => `${SERVER_URL}/wc-bookings/v1/products/categories/${categoryId}`,
-            createBookableProductCategory: `${SERVER_URL}/wc-bookings/v1/products/categories`,
-            updateBookableProductCategory: (categoryId: string) => `${SERVER_URL}/wc-bookings/v1/products/categories/${categoryId}`,
-            deleteBookableProductCategory: (categoryId: string) => `${SERVER_URL}/wc-bookings/v1/products/categories/${categoryId}`,
-            updateBatchBookableProductsCategories: `${SERVER_URL}/wc-bookings/v1/products/categories/batch`,
-
-            // resource
-            getAllBookableResources: `${SERVER_URL}/wc-bookings/v1/resources`,
-            getSingleBookableResource: (productId: string) => `${SERVER_URL}/wc-bookings/v1/resources/${productId}`,
-            createBookableResource: `${SERVER_URL}/wc-bookings/v1/resources`,
-            updateBookableResource: (productId: string) => `${SERVER_URL}/wc-bookings/v1/resources/${productId}`,
-            deleteBookableResource: (productId: string) => `${SERVER_URL}/wc-bookings/v1/resources/${productId}`,
-            updateBatchBookableResources: `${SERVER_URL}/wc-bookings/v1/resources/batch`,
-
-            // bookings
-            getAllBookings: `${SERVER_URL}/wc-bookings/v1/bookings`,
-            getSingleBooking: (productId: string) => `${SERVER_URL}/wc-bookings/v1/bookings/${productId}`,
-            createBooking: `${SERVER_URL}/wc-bookings/v1/bookings`,
-            updateBooking: (productId: string) => `${SERVER_URL}/wc-bookings/v1/bookings/${productId}`,
-            deleteBooking: (productId: string) => `${SERVER_URL}/wc-bookings/v1/bookings/${productId}`,
-            updateBatchBookings: `${SERVER_URL}/wc-bookings/v1/bookings/batch`,
-        },
-
-        productAddons: {
-            getAllProductAddons: `${SERVER_URL}/wc-product-add-ons/v1/product-add-ons`,
-            getSingleProductAddon: (productId: string) => `${SERVER_URL}/wc-product-add-ons/v1/product-add-ons/${productId}`,
-            createProductAddon: `${SERVER_URL}/wc-product-add-ons/v1/product-add-ons`,
-            updateProductAddon: (productId: string) => `${SERVER_URL}/wc-product-add-ons/v1/product-add-ons/${productId}`,
-            deleteProductAddon: (productId: string) => `${SERVER_URL}/wc-product-add-ons/v1/product-add-ons/${productId}`,
-        },
     },
 
     wp: {

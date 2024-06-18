@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { helpers } from '@utils/helpers';
 
-const { DOKAN_PRO } = process.env;
+const { WEPOS_PRO } = process.env;
 let executed_tests: string[] = [];
 
 let totalProductFeatures = 0;
@@ -78,7 +78,7 @@ function iterateThroughFeature(feature: any) {
         if (typeof value === 'object') {
             iterateThroughFeature(feature[key]);
         } else {
-            if (!DOKAN_PRO && !key.includes('[lite]')) {
+            if (!WEPOS_PRO && !key.includes('[lite]')) {
                 return;
             }
             totalPageFeatures++;

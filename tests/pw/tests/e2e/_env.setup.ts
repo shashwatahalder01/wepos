@@ -53,7 +53,7 @@ setup.describe('Environment setup', () => {
 
     setup('set wepos license', { tag: ['@pro'] }, async () => {
         setup.skip(!WEPOS_PRO, 'skip on lite');
-        await dbUtils.setDokanSettings(dbData.wepos.optionName.weposProLicense, dbData.wepos.license);
+        await dbUtils.setWeposSettings(dbData.wepos.optionName.weposProLicense, dbData.wepos.license);
     });
 
     setup('set tax rate', { tag: ['@lite'] }, async () => {

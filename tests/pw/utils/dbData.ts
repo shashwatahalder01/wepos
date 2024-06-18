@@ -29,19 +29,6 @@ export const dbData = {
         activePlugins: 'active_plugins',
     },
 
-    plugins: {
-        '0': 'Basic-Auth-master/basic-auth.php',
-        // '1':'woocommerce/woocommerce.php',
-        // '2':'dokan/dokan.php',
-        // '3':'dokan-pro/dokan-pro.php',
-        // '4':'woocommerce-bookings/woocommerce-bookings.php',
-        // '5':'woocommerce-product-addons/woocommerce-product-addons.php',
-        // '6':'woocommerce-simple-auctions/woocommerce-simple-auctions.php',
-        // '7':'woocommerce-subscriptions/woocommerce-subscriptions.php'
-        // curl --user admin:01dokan01 http://dokan5.test/wp-json
-        // curl --user admin:01dokan01 http://dokan5.test/wp-json/wp/v2/plugins
-    },
-
     siteSettings: {
         users_can_register: 1,
         start_of_week: 1,

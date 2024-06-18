@@ -17,7 +17,6 @@ export const customMatchers = {
     },
 
     toBeSecureHeader(headers: any) {
-        // todo: update this method
         let pass;
         pass = headers['content-type'] === 'application/json; charset=UTF-8';
         pass = headers['x-content-type-options'] === 'nosniff';

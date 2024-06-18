@@ -1,5 +1,5 @@
+import fs from 'fs';
 // api interfaces
-
 export interface auth {
     [key: string]: string;
     Authorization: string;
@@ -25,6 +25,15 @@ export interface taxRate {
     class: string;
     postcodes: string[];
     cities: string[];
+}
+
+export interface coupon_api {
+    code: string;
+    amount: string;
+    discount_type: string;
+    product_ids: number[];
+    individual_use?: boolean;
+    meta_data?: { key: string; value: string }[];
 }
 
 export interface reqOptions {
