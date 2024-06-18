@@ -59,29 +59,32 @@
           cashier can add discount [lite]: true
           cashier can add fee [lite]: true
           cashier can add note [lite]: true
-          cashier can complete sale [lite]: true
+          cashier can complete sale by cash [lite]: true
+          cashier can complete sale by card [lite]: true
           cashier can complete sale with print receipt [lite]: true
           cashier can switch counter: false
-          cashier can view products: false
-          cashier can search products: false
-          cashier can edit product: false
-          cashier can delete product: false
-          cashier can perform bulk action on products: false
-          cashier can view orders: false
-          cashier can view order details: false
+          cashier can view products: true
+          cashier can search products: true
+          cashier can edit product: true
+          cashier can delete product: true
+          cashier can perform bulk action on products: true
+          cashier can view orders: true
+          cashier can view order details: true
           cashier can search orders: false
-          cashier can filter orders: false
-          cashier can add order note: false
-          cashier can delete order note: false
+          cashier can filter orders by date: false
+          cashier can filter orders by customer: true
+          cashier can filter orders by status: true
+          cashier can add order note: true
+          cashier can delete order note: true
           cashier can perform bulk action on orders: false
           cashier can refund order: false
-          cashier can view customers: false
-          cashier can search customers: false
+          cashier can view customers: true
+          cashier can search customers: true
           cashier can add new customer on customer page: true
-          cashier can edit customer: false
-          cashier can delete customer: false
-          cashier can perform bulk action on customers: false
-          cashier can update cashier profile: false
+          cashier can edit customer: true
+          cashier can delete customer: true
+          cashier can perform bulk action on customers: true
+          cashier can update cashier profile: true
 
 - page: 'license'
   features:

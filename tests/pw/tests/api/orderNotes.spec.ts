@@ -7,6 +7,7 @@ import { test, expect, request } from '@playwright/test';
 import { ApiUtils } from '@utils/apiUtils';
 import { endPoints } from '@utils/apiEndPoints';
 import { payloads } from '@utils/payloads';
+import { schemas } from '@utils/schemas';
 
 test.describe('order note api test', () => {
     let apiUtils: ApiUtils;
@@ -26,7 +27,7 @@ test.describe('order note api test', () => {
         const [response, responseBody] = await apiUtils.get(endPoints.getAllOrderNotes(orderId));
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
-        //todo: need to validate the response schema
+        expect(responseBody).toMatchSchema(schemas.orderNotesSchema.orderNotesSchema);
     });
 
     test('create an order note', { tag: ['@pro'] }, async () => {
@@ -34,13 +35,13 @@ test.describe('order note api test', () => {
         expect(response.status()).toBe(201);
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
-        //todo: need to validate the response schema
+        expect(responseBody).toMatchSchema(schemas.orderNotesSchema.orderNoteSchema);
     });
 
     test('delete an order note', { tag: ['@pro'] }, async () => {
         const [response, responseBody] = await apiUtils.delete(endPoints.deleteOrderNote(orderId, orderNoteId), { params: payloads.paramsForceDelete });
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
-        //todo: need to validate the response schema
+        expect(responseBody).toMatchSchema(schemas.orderNotesSchema.orderNoteSchema);
     });
 });

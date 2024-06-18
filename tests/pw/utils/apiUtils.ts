@@ -99,7 +99,7 @@ export class ApiUtils {
             const responseBody = response.status() !== 204 && (await response.json()); // 204 is for No Content
 
             // console log responseBody if response code is not between 200-299
-            String(response.status())[0] != '2' && console.log('ResponseBody: ', responseBody);
+            // String(response.status())[0] != '2' && console.log('ResponseBody: ', responseBody);
             return responseBody;
         } catch (err: any) {
             console.log('End-point: ', response.url());
@@ -768,6 +768,13 @@ export class ApiUtils {
         return responseBody;
     }
 
+    // get single customer
+    async getSingleCustomer(customerId: string, auth?: auth): Promise<[responseBody, string]> {
+        const [, responseBody] = await this.get(endPoints.wc.getSingleCustomer(customerId), { headers: auth });
+        const customerEmail = responseBody?.email;
+        return [responseBody, customerEmail];
+    }
+
     // get customerId
     async getCustomerId(username?: string, auth?: auth): Promise<string> {
         if (arguments.length === 1 && typeof username === 'object') {
@@ -781,22 +788,25 @@ export class ApiUtils {
     }
 
     // create customer
-    async createCustomer(payload: any, auth?: auth): Promise<[responseBody, string]> {
+    async createCustomer(payload: any, auth?: auth): Promise<[responseBody, string, string]> {
         const [response, responseBody] = await this.post(endPoints.wc.createCustomer, { data: payload, headers: auth }, false);
         let customerId: string;
+        let customerEmail: string;
         if (responseBody.code) {
             expect(response.status()).toBe(400);
 
             // get customer id if already exists
             customerId = await this.getCustomerId(payload.username, auth);
+            [, customerEmail] = await this.getSingleCustomer(customerId, auth);
 
             // update customer if already exists
             await this.updateCustomer(customerId, payload, auth);
         } else {
             expect(response.ok()).toBeTruthy();
             customerId = String(responseBody?.id);
+            customerEmail = String(responseBody?.email);
         }
-        return [responseBody, customerId];
+        return [responseBody, customerId, customerEmail];
     }
 
     // update customer
@@ -1641,19 +1651,6 @@ export class ApiUtils {
         return responseBody;
     }
 
-    // reviews
-
-    // create product review
-    async createProductReview(payload: string | object, review: object, auth?: auth): Promise<[responseBody, string, string]> {
-        let productId: string;
-        typeof payload === 'object' ? ([, productId] = await this.createProduct(payload, auth)) : (productId = payload);
-        //todo: check if product exists with that id follow: createOrder
-        const [, responseBody] = await this.post(endPoints.wc.createReview, { data: { ...review, product_id: productId }, headers: auth });
-        const reviewId = String(responseBody?.id);
-        const reviewMessage = String(responseBody?.review);
-        return [responseBody, reviewId, reviewMessage];
-    }
-
     // categories
 
     // get all categories
@@ -1704,6 +1701,16 @@ export class ApiUtils {
         return [response, responseBody];
     }
 
+    // tags
+
+    // create tag
+    async createTag(payload: object, auth?: auth): Promise<[responseBody, string, string]> {
+        const [, responseBody] = await this.post(endPoints.wc.createTag, { data: payload, headers: auth });
+        const tagId = String(responseBody?.id);
+        const tagName = String(responseBody?.name);
+        return [responseBody, tagId, tagName];
+    }
+
     // product
 
     // get all products
@@ -1723,12 +1730,6 @@ export class ApiUtils {
     // create order
     async createOrder(product: string | object, orderPayload: any, auth?: auth): Promise<[APIResponse, responseBody, string, string]> {
         let productId: string;
-        // if (!product) {
-        //     [, productId] = await this.createProduct(payloads.createProduct(), auth);
-        // } else {
-        //     typeof product === 'object' ? ([, productId] = await this.createProduct(product, auth)) : (productId = product);
-        // } //todo: have to resolve invalid id form env issue
-
         if (!product) {
             [, productId] = await this.createProduct(payloads.createProduct(), auth);
         } else {
@@ -1747,7 +1748,7 @@ export class ApiUtils {
         const payload = orderPayload;
         payload.line_items[0].product_id = productId;
 
-        // Post the order and return the results // Todo: add comment for all methods
+        // Post the order and return the results
         const [response, responseBody] = await this.post(endPoints.wc.createOrder, { data: payload, headers: payloads.adminAuth }, false);
         const orderId = String(responseBody?.id);
         return [response, responseBody, orderId, productId];
@@ -2032,7 +2033,7 @@ export class ApiUtils {
         return [responseBody, counterId, counterName];
     }
 
-    // create cashier
+    // create cashier [belongs to outlet]
     async createCashier(outletId: string, payload: object, auth?: auth): Promise<[responseBody, string, string]> {
         const [, responseBody] = await this.post(endPoints.createCashier(outletId), { data: payload, headers: auth });
         const cashierId = String(responseBody?.id);

@@ -368,6 +368,20 @@ const orderSchema = z.object({
     _links: linksSchema,
 });
 
+const orderNoteSchema = z.object({
+    id: z.number().or(z.string()),
+    author: z.string(),
+    date_created: z.string(),
+    date_created_gmt: z.string(),
+    note: z.string(),
+    customer_note: z.boolean(),
+    _links: z.object({
+        self: z.array(z.object({ href: z.string().url() })),
+        collection: z.array(z.object({ href: z.string().url() })),
+        up: z.array(z.object({ href: z.string().url() })),
+    }),
+});
+
 const addressSchema = z.object({
     address_1: z.string(),
     address_2: z.string(),
@@ -458,6 +472,11 @@ export const schemas = {
         ordersSchema: z.array(orderSchema),
     },
 
+    orderNotesSchema: {
+        orderNoteSchema: orderNoteSchema,
+        orderNotesSchema: z.array(orderNoteSchema),
+    },
+
     paymentMethodsSchema: z.array(paymentMethodSchema),
     paymentSummarySchema: z.array(
         z.object({
@@ -486,9 +505,9 @@ export const schemas = {
     exportedReportSchema: z.object({
         success: z.boolean(),
         data: z.object({
-            step: z.string(),
+            step: z.string().or(z.number()),
             percentage: z.number().int().min(0).max(100),
-            url: z.string().url(),
+            url: z.string().url().optional(),
         }),
     }),
 

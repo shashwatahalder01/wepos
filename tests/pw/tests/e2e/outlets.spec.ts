@@ -23,8 +23,8 @@ test.describe('Outlets test', () => {
     });
 
     test.afterAll(async () => {
-        await apiUtils.deleteAllOutlets(payloads.adminAuth);
-        await apiUtils.deleteAllUsers(['cashier'], payloads.adminAuth);
+        // await apiUtils.deleteAllOutlets(payloads.adminAuth);
+        // await apiUtils.deleteAllUsers(['cashier'], payloads.adminAuth);
         await apiUtils.dispose();
         await aPage.close();
     });
@@ -42,8 +42,8 @@ test.describe('Outlets test', () => {
     });
 
     test('admin can edit outlet', { tag: ['@pro'] }, async () => {
-        const [, , outletName] = await apiUtils.createOutlet(payloads.createOutlet(), payloads.adminAuth);
-        await admin.editOutlet(outletName, data.outlet());
+        const [, , outletName] = await apiUtils.createOutlet({ ...payloads.createOutlet() }, payloads.adminAuth);
+        await admin.editOutlet(outletName, { ...data.outlet(), country: 'Canada', state: 'Alberta' });
     });
 
     test('admin can delete outlet', { tag: ['@pro'] }, async () => {

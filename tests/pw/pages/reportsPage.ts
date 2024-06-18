@@ -27,11 +27,11 @@ export class Reports extends BasePage {
         // check if overview elements are  visible
         await this.multipleElementVisible(reports.overview);
 
-        // todo: add more checks
+        await this.toBeVisible(reports.reportsTable);
     }
 
     // filter reports
-    async filterReports(input: string, action: string) {
+    async filterReports(input: string, action: string, clearFilter = true) {
         await this.goToReports();
         const filterSectionIsVisible = await this.isVisible(reports.filterSection);
         !filterSectionIsVisible && (await this.click(reports.filterReport));
@@ -57,21 +57,17 @@ export class Reports extends BasePage {
                 break;
         }
         await this.clearAndType(reports.filters.filterInput, input);
-        // await this.click( reports.filters.result(input));
         await this.clickAndWaitForResponse(data.subUrls.api.wepos.payment, reports.filters.result(input));
 
-        // const count = (await this.getElementText(abuseReportAdmin.numberOfRowsFound))?.split(' ')[0];  //todo: need to fix
-        // expect(Number(count)).toBeGreaterThan(0);
-
-        await this.clearFilter();
+        await this.notToHaveCount(reports.filters.closeFilteredResult, 0);
+        clearFilter && (await this.clearFilter());
     }
 
     // clear filter
     async clearFilter() {
         await this.goToReports();
-        await this.clickAndWaitForResponse(data.subUrls.api.wepos.payment, reports.filters.reset); //todo: click and wait for multiple requests
-
-        //todo: assertion
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.payment, reports.filters.reset);
+        await this.toHaveCount(reports.filters.closeFilteredResult, 0);
     }
 
     // export report

@@ -25,7 +25,7 @@ test.describe('Reports test', () => {
     });
 
     test.afterAll(async () => {
-        // await apiUtils.dispose();
+        await apiUtils.dispose();
         await aPage.close();
     });
 
@@ -54,6 +54,7 @@ test.describe('Reports test', () => {
     });
 
     test('admin can clear filter', { tag: ['@pro'] }, async () => {
+        await admin.filterReports('customer1', 'by-customer', false);
         await admin.clearFilter();
     });
 

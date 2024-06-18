@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import 'dotenv/config';
 
-const { USER_PASSWORD } = process.env;
+const { CUSTOMER, USER_PASSWORD } = process.env;
 
 interface user {
     username: string;
@@ -133,8 +133,8 @@ export const data = {
 
         address1: 'abc street',
         address2: 'xyz street',
-        country: 'US',
-        state: 'NY',
+        country: 'United States (US)',
+        state: 'New York',
         city: 'New York',
         zipCode: '10006',
 
@@ -158,6 +158,38 @@ export const data = {
         phone: faker.phone.number(),
         website: 'cashier.com',
     }),
+
+    productDetails: () => ({
+        title: faker.commerce.productName() + ' (Simple)',
+        category: 'Uncategorized',
+        tag: 'simple',
+        sku: faker.string.nanoid(10),
+        price: faker.finance.amount({ min: 100, max: 200, dec: faker.helpers.arrayElement([0, 2]) }),
+        weight: String(faker.number.int(100)),
+        visibility: 'visible', // visible, catalog, search, hidden
+        stockQuantity: String(faker.number.int(1000)),
+        allowBackorders: 'yes',
+    }),
+
+    cashierProfileDetails: {
+        firstName: 'admin',
+        lastName: 'a1',
+        phone: '1234567890',
+        address: 'abc street, New York, US',
+    },
+
+    paymentGateway: {
+        name: 'cash',
+        card: {
+            customer: {
+                customerEmail: CUSTOMER + '@yopmail.com',
+                customerFullName: 'customer1 c1',
+            },
+            last4Digit: '4242',
+            cardType: 'visa', //visa, master, american_express, diners_club, discover, jcb, unionpay, others
+            invoiceNumber: '123456',
+        },
+    },
 
     // receipt
     receipt: {
@@ -229,6 +261,7 @@ export const data = {
             lastName: 'c1',
             fullName: 'customer1 c1',
             username: 'customer1',
+            email: CUSTOMER + '@yopmail.com',
         },
     },
 
@@ -259,6 +292,14 @@ export const data = {
                 settings: 'wp-admin/admin.php?page=wepos#/settings',
                 viewPos: 'wepos/#/',
                 license: 'wp-admin/admin.php?page=wepos-license',
+
+                submenu: {
+                    products: 'wepos/#/products',
+                    orders: 'wepos/#/orders',
+                    customers: 'wepos/#/customers',
+                    settings: 'wepos/#/settings',
+                    orderDetails: (orderId: string) => `wepos/#/orders/${orderId}`,
+                },
             },
 
             wc: {
@@ -281,15 +322,19 @@ export const data = {
         api: {
             wepos: {
                 outlet: 'wepos/v1/outlets',
-                receipts: '/wepos/v1/receipts',
+                receipts: 'wepos/v1/receipts',
                 cashiers: 'wepos/v1/cashiers',
-                payment: '/wepos/v1/payment',
+                payment: 'wepos/v1/payment',
+                profile: 'wepos/v1/profile',
+                products: 'wepos/v1/products',
+                orders: 'wepos/v1/orders',
+                customers: 'wepos/v1/customers',
             },
 
             wc: {
                 products: 'wc/v3/products',
-                orders: '/wc/v3/orders',
-                store: 'wc/store',
+                orders: 'wc/v3/orders',
+                customers: 'wc/v3/customers',
             },
         },
     },

@@ -2,8 +2,8 @@ import { ConsoleMessage, Page, expect } from '@playwright/test';
 import { BasePage } from '@pages/basePage';
 import { selector } from '@pages/selectors';
 import { data } from '@utils/testData';
-import { customerDetails } from '@utils/interfaces';
 import { helpers } from '@utils/helpers';
+import { productdetails, customerDetails, cashierProfileDetails, paymentGateway, responseBody } from '@utils/interfaces';
 
 const { WEPOS_PRO } = process.env;
 
@@ -30,9 +30,13 @@ export class ViewPos extends BasePage {
         if (WEPOS_PRO && isLoginVisible) {
             await this.selectByLabel(pos.outlet, this.outlet);
             await this.selectByLabel(pos.counter, this.counter);
-            await this.clickAndAcceptAndWaitForResponseAndLoadState(data.subUrls.api.wepos.cashiers, pos.goToPos); //todo: need to fix
-            // await this.clickAndWaitForLoadState(pos.goToPos);
+            await this.clickAndAcceptAndWaitForResponseAndLoadState(data.subUrls.api.wepos.cashiers, pos.goToPos);
         }
+    }
+
+    async gotoPosSubmenu(submenu: string) {
+        await this.goToPos();
+        await this.goIfNotThere(submenu);
     }
 
     // pos render properly
@@ -101,30 +105,39 @@ export class ViewPos extends BasePage {
     }
 
     // search customer
-    async searchCustomer(customerName: string) {
+    async searchCustomer(customerEmail: string) {
         await this.goToPos();
-        await this.type(pos.searchCustomer, customerName);
-        await this.toContainText(pos.searchedCustomer, customerName);
+        await this.clearInputField(pos.searchCustomer);
+        await this.type(pos.searchCustomer, customerEmail);
+        await this.toContainText(pos.searchedCustomer, customerEmail);
+    }
+
+    async updateCustomerFields(customerdetails: customerDetails) {
+        await this.clearAndType(pos.customerdetails.firstName, customerdetails.firstName);
+        await this.clearAndType(pos.customerdetails.lastName, customerdetails.lastName);
+        await this.clearAndType(pos.customerdetails.email, customerdetails.email);
+        await this.clearAndType(pos.customerdetails.address1, customerdetails.address1);
+        await this.clearAndType(pos.customerdetails.address2, customerdetails.address2);
+
+        await this.click(pos.customerdetails.countryDropdown);
+        await this.clearAndType(pos.customerdetails.countryInput, customerdetails.country);
+        await this.click(pos.customerdetails.searchedCountry);
+
+        await this.click(pos.customerdetails.stateDropdown);
+        await this.clearAndType(pos.customerdetails.stateInput, customerdetails.state);
+        await this.click(pos.customerdetails.searchedState);
+
+        await this.clearAndType(pos.customerdetails.city, customerdetails.city);
+        await this.clearAndType(pos.customerdetails.zipCode, customerdetails.zipCode);
+        await this.clearAndType(pos.customerdetails.phone, customerdetails.phone);
     }
 
     // add new customer
     async addCustomer(customerdetails: customerDetails) {
         await this.goToPos();
         await this.click(pos.addNewCustomer);
-        await this.clearAndType(pos.customerdetails.firstName, customerdetails.firstName);
-        await this.clearAndType(pos.customerdetails.lastName, customerdetails.lastName);
-        await this.clearAndType(pos.customerdetails.email, customerdetails.email);
-        await this.clearAndType(pos.customerdetails.address1, customerdetails.address1);
-        await this.clearAndType(pos.customerdetails.address2, customerdetails.address2);
-        // await this.click(pos.customerdetails.countryDropdown);
-        // await this.clearAndType(pos.customerdetails.countryInput, customerdetails.country);
-        // await this.click(pos.customerdetails.searchedCountry);
-        await this.clearAndType(pos.customerdetails.state, customerdetails.state);
-        await this.clearAndType(pos.customerdetails.city, customerdetails.city);
-        await this.clearAndType(pos.customerdetails.zipCode, customerdetails.zipCode);
-        await this.clearAndType(pos.customerdetails.phone, customerdetails.phone);
-
-        await this.click(pos.customerdetails.addCustomer);
+        await this.updateCustomerFields(customerdetails);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.customers, pos.customerdetails.addCustomer, 201);
         await this.toHaveValue(pos.searchCustomer, `${customerdetails.firstName} ${customerdetails.lastName}`);
     }
 
@@ -166,6 +179,13 @@ export class ViewPos extends BasePage {
         await this.searchProduct(productName);
         await this.pressOnSelector(pos.searchedProduct(productName), 'Enter');
         await this.toBeVisible(pos.cart.cartProduct(productName));
+    }
+
+    // add customer to cart
+    async addCustomerToCart(customerEmail: string, customerName: responseBody) {
+        await this.searchCustomer(customerEmail);
+        await this.click(pos.searchedCustomer);
+        await this.toHaveValue(pos.searchCustomer, customerName);
     }
 
     // update cart product quantity
@@ -211,11 +231,21 @@ export class ViewPos extends BasePage {
     }
 
     // complete sale
-    async completeSale(productName: string, closeModal: boolean = true) {
+    async completeSale(productName: string, paymentGateway: paymentGateway, closeModal: boolean = true) {
         await this.addToCart(productName);
-        await this.click(pos.cart.payNow);
-        const amount = (await this.getElementText(pos.saleSummary.payAmount)) as string;
-        await this.clearAndType(pos.saleSummary.cashInput, helpers.removeCurrencySign(amount));
+        if (paymentGateway.name === 'cash') {
+            await this.click(pos.cart.payNow);
+            const amount = (await this.getElementText(pos.saleSummary.payAmount)) as string;
+            await this.clearAndType(pos.saleSummary.cashInput, helpers.removeCurrencySign(amount));
+        } else {
+            await this.addCustomerToCart(paymentGateway.card.customer.customerEmail, paymentGateway.card.customer.customerFullName);
+            await this.click(pos.cart.payNow);
+
+            await this.click(pos.saleSummary.byCard);
+            await this.clearAndType(pos.saleSummary.card.last4Digit, paymentGateway.card.last4Digit);
+            await this.selectByValue(pos.saleSummary.card.cardType, paymentGateway.card.cardType);
+            await this.clearAndType(pos.saleSummary.card.invoiceNumber, paymentGateway.card.invoiceNumber);
+        }
         await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wc.orders, pos.saleSummary.processPayment, 201);
         await this.toBeVisible(pos.saleSummary.saleCompleted);
         await this.toBeVisible(pos.saleSummary.printReceipt);
@@ -225,8 +255,8 @@ export class ViewPos extends BasePage {
     }
 
     // complete sale with print receipt
-    async completeSaleWithPrintReceipt(productName: string) {
-        await this.completeSale(productName, false);
+    async completeSaleWithPrintReceipt(productName: string, paymentGateway: paymentGateway) {
+        await this.completeSale(productName, paymentGateway, false);
 
         // add event listener to print button for assertion
         const pageFunction = (node: any) => node.addEventListener('click', () => console.log('Print button clicked!'));
@@ -240,5 +270,240 @@ export class ViewPos extends BasePage {
 
         // close modal
         await this.click(wepos.modal.closeModal);
+    }
+
+    // products
+
+    // view products
+    async viewProducts() {
+        await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.products);
+
+        await this.toBeVisible(pos.products.productsText);
+        await this.toBeVisible(pos.products.bulkAction);
+        await this.toBeVisible(pos.products.apply);
+        await this.toBeVisible(pos.products.searchProduct);
+        await this.toBeVisible(pos.products.productTable);
+        await this.toBeVisible(pos.products.pagination);
+    }
+
+    // search products
+    async searchProductOnProductPage(productName: string) {
+        await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.products);
+
+        await this.clearAndType(pos.products.searchProduct, productName);
+        await this.keyPressOnLocator(pos.products.searchProduct, data.key.enter);
+        await this.toBeVisible(pos.products.productRow(productName));
+    }
+
+    // edit product
+    async editProduct(productName: string, productdetails: productdetails) {
+        await this.searchProductOnProductPage(productName);
+        await this.click(pos.products.productRowAction(productName));
+        await this.click(pos.products.editProduct);
+
+        await this.clearAndType(pos.products.quickEdit.title, productdetails.title);
+        
+        await this.click(pos.products.quickEdit.categoryDropdown);
+        await this.clearAndType(pos.products.quickEdit.categoryInput, productdetails.category);
+        await this.click(pos.products.quickEdit.searchedCategory);
+
+        await this.click(pos.products.quickEdit.tagsDropdown);
+        await this.clearAndType(pos.products.quickEdit.tagsInput, productdetails.tag);
+        await this.click(pos.products.quickEdit.searchedTags);
+
+        await this.clearAndType(pos.products.quickEdit.sku, productdetails.sku);
+        await this.clearAndType(pos.products.quickEdit.price, productdetails.price);
+        await this.clearAndType(pos.products.quickEdit.salePrice, String(Number(productdetails.price) - 20));
+        await this.clearAndType(pos.products.quickEdit.weight, productdetails.weight);
+        await this.selectByValue(pos.products.quickEdit.visibility, productdetails.visibility);
+        await this.checkLocator(pos.products.quickEdit.manageStocks);
+        await this.clearAndType(pos.products.quickEdit.stockQuantity, productdetails.stockQuantity);
+        await this.selectByValue(pos.products.quickEdit.allowBackorders, productdetails.allowBackorders);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.products, pos.products.update);
+    }
+
+    // delete product
+    async deleteProduct(productName: string) {
+        await this.searchProductOnProductPage(productName);
+        await this.click(pos.products.productRowAction(productName));
+        await this.click(pos.products.deleteProduct);
+        await this.clickAndWaitForResponse(data.subUrls.api.wc.products, wepos.confirmAction);
+        await this.toBeVisible(pos.products.productDeleteMessage);
+    }
+
+    // bulk action on product
+    async bulkActionOnProducts(productName: string, action: string) {
+        if (!productName) {
+            await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.products);
+            await this.click(pos.products.allrows);
+        } else {
+            await this.searchProductOnProductPage(productName);
+            await this.click(pos.products.productCheckBox(productName));
+        }
+        await this.selectByValue(pos.products.bulkAction, action);
+        await this.clickAndWaitForResponse(data.subUrls.api.wc.products, pos.products.apply);
+    }
+
+    // orders
+
+    // view orders
+    async viewOrders() {
+        await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.orders);
+
+        await this.toBeVisible(pos.orders.ordersText);
+        await this.toBeVisible(pos.orders.bulkAction);
+        await this.toBeVisible(pos.orders.apply);
+        await this.toBeVisible(pos.orders.searchOrder);
+        await this.toBeVisible(pos.orders.orderTable);
+        await this.toBeVisible(pos.orders.pagination);
+    }
+
+    // filter orders
+    async filterOrders(input: string, filterType: string) {
+        await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.orders);
+        switch (filterType) {
+            case 'by-customer': {
+                await this.click(pos.orders.filter);
+                await this.click(pos.orders.filters.filterByCustomer.customerDropdown);
+                await this.clearAndType(pos.orders.filters.filterByCustomer.customerInput, input);
+                await this.click(pos.orders.filters.filterByCustomer.searchedCustomer);
+                await this.clickAndWaitForResponseAndLoadState(data.subUrls.api.wepos.orders, pos.orders.filters.filter);
+                await this.wait(1);
+                const count = await this.getElementCount(pos.orders.numberOfRowsFound);
+                await this.toHaveCount(pos.orders.orderRowByCustomer(input), Number(count));
+
+                break;
+            }
+            case 'by-status': {
+                await this.clickAndWaitForResponseAndLoadState(data.subUrls.api.wepos.orders, pos.orders.filters.filterByStatus(input));
+                await this.wait(1);
+                const count = await this.getElementCount(pos.orders.numberOfRowsFound);
+                await this.toHaveCount(pos.orders.orderRowByStatus(input), Number(count));
+                break;
+            }
+            default:
+                break;
+        }
+    }
+
+    // search order
+    async searchOrder(orderNumber: string) {
+        await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.orders);
+
+        await this.clearAndType(pos.orders.searchOrder, orderNumber);
+        await this.keyPressOnLocator(pos.orders.searchOrder, data.key.enter);
+        await this.toBeVisible(pos.orders.orderRow(orderNumber));
+    }
+
+    // go to order details
+    async goToOrderDetails(orderNumber: string) {
+        await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.orders);
+        await this.goIfNotThere(data.subUrls.backend.wepos.submenu.orderDetails(orderNumber));
+    }
+
+    // view order details
+    async viewOrderDetails(orderNumber: string) {
+        await this.goToOrderDetails(orderNumber);
+
+        await this.toBeVisible(pos.orders.orderDetails.ordersText);
+        await this.multipleElementVisible(pos.orders.orderDetails.sections);
+        await this.toBeVisible(pos.orders.orderDetails.orderNoteInput);
+        await this.toBeVisible(pos.orders.orderDetails.orderNoteType);
+        await this.toBeVisible(pos.orders.orderDetails.addNote);
+    }
+
+    // add order note
+    async addOrderNote(orderNumber: string, orderNote: string) {
+        await this.goToOrderDetails(orderNumber);
+        await this.clearAndType(pos.orders.orderDetails.orderNoteInput, orderNote);
+        await this.click(pos.orders.orderDetails.addNote);
+        await this.toBeVisible(pos.orders.orderDetails.orderNoteCreated);
+    }
+
+    // delete order note
+    async deleteOrderNote(orderNumber: string, orderNote: string) {
+        await this.goToOrderDetails(orderNumber);
+        await this.clearAndType(pos.orders.orderDetails.orderNoteInput, orderNote);
+        await this.click(pos.orders.orderDetails.deleteNote(orderNote));
+        await this.toBeVisible(pos.orders.orderDetails.orderNoteDeleted);
+    }
+
+    // customers
+
+    // view customers
+    async viewCustomers() {
+        await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.customers);
+
+        await this.toBeVisible(pos.customers.customerText);
+        await this.toBeVisible(pos.customers.addNewCustomer);
+        await this.toBeVisible(pos.customers.bulkAction);
+        await this.toBeVisible(pos.customers.apply);
+        await this.toBeVisible(pos.customers.searchCustomer);
+        await this.toBeVisible(pos.customers.customerTable);
+        await this.toBeVisible(pos.customers.pagination);
+    }
+
+    // search customers
+    async searchCustomerOnCustomerPage(customerEmail: string) {
+        await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.customers);
+
+        await this.clearAndType(pos.customers.searchCustomer, customerEmail);
+        await this.keyPressOnLocator(pos.customers.searchCustomer, data.key.enter);
+        await this.toBeVisible(pos.customers.customerRowByEmail(customerEmail));
+    }
+
+    // add customer on customer page
+    async addCustomerOnCustomerPage(customerdetails: customerDetails) {
+        await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.customers);
+        await this.click(pos.customers.addNewCustomer);
+        await this.updateCustomerFields(customerdetails);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.customers, pos.customerdetails.addCustomer, 201);
+        await this.toBeVisible(pos.customers.customerAddMessage);
+    }
+
+    // edit customer
+    async editCustomer(cutomerEmail: string, customerdetails: customerDetails) {
+        await this.searchCustomerOnCustomerPage(cutomerEmail);
+        await this.click(pos.customers.customerRowAction(cutomerEmail));
+        await this.click(pos.customers.editCustomer);
+        await this.updateCustomerFields(customerdetails);
+        await this.clickAndWaitForResponse(data.subUrls.api.wc.customers, pos.customerdetails.addCustomer);
+        await this.toBeVisible(pos.customers.customerUpdateMessage);
+    }
+
+    // delete customer
+    async deleteCustomer(cutomerEmail: string) {
+        await this.searchCustomerOnCustomerPage(cutomerEmail);
+        await this.click(pos.customers.customerRowAction(cutomerEmail));
+        await this.click(pos.customers.deleteCustomer);
+        await this.clickAndWaitForResponse(data.subUrls.api.wc.customers, wepos.confirmAction);
+        await this.toBeVisible(pos.customers.customerDeleteMessage);
+    }
+
+    // bulk action on customer
+    async bulkActionOnCustomers(cutomerEmail: string, action: string) {
+        if (!cutomerEmail) {
+            await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.customers);
+            await this.click(pos.customers.allrows);
+        } else {
+            await this.searchCustomerOnCustomerPage(cutomerEmail);
+            await this.click(pos.customers.customerCheckBox(cutomerEmail));
+        }
+        await this.selectByValue(pos.customers.bulkAction, action);
+        await this.click(pos.customers.apply);
+        await this.clickAndWaitForResponse(data.subUrls.api.wc.customers, wepos.confirmAction);
+        await this.toBeVisible(pos.customers.customerBatchUpdateMessage);
+    }
+
+    // update cashier profile
+    async updateCashierProfile(profileDetails: cashierProfileDetails) {
+        await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.settings);
+
+        await this.clearAndType(pos.settings.firstName, profileDetails.firstName);
+        await this.clearAndType(pos.settings.lastName, profileDetails.lastName);
+        await this.clearAndType(pos.settings.phone, profileDetails.phone);
+        await this.clearAndType(pos.settings.address, profileDetails.address);
+
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.profile, pos.settings.update);
     }
 }

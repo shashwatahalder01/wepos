@@ -128,6 +128,11 @@ export const selector = {
                 noOutletsFound: 'div.no-outlet-found p',
 
                 outlets: 'div.outlet',
+                outletBody: {
+                    outletHeader: 'div.outlet div.header',
+                    outletContent: 'div.outlet div.content',
+                    outletFooter: 'div.outlet div.footer',
+                },
 
                 outlet: (outletName: string) => `//div[@class='outlet']//h3[text()='${outletName}']/../../..`,
 
@@ -154,9 +159,14 @@ export const selector = {
                     outletLocation: {
                         address1: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Address 1")]',
                         address2: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Address 2")]',
-                        countryDropdown: 'div.customer-country  div.multiselect__select',
-                        countryInput: 'input.multiselect__input',
-                        searchedCountry: 'span.multiselect__option--highlight',
+                        countryDropdown: 'div.outlet-country div.multiselect__select',
+                        countryInput: 'div.outlet-country input.multiselect__input',
+                        searchedCountry: 'div.outlet-country span.multiselect__option--highlight',
+                        // searchedCountry: '//li//span[contains(@class, "multiselect__option--highlight")]/..',
+                        // searchedCountry: (country: string) => `//li//span[text()= "${country}"]/..`,
+                        stateDropdown: 'div.outlet-state div.multiselect__select',
+                        stateInput: 'div.outlet-state input.multiselect__input',
+                        searchedState: 'div.outlet-state span.multiselect__option--highlight',
                         state: '//div[@class="wepos-modal"]//input[contains(@placeholder,"State")]',
                         city: '//div[@class="wepos-modal"]//input[contains(@placeholder,"City")]',
                         zipCode: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Postal/Zip Code")]',
@@ -307,9 +317,9 @@ export const selector = {
                     filterByCustomer: '(//span[@class="select2-selection__arrow"])[2]',
                     filterByOutlet: '(//span[@class="select2-selection__arrow"])[3]',
                     filterByCashier: '(//span[@class="select2-selection__arrow"])[4]',
-                    filterByDate: '', //todo: need to add selectors
                     filterInput: '.select2-search.select2-search--dropdown .select2-search__field',
                     result: (value: string) => `//li[contains(@class, "select2-results__option select2-results__option--selectable") and contains(text(),"${value}")]`,
+                    closeFilteredResult: 'button[class="select2-selection__clear"]',
                     reset: 'a.filtering-reset-btn',
                 },
 
@@ -320,7 +330,7 @@ export const selector = {
                     chart: 'canvas#line-chart',
                 },
 
-                //todo: need to add selectors reports
+                reportsTable: 'table.reports-table',
             },
 
             // settings
@@ -374,12 +384,145 @@ export const selector = {
 
                     //menus
                     home: '//li//span[contains(text(),"Home")]/..',
-                    products: '//li//span[contains(text(),"Products")]/..', //todo: has more locators of this menus
+                    products: '//li//span[contains(text(),"Products")]/..',
                     orders: '//li//span[contains(text(),"Orders")]/..',
                     customers: '//li//span[contains(text(),"Customers")]/..',
                     settings: '//li//span[contains(text(),"Settings")]/..',
                     help: '//li//span[contains(text(),"Help")]/..',
                     logout: '//span[contains(text(),"Logout")]',
+                },
+
+                products: {
+                    productsText: '//h1[text()="Products"]',
+                    searchProduct: 'div.wepos-search input[name="search"]',
+                    bulkAction: 'div.wepos-simple-select select', // delete
+                    apply: 'button.bulk-action-btn',
+
+                    productTable: 'table.wepos-table',
+
+                    allrows: '(//table[@class="wepos-table"]//tr//input)[1]',
+                    productRow: (productName: string) => `//td[@class="name" and text()="${productName}"]/..`,
+                    productCheckBox: (productName: string) => `//td[@class="name" and text()="${productName}"]/..//td//input[@name="check_all"]`,
+                    productRowAction: (productName: string) => `//td[@class="name" and text()='${productName}']/..//td[@class="action"]`,
+                    editProduct: '//a[.="Edit"]',
+                    deleteProduct: '//a[.="Delete"]',
+
+                    quickEdit: {
+                        title: 'section.product-edit-content #title',
+
+                        categoryDropdown: '(//div[@class="multiselect__select"])[1]',
+                        categoryInput: '(//input[@class="multiselect__input"])[1]',
+                        searchedCategory: '(//span[@class="multiselect__option multiselect__option--highlight"])[1]',
+
+                        tagsDropdown: '(//div[@class="multiselect__select"])[2]',
+                        tagsInput: '(//input[@class="multiselect__input"])[2]',
+                        searchedTags: '(//span[@class="multiselect__option multiselect__option--highlight"])[2]',
+
+                        sku: 'section.product-edit-content #sku',
+                        price: 'section.product-edit-content #price',
+                        salePrice: 'section.product-edit-content #sale_price',
+                        weight: 'section.product-edit-content #weight',
+                        visibility: '//label[text()="Visibility"]/..//select', // visible, catalog, search, hidden
+                        manageStocks: 'section.product-edit-content #manage_stock',
+                        stockQuantity: 'section.product-edit-content #stock_qty',
+                        allowBackorders: '//label[text()="Allow backorders?"]/..//select', // no, notify, yes
+                    },
+
+                    cancel: '//footer//button[text()="Cancel"]',
+                    update: '//footer//button[text()="Update"]',
+
+                    pagination: 'ul.pagination',
+
+                    productDeleteMessage: '//h2[normalize-space()="Product has been deleted."]',
+                },
+
+                orders: {
+                    ordersText: '//h1[text()="Orders"]',
+
+                    searchOrder: 'div.wepos-search input[name="search"]',
+                    bulkAction: 'div.wepos-simple-select select', // delete, edit
+                    apply: 'button.bulk-action-btn',
+
+                    filter: 'div.order-date-filter button',
+                    filters: {
+                        filterByDate: '//input[@placeholder="Date range"]',
+                        filterByCustomer: {
+                            customerDropdown: 'div.multiselect__select',
+                            customerInput: 'input.multiselect__input',
+                            searchedCustomer: 'span.multiselect__option--highlight',
+                        },
+                        filterByStatus: (status: string) => `//ul[@class="order-statuses"]//li//a[contains(text(),"${status}")]`,
+                        filterByCustomerDropdown: 'div.category div.multiselect__select',
+                        customerInput: 'input.multiselect__input',
+                        searchedCustomer: 'span.multiselect__option--highlight',
+                        filter: '//button[text()="Filter"]',
+                    },
+
+                    orderTable: 'table.wepos-table',
+                    numberOfRowsFound: 'table.wepos-table tbody tr',
+                    orderRowByCustomer: (customer: string) => `//td[contains(text(),"${customer}")]/..`,
+                    orderRowByStatus: (status: string) => `//td[text()[normalize-space()='${status}']]/..`,
+                    orderRow: (orderNumber: string) => `//a[contains(text(),'Order ${orderNumber}')]/../..`,
+                    orderCheckBox: (orderNumber: string) => `//a[contains(text(),'Order ${orderNumber}')]/../..//td//input[@name="check_all"]`,
+                    orderRowAction: (orderNumber: string) => `//a[contains(text(),'Order ${orderNumber}')]/../..//td[@class="action"]//button`,
+
+                    viewOrderDetails: '//a[contains(text(),"View Details")]',
+                    refund: '//a[text()="Refund"]',
+
+                    orderDetails: {
+                        ordersText: '//h1[text()="Orders"]',
+
+                        sections: {
+                            oderDetails: '(//h3[contains(text(),"Order")]/../..)[1]',
+                            billingAddress: '//h3[text()="Billing Address"]/../..',
+                            shippingAddress: '//h3[text()="Shipping Address"]/../..',
+                            generalDetails: '//h3[text()="General Details"]/../..',
+                            ordernoteDiv: '//h3[text()="Order Notes"]/../..',
+                        },
+
+                        deleteNote: (note: string) => `//p[text()='${note}']/..//button[text()[normalize-space()='Delete Note']]`,
+                        orderNoteInput: '//p[text()="Add Note"]/..//textarea', // Customer Note, Admin Note
+                        orderNoteType: '//p[text()="Add Note"]/..//select',
+                        addNote: '//button[text()[normalize-space()="Add Note"]]',
+
+                        orderNoteCreated: '//h2[text()="Order note created."]',
+                        orderNoteDeleted: '//h2[text()="Order note deleted."]',
+                    },
+
+                    allrows: '(//table[@class="wepos-table"]//tr//input)[1]',
+
+                    pagination: 'ul.pagination',
+                },
+
+                customers: {
+                    customerText: '//h1[text()[normalize-space()="Customers"]]',
+                    addNewCustomer: '//button[text()[normalize-space()="Add New Customer"]]',
+                    searchCustomer: 'div.wepos-search input[name="search"]',
+                    bulkAction: 'div.wepos-simple-select select', // delete
+                    apply: 'button.bulk-action-btn',
+
+                    customerTable: 'table.wepos-table',
+                    allrows: '(//table[@class="wepos-table"]//tr//input)[1]',
+                    customerRowByEmail: (customerEmail: string) => `//td[@class="email" and text()="${customerEmail}"]/..`,
+                    customerCheckBox: (customerEmail: string) => `//td[@class="email" and text()="${customerEmail}"]/..//td//input[@name="check_all"]`,
+                    customerRowAction: (customerEmail: string) => `//td[@class="email" and text()='${customerEmail}']/..//td[@class="action"]`,
+                    editCustomer: '//a[.="Edit"]',
+                    deleteCustomer: '//a[.="Delete"]',
+
+                    pagination: 'ul.pagination',
+
+                    customerAddMessage: '//h2[normalize-space()="New customer added."]',
+                    customerUpdateMessage: '//h2[normalize-space()="Customer information updated."]',
+                    customerDeleteMessage: '//h2[normalize-space()="Customer has been deleted."]',
+                    customerBatchUpdateMessage: '//h2[normalize-space()="Customers have been deleted."]',
+                },
+
+                settings: {
+                    firstName: '#first_name',
+                    lastName: '#last_name',
+                    phone: '#phone',
+                    address: '#address',
+                    update: '//button[text()[normalize-space()="Update"]]',
                 },
 
                 // search product
@@ -412,10 +555,13 @@ export const selector = {
                     email: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Email")] ',
                     address1: ' //div[@class="wepos-modal"]//input[contains(@placeholder,"Address 1")]',
                     address2: ' //div[@class="wepos-modal"]//input[contains(@placeholder,"Address 2")]',
-                    countryDropdown: 'div.customer-country  div.multiselect__select',
-                    countryInput: 'input.multiselect__input',
-                    searchedCountry: 'span.multiselect__option--highlight',
-                    state: '//div[@class="wepos-modal"]//input[contains(@placeholder,"States")]',
+                    countryDropdown: 'div.customer-country div.multiselect__select',
+                    countryInput: 'div.customer-country input.multiselect__input',
+                    searchedCountry: 'div.customer-country span.multiselect__option--highlight',
+                    stateDropdown: 'div.customer-state div.multiselect__select',
+                    stateInput: 'div.customer-state input.multiselect__input',
+                    searchedState: 'div.customer-state span.multiselect__option--highlight',
+
                     city: '//div[@class="wepos-modal"]//input[contains(@placeholder,"City")]',
                     zipCode: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Zip/Postal Code")]',
                     phone: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Phone")]',
@@ -471,7 +617,17 @@ export const selector = {
                 saleSummary: {
                     payAmount: 'span.pay-amount',
 
+                    byCash: '//div[@class="payment-gateway"]//input[@value="wepos_cash"]/..',
+                    byCard: '//div[@class="payment-gateway"]//input[@value="wepos_card"]/..',
+
                     cashInput: 'input#input-cash-amount',
+
+                    card: {
+                        last4Digit: 'input#card-digits',
+                        cardType: 'select#card-type', //visa, master, american_express, diners_club, discover, jcb, unionpay, others
+                        invoiceNumber: 'input#card-invoice',
+                    },
+
                     backToSale: 'div.footer a.back-btn',
                     processPayment: 'button.process-checkout-btn',
 

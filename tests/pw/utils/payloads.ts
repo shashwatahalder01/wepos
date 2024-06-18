@@ -4,7 +4,7 @@ import { dbData } from '@utils/dbData';
 
 const basicAuth = (username: string, password: string) => 'Basic ' + Buffer.from(username + ':' + password).toString('base64');
 
-const { ADMIN, ADMIN_PASSWORD, USER_PASSWORD } = process.env;
+const { ADMIN, VENDOR, CUSTOMER, ADMIN_PASSWORD, USER_PASSWORD } = process.env;
 
 export const payloads = {
     // wp
@@ -57,16 +57,20 @@ export const payloads = {
 
     // user auth
 
+    userAuth: (username: string, password = USER_PASSWORD) => {
+        return { Authorization: basicAuth(username, password) };
+    },
+
     adminAuth: {
-        Authorization: basicAuth(process.env.ADMIN, process.env.ADMIN_PASSWORD),
+        Authorization: basicAuth(ADMIN, ADMIN_PASSWORD),
     },
 
     vendorAuth: {
-        Authorization: basicAuth(process.env.VENDOR, USER_PASSWORD),
+        Authorization: basicAuth(VENDOR, USER_PASSWORD),
     },
 
     customerAuth: {
-        Authorization: basicAuth(process.env.CUSTOMER, USER_PASSWORD),
+        Authorization: basicAuth(CUSTOMER, USER_PASSWORD),
     },
 
     admin: {
@@ -75,12 +79,12 @@ export const payloads = {
     },
 
     vendor: {
-        username: process.env.VENDOR,
+        username: VENDOR,
         password: USER_PASSWORD,
     },
 
     customer: {
-        username: process.env.CUSTOMER,
+        username: CUSTOMER,
         password: USER_PASSWORD,
     },
 
@@ -812,7 +816,7 @@ export const payloads = {
     // product category
 
     createCategoryRandom: () => ({
-        name: faker.string.nanoid(10),
+        name: faker.string.nanoid(5),
     }),
 
     createCategory: {
@@ -833,6 +837,12 @@ export const payloads = {
     updateBatchAttributeTermsTemplate: () => ({
         id: '',
         order_by: 'menu_order',
+    }),
+
+    // tags
+
+    createTagsRandom: () => ({
+        name: faker.string.nanoid(5),
     }),
 
     // coupon
@@ -1213,7 +1223,7 @@ export const payloads = {
     // user
 
     createUser: () => ({
-        username: faker.person.firstName(),
+        username: faker.person.firstName() + '_' + faker.string.nanoid(5),
         first_name: faker.person.firstName(),
         last_name: faker.person.lastName(),
         email: faker.internet.email(),
@@ -2381,8 +2391,8 @@ export const payloads = {
         username: faker.person.firstName() + faker.string.nanoid(5),
         password: String(USER_PASSWORD),
         billing: {
-            first_name: 'customer1',
-            last_name: 'c1',
+            first_name: faker.person.firstName(),
+            last_name: faker.person.lastName(),
             company: '',
             address_1: 'abc street',
             address_2: 'xyz street',
@@ -2950,13 +2960,13 @@ export const payloads = {
     },
 
     createStore1: {
-        user_login: process.env.VENDOR,
+        user_login: VENDOR,
         user_pass: USER_PASSWORD,
-        user_nicename: process.env.VENDOR + 'store',
+        user_nicename: VENDOR + 'store',
         role: 'seller',
-        email: process.env.VENDOR + '@yopmail.com',
-        store_name: process.env.VENDOR + 'store',
-        first_name: process.env.VENDOR,
+        email: VENDOR + '@yopmail.com',
+        store_name: VENDOR + 'store',
+        first_name: VENDOR,
         last_name: 'v',
         social: {
             fb: 'https://www.facebook.com/',
@@ -3074,269 +3084,15 @@ export const payloads = {
         admin_commission_type: '',
     },
 
-    createStore2: {
-        user_login: process.env.VENDOR2,
-        user_pass: USER_PASSWORD,
-        user_nicename: process.env.VENDOR2 + 'store',
-        role: 'seller',
-        email: process.env.VENDOR2 + '@yopmail.com',
-        store_name: process.env.VENDOR2 + 'store',
-        first_name: process.env.VENDOR2,
-        last_name: 'v',
-        social: {
-            fb: 'https://www.facebook.com/',
-            twitter: 'https://www.twitter.com/',
-            pinterest: 'https://www.pinterest.com/',
-            linkedin: 'https://www.linkedin.com/',
-            youtube: 'https://www.youtube.com/',
-            instagram: 'https://www.instagram.com/',
-            flickr: 'https://www.flickr.com/',
-            threads: 'https://www.threads.net/',
-        },
-        phone: '0123456789',
-        show_email: true, // todo:  doesn't work on lite
-        address: {
-            street_1: 'abc street',
-            street_2: 'xyz street',
-            city: 'New York',
-            zip: '10003',
-            state: 'NY',
-            country: 'US',
-        },
-        location: '40.7127753,-74.0059728',
-        banner: 0,
-        banner_id: 0,
-        gravatar: 0,
-        gravatar_id: 0,
-        show_more_product_tab: true,
-        toc_enabled: true, // todo:  doesn't work on lite
-        store_toc: 'test Vendor terms and conditions',
-        featured: true,
-        rating: {
-            rating: '4.00', // todo:  doesn't work on lite
-            count: 1,
-        },
-        enabled: true,
-        payment: {
-            paypal: {
-                0: 'email',
-                email: 'paypal@g.c',
-            },
-            bank: {
-                ac_name: 'account name',
-                ac_type: 'personal',
-                ac_number: '1234567',
-                bank_name: 'bank name',
-                bank_addr: 'bank address',
-                routing_number: '123456',
-                iban: '123456',
-                swift: '12345',
-            },
-            stripe: false,
-        },
-        trusted: true,
-        // store_open_close: {
-        // 	enabled: false,
-        // 	time: [],
-        // 	open_notice: 'Store is open',
-        // 	close_notice: 'Store is closed',
-        // },
-        store_open_close: {
-            // todo:  doesn't work on lite
-            enabled: true,
-            time: {
-                monday: {
-                    status: 'open', // 'close'
-                    opening_time: ['12:00 am'], // []
-                    closing_time: ['11:30 pm'], // []
-                },
-                tuesday: {
-                    status: 'open',
-                    opening_time: ['12:00 am'],
-                    closing_time: ['11:30 pm'],
-                },
-                wednesday: {
-                    status: 'open',
-                    opening_time: ['12:00 am'],
-                    closing_time: ['11:30 pm'],
-                },
-                thursday: {
-                    status: 'open',
-                    opening_time: ['12:00 am'],
-                    closing_time: ['11:30 pm'],
-                },
-                friday: {
-                    status: 'open',
-                    opening_time: ['12:00 am'],
-                    closing_time: ['11:30 pm'],
-                },
-                saturday: {
-                    status: 'open',
-                    opening_time: ['12:00 am'],
-                    closing_time: ['11:30 pm'],
-                },
-                sunday: {
-                    status: 'open',
-                    opening_time: ['12:00 am'],
-                    closing_time: ['11:30 pm'],
-                },
-            },
-            open_notice: 'Store is open',
-            close_notice: 'Store is closed',
-        },
-        company_name: '',
-        vat_number: '',
-        company_id_number: '',
-        bank_name: '',
-        bank_iban: '',
-        categories: [
-            {
-                // id: 74,
-                // name: 'Uncategorized',
-                // slug: 'uncategorized'
-            },
-        ],
-        admin_commission: '',
-        admin_additional_fee: '',
-        admin_commission_type: '',
-    },
-
-    createStore3: {
-        user_login: process.env.VENDOR3,
-        user_pass: USER_PASSWORD,
-        user_nicename: process.env.VENDOR3 + 'store',
-        role: 'seller',
-        email: process.env.VENDOR3 + '@yopmail.com',
-        store_name: process.env.VENDOR3 + 'store',
-        first_name: process.env.VENDOR3,
-        last_name: 'v',
-        social: {
-            fb: 'https://www.facebook.com/',
-            twitter: 'https://www.twitter.com/',
-            pinterest: 'https://www.pinterest.com/',
-            linkedin: 'https://www.linkedin.com/',
-            youtube: 'https://www.youtube.com/',
-            instagram: 'https://www.instagram.com/',
-            flickr: 'https://www.flickr.com/',
-            threads: 'https://www.threads.net/',
-        },
-        phone: '0123456789',
-        show_email: true, // todo:  doesn't work on lite
-        address: {
-            street_1: 'abc street',
-            street_2: 'xyz street',
-            city: 'New York',
-            zip: '10003',
-            state: 'NY',
-            country: 'US',
-        },
-        location: '40.7127753,-74.0059728',
-        banner: 0,
-        banner_id: 0,
-        gravatar: 0,
-        gravatar_id: 0,
-        show_more_product_tab: true,
-        toc_enabled: true, // todo:  doesn't work on lite
-        store_toc: 'test Vendor terms and conditions',
-        featured: true,
-        rating: {
-            rating: '4.00', // todo:  doesn't work on lite
-            count: 1,
-        },
-        enabled: true,
-        payment: {
-            paypal: {
-                0: 'email',
-                email: 'paypal@g.c',
-            },
-            bank: {
-                ac_name: 'account name',
-                ac_type: 'personal',
-                ac_number: '1234567',
-                bank_name: 'bank name',
-                bank_addr: 'bank address',
-                routing_number: '123456',
-                iban: '123456',
-                swift: '12345',
-            },
-            stripe: false,
-        },
-        trusted: true,
-        // store_open_close: {
-        // 	enabled: false,
-        // 	time: [],
-        // 	open_notice: 'Store is open',
-        // 	close_notice: 'Store is closed',
-        // },
-        store_open_close: {
-            // todo:  doesn't work on lite
-            enabled: true,
-            time: {
-                monday: {
-                    status: 'open', // 'close'
-                    opening_time: ['12:00 am'], // []
-                    closing_time: ['11:30 pm'], // []
-                },
-                tuesday: {
-                    status: 'open',
-                    opening_time: ['12:00 am'],
-                    closing_time: ['11:30 pm'],
-                },
-                wednesday: {
-                    status: 'open',
-                    opening_time: ['12:00 am'],
-                    closing_time: ['11:30 pm'],
-                },
-                thursday: {
-                    status: 'open',
-                    opening_time: ['12:00 am'],
-                    closing_time: ['11:30 pm'],
-                },
-                friday: {
-                    status: 'open',
-                    opening_time: ['12:00 am'],
-                    closing_time: ['11:30 pm'],
-                },
-                saturday: {
-                    status: 'open',
-                    opening_time: ['12:00 am'],
-                    closing_time: ['11:30 pm'],
-                },
-                sunday: {
-                    status: 'open',
-                    opening_time: ['12:00 am'],
-                    closing_time: ['11:30 pm'],
-                },
-            },
-            open_notice: 'Store is open',
-            close_notice: 'Store is closed',
-        },
-        company_name: faker.company.name(), // todo: eu compliance doesn't save on post request works on update endpoint
-        company_id_number: faker.string.alphanumeric(5),
-        vat_number: faker.string.alphanumeric(10),
-        bank_name: faker.string.alphanumeric(7),
-        bank_iban: faker.finance.iban(),
-        categories: [
-            {
-                // id: 74,
-                // name: 'Uncategorized',
-                // slug: 'uncategorized'
-            },
-        ],
-        admin_commission: '',
-        admin_additional_fee: '',
-        admin_commission_type: '',
-    },
-
     createCustomer1: {
-        email: process.env.CUSTOMER + '@yopmail.com',
-        first_name: process.env.CUSTOMER,
+        email: CUSTOMER + '@yopmail.com',
+        first_name: CUSTOMER,
         last_name: 'c1',
         role: 'customer',
-        username: process.env.CUSTOMER,
+        username: CUSTOMER,
         password: USER_PASSWORD,
         billing: {
-            first_name: process.env.CUSTOMER,
+            first_name: CUSTOMER,
             last_name: 'c1',
             company: '',
             address_1: 'abc street',
@@ -3345,46 +3101,12 @@ export const payloads = {
             postcode: '10003',
             country: 'US',
             state: 'NY',
-            email: process.env.CUSTOMER + '@yopmail.com',
+            email: CUSTOMER + '@yopmail.com',
             phone: '0123456789',
         },
         shipping: {
-            first_name: process.env.CUSTOMER,
+            first_name: CUSTOMER,
             last_name: 'c1',
-            company: '',
-            address_1: 'abc street',
-            address_2: 'xyz street',
-            city: 'New York',
-            postcode: '10003',
-            country: 'US',
-            state: 'NY',
-            phone: '0123456789',
-        },
-    },
-
-    createCustomer2: {
-        email: process.env.CUSTOMER2 + '@yopmail.com',
-        first_name: process.env.CUSTOMER2,
-        last_name: 'c2',
-        role: 'customer',
-        username: process.env.CUSTOMER2,
-        password: USER_PASSWORD,
-        billing: {
-            first_name: process.env.CUSTOMER2,
-            last_name: 'c2',
-            company: '',
-            address_1: 'abc street',
-            address_2: 'xyz street',
-            city: 'New York',
-            postcode: '10003',
-            country: 'US',
-            state: 'NY',
-            email: process.env.CUSTOMER2 + '@yopmail.com',
-            phone: '0123456789',
-        },
-        shipping: {
-            first_name: process.env.CUSTOMER2,
-            last_name: 'c2',
             company: '',
             address_1: 'abc street',
             address_2: 'xyz street',

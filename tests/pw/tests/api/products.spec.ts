@@ -25,7 +25,7 @@ test.describe('products api test', () => {
         const [response, responseBody] = await apiUtils.get(endPoints.getAllProducts);
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
-        expect(responseBody).toMatchSchema(schemas.productsSchema.productsSchema); //todo: need to fix
+        expect(responseBody).toMatchSchema(schemas.productsSchema.productsSchema);
     });
 
     test('update a product [put]', { tag: ['@pro'] }, async () => {

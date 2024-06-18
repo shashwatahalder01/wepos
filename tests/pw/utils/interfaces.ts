@@ -66,6 +66,19 @@ export interface storageState {
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export type responseBody = any;
 
+// product details
+export interface productdetails {
+    title: string;
+    category: string;
+    tag: string;
+    sku: string;
+    price: string;
+    weight: string;
+    visibility: string;
+    stockQuantity: string;
+    allowBackorders: string;
+}
+
 // customer details
 export interface customerDetails {
     firstName: string;
@@ -78,6 +91,18 @@ export interface customerDetails {
     city: string;
     zipCode: string;
     phone: string;
+}
+export interface paymentGateway {
+    name: string;
+    card: {
+        customer: {
+            customerEmail: string;
+            customerFullName: string;
+        };
+        last4Digit: string;
+        cardType: string;
+        invoiceNumber: string;
+    };
 }
 
 // wepos settings
@@ -135,6 +160,13 @@ export interface cashier {
     email: string;
     phone: string;
     website: string;
+}
+
+export interface cashierProfileDetails {
+    firstName: string;
+    lastName: string;
+    phone: string;
+    address: string;
 }
 
 export interface receipt {

@@ -27,13 +27,16 @@ export class Outlets extends BasePage {
         await this.toBeVisible(outlets.outletsText);
         await this.toBeVisible(outlets.addOutlet);
 
-        const noOutlet = await this.page.isVisible(outlets.noOutletsFound);
+        const outletExists = await this.page.isVisible(outlets.noOutletsFound);
 
-        if (noOutlet) {
+        if (!outletExists) {
             console.log('No outlet found');
             return;
         } else {
-            //todo: add more checks
+            await this.notToHaveCount(outlets.outlets, 0);
+            await this.notToHaveCount(outlets.outletBody.outletHeader, 0);
+            await this.notToHaveCount(outlets.outletBody.outletContent, 0);
+            await this.notToHaveCount(outlets.outletBody.outletFooter, 0);
         }
     }
 
@@ -44,8 +47,15 @@ export class Outlets extends BasePage {
         // outlet location
         await this.clearAndType(outlets.outletDetails.outletLocation.address1, outlet.address1);
         await this.clearAndType(outlets.outletDetails.outletLocation.address2, outlet.address2);
-        //todo: add country
-        // await this.clearAndType(outlets.outletDetails.outletLocation.state, outlet.state); // todo; become dropdown while in edit
+
+        await this.click(outlets.outletDetails.outletLocation.countryDropdown);
+        await this.clearAndType(outlets.outletDetails.outletLocation.countryInput, outlet.country);
+        await this.click(outlets.outletDetails.outletLocation.searchedCountry);
+
+        await this.click(outlets.outletDetails.outletLocation.stateDropdown);
+        await this.clearAndType(outlets.outletDetails.outletLocation.stateInput, outlet.state);
+        await this.click(outlets.outletDetails.outletLocation.searchedState);
+
         await this.clearAndType(outlets.outletDetails.outletLocation.city, outlet.city);
         await this.clearAndType(outlets.outletDetails.outletLocation.zipCode, outlet.zipCode);
 
