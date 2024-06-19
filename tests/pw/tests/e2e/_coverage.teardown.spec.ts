@@ -4,7 +4,7 @@ import fs from 'fs';
 import path from 'path';
 import { helpers } from '@utils/helpers';
 
-const { WEPOS_PRO } = process.env;
+const { WEPOS_PRO, E2E_TEST_RESULT } = process.env;
 let executed_tests: string[] = [];
 
 let totalProductFeatures = 0;
@@ -17,7 +17,7 @@ const uncoveredFeatures: string[] = [];
 teardown.describe('get e2e test coverage', () => {
     const feature_map = 'feature-map/feature-map.yml';
     const outputFile = 'playwright-report/e2e/coverage-report/coverage.json';
-    const testReport = 'playwright-report/e2e/summary-report/results.json';
+    const testReport = E2E_TEST_RESULT ? E2E_TEST_RESULT : 'playwright-report/e2e/summary-report/results.json';
 
     teardown('get coverage', { tag: ['@lite'] }, async () => {
         executed_tests = helpers.readJson(testReport)?.tests;
