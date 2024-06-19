@@ -1,7 +1,7 @@
 import { defineConfig, devices, expect } from '@playwright/test';
 import { customExpect } from '@utils/pwMatchers';
 import 'dotenv/config';
-const { CI, BASE_URL, SLOWMO, NO_SETUP } = process.env;
+const { CI, BASE_URL, SLOWMO, NO_SETUP, LOCAL } = process.env;
 
 export default defineConfig({
     /* test directory */
@@ -123,15 +123,15 @@ export default defineConfig({
             /* whether not to run setup tests before running actual tests */
             dependencies: NO_SETUP ? [] : ['e2e_setup'],
             /* whether not to run teardown tests after running actual tests */
-            // teardown: NO_SETUP ? undefined : 'e2e_teardown',
+            teardown: NO_SETUP ? undefined : 'e2e_teardown',
             // teardown: 'global_teardown',
         },
 
-        // // e2e_teardown
-        // {
-        //     name: 'e2e_teardown',
-        //     testMatch: ['_coverage.teardown.spec.ts', '_resetsite.teardown.ts'],
-        // },
+        // e2e_teardown
+        {
+            name: 'e2e_teardown',
+            testMatch: LOCAL ? ['_coverage.teardown.spec.ts', '.teardown.ts'] : ['_coverage.teardown.spec.ts'],
+        },
     ],
 });
 

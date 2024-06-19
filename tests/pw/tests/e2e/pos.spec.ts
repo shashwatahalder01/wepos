@@ -134,7 +134,8 @@ test.describe('View POS test', () => {
     });
 
     test.skip('cashier can switch counter', { tag: ['@pro'] }, async () => {
-        await cashier.switchCounter();
+        await cashier.switchCounter(); //todo: need to implement
+        //todo: remove endpoints json
     });
 
     //todo: logout cashier from other counter first

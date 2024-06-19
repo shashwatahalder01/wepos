@@ -185,13 +185,6 @@ jobs:
           cd tests/pw 
           npm run test:e2e:lite
 
-      # Calculate e2e coverage
-      - name: 🧪 Calculate e2e coverage
-        if: success() && (github.event_name != 'workflow_dispatch' || ( github.event_name == 'workflow_dispatch' && (github.event.inputs.testsuite == 'E2E' || github.event.inputs.testsuite == 'All')))
-        run: |
-          cd tests/pw 
-          npm run e2e_coverage
-
       # Run API tests
       - name: 🧪 Running the api tests
         id: api-test

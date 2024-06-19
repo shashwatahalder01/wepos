@@ -1,35 +1,39 @@
-import { test, request } from '@playwright/test';
+import { test as teardown, request } from '@playwright/test';
 import { ApiUtils } from '@utils/apiUtils';
 import { payloads } from '@utils/payloads';
 
-test.describe('test environment', () => {
+const { WEPOS_PRO } = process.env;
+
+teardown.describe('reset test environment', () => {
     let apiUtils: ApiUtils;
 
-    test.beforeAll(async () => {
+    teardown.beforeAll(async () => {
         apiUtils = new ApiUtils(await request.newContext());
     });
 
-    test.afterAll(async () => {
+    teardown.afterAll(async () => {
         await apiUtils.dispose();
     });
 
-    test('delete all media items', async () => {
+    teardown('delete all media items', async () => {
         await apiUtils.deleteAllMediaItems(payloads.adminAuth);
     });
 
-    test('delete all products', async () => {
+    teardown('delete all products', async () => {
         await apiUtils.deleteAllProducts(payloads.adminAuth);
     });
 
-    test('delete all customers', async () => {
+    teardown('delete all customers', async () => {
         await apiUtils.deleteAllCustomers(payloads.adminAuth);
     });
 
-    test('delete all outlets', async () => {
+    teardown('delete all outlets', async () => {
+        teardown.skip(!WEPOS_PRO, 'skip on lite');
         await apiUtils.deleteAllOutlets(payloads.adminAuth);
     });
 
-    test('delete all cashiers', async () => {
+    teardown('delete all cashiers', async () => {
+        teardown.skip(!WEPOS_PRO, 'skip on lite');
         await apiUtils.deleteAllUsers(['cashier'], payloads.adminAuth);
     });
 });

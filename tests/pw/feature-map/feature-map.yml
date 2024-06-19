@@ -60,7 +60,7 @@
           cashier can add fee [lite]: true
           cashier can add note [lite]: true
           cashier can complete sale by cash [lite]: true
-          cashier can complete sale by card [lite]: true
+          cashier can complete sale by card: true
           cashier can complete sale with print receipt [lite]: true
           cashier can switch counter: false
           cashier can view products: true
