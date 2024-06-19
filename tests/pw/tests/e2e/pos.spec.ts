@@ -26,8 +26,9 @@ test.describe('View POS test', () => {
         const adminContext = await browser.newContext(data.auth.adminAuth);
         cPage = await adminContext.newPage();
         cashier = new ViewPos(cPage);
+
+        apiUtils = new ApiUtils(await request.newContext());
         if (WEPOS_PRO) {
-            apiUtils = new ApiUtils(await request.newContext());
             [, outletId, outletName] = await apiUtils.createOutlet(payloads.createOutlet(), payloads.adminAuth);
             [responseBodyCounter, counterId, counterName] = await apiUtils.createCounter(outletId, payloads.createCounter(), payloads.adminAuth);
             await apiUtils.assignCashier(outletId, ['1'], payloads.adminAuth);
@@ -42,8 +43,8 @@ test.describe('View POS test', () => {
         if (WEPOS_PRO) {
             await apiUtils.deleteAllProducts(payloads.adminAuth);
             await apiUtils.logoutCahiser('1', outletId, counterId, payloads.adminAuth);
-            await apiUtils.dispose();
         }
+        await apiUtils.dispose();
         await cPage.close();
     });
 
@@ -56,7 +57,7 @@ test.describe('View POS test', () => {
     });
 
     test('cashier can search product', { tag: ['@lite'] }, async () => {
-        await cashier.searchProduct(productName);
+        await cashier.searchProduct(data.predefined.simpleProduct.product1.name);
     });
 
     test('cashier can filter product', { tag: ['@lite'] }, async () => {
@@ -120,7 +121,7 @@ test.describe('View POS test', () => {
         await cashier.completeSale(data.predefined.simpleProduct.product1.name, data.paymentGateway);
     });
 
-    test('cashier can complete sale by card', { tag: ['@lite'] }, async () => {
+    test('cashier can complete sale by card', { tag: ['@pro'] }, async () => {
         await cashier.completeSale(data.predefined.simpleProduct.product1.name, { ...data.paymentGateway, name: 'card' });
     });
 

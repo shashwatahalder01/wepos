@@ -96,7 +96,7 @@ export class ApiUtils {
             const responseBody = response.status() !== 204 && (await response.json()); // 204 is for No Content
 
             // console log responseBody if response code is not between 200-299
-            // String(response.status())[0] != '2' && console.log('ResponseBody: ', responseBody);
+            String(response.status())[0] != '2' && console.log('ResponseBody: ', responseBody);
             return responseBody;
         } catch (err: any) {
             console.log('End-point: ', response.url());
@@ -923,18 +923,5 @@ export class ApiUtils {
         const allPages = await this.getAllPages(auth);
         const pageId = allPages.find((o: { slug: string }) => o.slug.toLowerCase() === pageSlug.toLowerCase())?.id;
         return pageId;
-    }
-
-    // create page
-    async createPage(payload: object, auth?: auth): Promise<[responseBody, string]> {
-        let pageId = await this.getPageId(helpers.slugify(payloads.tocPage.title), payloads.adminAuth);
-        let responseBody;
-        if (!pageId) {
-            [, responseBody] = await this.post(endPoints.wp.createPage, { data: payload, headers: auth });
-            pageId = String(responseBody?.id);
-        } else {
-            responseBody = await this.getSinglePage(pageId, auth);
-        }
-        return [responseBody, pageId];
     }
 }
