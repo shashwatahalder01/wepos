@@ -88,7 +88,6 @@ jobs:
           repository: weDevsOfficial/wepos-pro
           token: ${{ secrets.ACCESS_TOKEN }}
           path: "plugins/wepos-pro"
-          ref: "test_utils"
 
       - name: Composer install and build (Wepos-lite)
         if: success()
