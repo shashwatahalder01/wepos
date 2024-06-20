@@ -96,7 +96,7 @@ export class ApiUtils {
             const responseBody = response.status() !== 204 && (await response.json()); // 204 is for No Content
 
             // console log responseBody if response code is not between 200-299
-            String(response.status())[0] != '2' && console.log('ResponseBody: ', responseBody);
+            // String(response.status())[0] != '2' && console.log('ResponseBody: ', responseBody);
             return responseBody;
         } catch (err: any) {
             console.log('End-point: ', response.url());
@@ -735,8 +735,8 @@ export class ApiUtils {
         return responseBody;
     }
 
-    // get user by role
-    async getAllUsersByRole(roles: string[], auth?: auth): Promise<responseBody> {
+    // get user by roles [ for multiple roles use comma separated string]
+    async getAllUsersByRole(roles: string, auth?: auth): Promise<responseBody> {
         const [, responseBody] = await this.get(endPoints.wp.getAllUsers, { params: { per_page: 100, roles: roles }, headers: auth });
         return responseBody;
     }
