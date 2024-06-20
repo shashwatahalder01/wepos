@@ -83,6 +83,7 @@ export class Outlets extends BasePage {
         await this.click(outlets.outletMoreOptions.editOutlet);
         await this.updateOutletFields(outlet);
         await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.updateOutlet);
+        await this.toBeVisible(outlets.outlet(outlet.outletName));
     }
 
     // delete outlet
@@ -113,6 +114,7 @@ export class Outlets extends BasePage {
         await this.clearAndType(outlets.counter.name, counter.name);
         await this.clearAndType(outlets.counter.number, counter.number);
         await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.counter.updateCounter);
+        await this.toBeVisible(outlets.outletContent.counter(counter.name));
     }
 
     // delete counter

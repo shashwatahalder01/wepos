@@ -41,6 +41,7 @@ env:
   ADMIN: admin
   ADMIN_PASSWORD: password
   USER_PASSWORD: 01wepos01
+  LICENSE_KEY: ${{secrets.LICENSE_KEY}}
   BASE_URL: http://localhost:9999
   CI: true
   WEPOS_PRO: true
