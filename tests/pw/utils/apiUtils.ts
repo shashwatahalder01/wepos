@@ -176,8 +176,8 @@ export class ApiUtils {
     }
 
     // login cashier
-    async loginCahiser(cashierId: string, outletId: string, counterId: string, auth?: auth): Promise<[responseBody]> {
-        const [, responseBody] = await this.post(endPoints.loginCahiser(cashierId), { data: { outlet_id: outletId, counter_id: counterId }, headers: auth }, false);
+    async loginCashier(cashierId: string, outletId: string, counterId: string, auth?: auth): Promise<[responseBody]> {
+        const [, responseBody] = await this.post(endPoints.loginCashier(cashierId), { data: { outlet_id: outletId, counter_id: counterId }, headers: auth }, false);
         if (responseBody.code === 'already-loggedin') {
             console.log('Cashier already logged in');
         }
@@ -185,7 +185,7 @@ export class ApiUtils {
     }
 
     // logout cashier
-    async logoutCahiser(cashierId: string, outletId: string, counterId: string, auth?: auth): Promise<[responseBody]> {
+    async logoutCashier(cashierId: string, outletId: string, counterId: string, auth?: auth): Promise<[responseBody]> {
         const [, responseBody] = await this.delete(endPoints.logoutCashier(cashierId), { data: { outlet_id: outletId, counter_id: counterId }, headers: auth }, false);
         if (responseBody.code === 'already-loggedin') {
             console.log('Cashier already logged out');
@@ -379,7 +379,7 @@ export class ApiUtils {
     }
 
     /**
-     * customers api methods [woocommerce endpoint used instead of request-for-quote/customer ]
+     * customers api methods
      */
 
     // get all customers
@@ -765,8 +765,8 @@ export class ApiUtils {
     async createUser(payload: object, auth?: auth): Promise<[responseBody, string, string]> {
         const [, responseBody] = await this.post(endPoints.wp.createUser, { data: payload, headers: auth });
         const userId = String(responseBody?.id);
-        const fullname = String(responseBody?.name);
-        return [responseBody, userId, fullname];
+        const fullName = String(responseBody?.name);
+        return [responseBody, userId, fullName];
     }
 
     // update user

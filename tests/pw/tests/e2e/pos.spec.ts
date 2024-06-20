@@ -1,11 +1,12 @@
 import { test, Page, request } from '@playwright/test';
 import { ViewPos } from '@pages/viewPosPage';
+import { LoginPage } from '@pages/loginPage';
 import { ApiUtils } from '@utils/apiUtils';
 import { data } from '@utils/testData';
 import { payloads } from '@utils/payloads';
 import { responseBody } from '@utils/interfaces';
 
-const { WEPOS_PRO } = process.env;
+const { WEPOS_PRO, USER_PASSWORD } = process.env;
 
 test.describe('View POS test', () => {
     let cashier: ViewPos;
@@ -42,7 +43,7 @@ test.describe('View POS test', () => {
     test.afterAll(async () => {
         if (WEPOS_PRO) {
             await apiUtils.deleteAllProducts(payloads.adminAuth);
-            await apiUtils.logoutCahiser('1', outletId, counterId, payloads.adminAuth);
+            await apiUtils.logoutCashier('1', outletId, counterId, payloads.adminAuth);
         }
         await apiUtils.dispose();
         await cPage.close();
@@ -84,7 +85,17 @@ test.describe('View POS test', () => {
         await cashier.viewKeyboardShortcut();
     });
 
-    test.skip('cashier can logout', { tag: ['@lite'] }, async () => {
+    test('cashier can logout', { tag: ['@lite'] }, async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        let cashier = new ViewPos(page);
+
+        const [responseBody, cashierId] = await apiUtils.createUser({ ...payloads.createUser(), roles: 'administrator' }, payloads.adminAuth);
+        if (WEPOS_PRO) {
+            cashier = new ViewPos(page, outletName, `${counterName} - ${responseBodyCounter.number}`);
+            await apiUtils.assignCashier(outletId, [cashierId], payloads.adminAuth);
+        }
+
+        await loginPage.adminLogin({ username: responseBody.username, password: USER_PASSWORD });
         await cashier.logout();
     });
 
@@ -114,7 +125,7 @@ test.describe('View POS test', () => {
     });
 
     test('cashier can add note', { tag: ['@lite'] }, async () => {
-        await cashier.addnote(data.predefined.simpleProduct.product1.name, 'This is a test note');
+        await cashier.addNote(data.predefined.simpleProduct.product1.name, 'This is a test note');
     });
 
     test('cashier can complete sale by cash', { tag: ['@lite'] }, async () => {

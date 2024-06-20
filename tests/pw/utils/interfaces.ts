@@ -76,7 +76,7 @@ export interface storageState {
 export type responseBody = any;
 
 // product details
-export interface productdetails {
+export interface productDetails {
     title: string;
     category: string;
     tag: string;
@@ -85,7 +85,7 @@ export interface productdetails {
     weight: string;
     visibility: string;
     stockQuantity: string;
-    allowBackorders: string;
+    allowBackOrders: string;
 }
 
 // customer details

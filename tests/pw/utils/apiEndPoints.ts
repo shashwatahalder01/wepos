@@ -58,7 +58,7 @@ export const endPoints = {
 
     // cashier login
     getLoginStatus: (cashierId: string) => `${SERVER_URL}/wepos/v1/cashiers/${cashierId}/login`,
-    loginCahiser: (cashierId: string) => `${SERVER_URL}/wepos/v1/cashiers/${cashierId}/login`,
+    loginCashier: (cashierId: string) => `${SERVER_URL}/wepos/v1/cashiers/${cashierId}/login`,
     logoutCashier: (cashierId: string) => `${SERVER_URL}/wepos/v1/cashiers/${cashierId}/login`,
 
     // receipts

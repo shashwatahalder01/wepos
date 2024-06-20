@@ -98,14 +98,14 @@ test.describe('Cashiers api test', () => {
     });
 
     test('login cashier', { tag: ['@pro'] }, async () => {
-        const [response, responseBody] = await apiUtils.post(endPoints.loginCahiser(cashierId), { data: { outlet_id: outletId, counter_id: counterId } });
+        const [response, responseBody] = await apiUtils.post(endPoints.loginCashier(cashierId), { data: { outlet_id: outletId, counter_id: counterId } });
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();
         expect(responseBody).toMatchSchema(schemas.loginLogoutCashier);
     });
 
     test('logout cashier', { tag: ['@pro'] }, async () => {
-        await apiUtils.loginCahiser(cashierId, outletId, counterId, payloads.adminAuth);
+        await apiUtils.loginCashier(cashierId, outletId, counterId, payloads.adminAuth);
         const [response, responseBody] = await apiUtils.delete(endPoints.logoutCashier(cashierId), { data: { outlet_id: outletId, counter_id: counterId } });
         expect(response.ok()).toBeTruthy();
         expect(responseBody).toBeTruthy();

@@ -224,7 +224,7 @@ export const payloads = {
     }),
 
     // update cashier profile
-    updateCahiserProfile: () => ({
+    updateCashierProfile: () => ({
         first_name: faker.person.firstName(),
         last_name: faker.person.lastName(),
         full_name: faker.person.firstName() + faker.person.lastName(),

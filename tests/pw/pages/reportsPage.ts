@@ -37,7 +37,7 @@ export class Reports extends BasePage {
         !filterSectionIsVisible && (await this.click(reports.filterReport));
 
         switch (action) {
-            case 'by-paymentMthod':
+            case 'by-paymentMethod':
                 await this.click(reports.filters.filterByPaymentMethod);
                 break;
 

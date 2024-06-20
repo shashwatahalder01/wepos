@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import 'dotenv/config';
 
-const { CUSTOMER } = process.env;
+const { ADMIN, CUSTOMER, ADMIN_PASSWORD, USER_PASSWORD, LICENSE_KEY, SITE_PATH } = process.env;
 
 interface user {
     username: string;
@@ -17,18 +17,6 @@ export { admin, user };
 
 export const data = {
     envData: 'utils/data.json',
-
-    env: {
-        WEPOS_PRO: process.env.WEPOS_PRO ? true : false,
-
-        // db data
-        DB_HOST_NAME: process.env.DB_HOST_NAME,
-        DB_USER_NAME: process.env.DB_USER_NAME,
-        DB_USER_PASSWORD: process.env.DB_USER_PASSWORD,
-        DATABASE: process.env.DATABASE,
-        DB_PORT: process.env.DB_PORT,
-        DB_PREFIX: process.env.DB_PREFIX,
-    },
 
     systemInfo: 'playwright/systemInfo.json',
 
@@ -77,7 +65,7 @@ export const data = {
     // user
     user: {
         username: () => faker.person.firstName('male'),
-        password: String(process.env.USER_PASSWORD),
+        password: String(USER_PASSWORD),
 
         userDetails: {
             emailDomain: '@email.com',
@@ -92,8 +80,8 @@ export const data = {
 
     // admin
     admin: {
-        username: String(process.env.ADMIN),
-        password: String(process.env.ADMIN_PASSWORD),
+        username: String(ADMIN),
+        password: String(ADMIN_PASSWORD),
     },
 
     // customer details
@@ -168,7 +156,7 @@ export const data = {
         weight: String(faker.number.int(100)),
         visibility: 'visible', // visible, catalog, search, hidden
         stockQuantity: String(faker.number.int(1000)),
-        allowBackorders: 'yes',
+        allowBackOrders: 'yes',
     }),
 
     cashierProfileDetails: {
@@ -238,7 +226,7 @@ export const data = {
 
     // wepos license
     weposLicense: {
-        correctKey: process.env.LICENSE_KEY,
+        correctKey: LICENSE_KEY,
         incorrectKey: 'ABC-123-DEF-456-GHI-789',
     },
 
@@ -266,9 +254,12 @@ export const data = {
     },
 
     subUrls: {
+        frontend: {
+            myAccount: 'my-account',
+        },
+
         ajax: '/admin-ajax.php',
         post: '/post.php',
-        gmap: '/maps/api',
 
         backend: {
             login: 'wp-login.php',
@@ -348,7 +339,7 @@ export const data = {
     // command
     command: {
         permalink: 'npm run wp-env run tests-cli wp rewrite structure /%postname%/',
-        permalinkLocal: `cd ${process.env.SITE_PATH} && wp rewrite structure /%postname%/ && wp rewrite flush`,
-        activateTheme: `cd ${process.env.SITE_PATH} && wp theme activate storefront`,
+        permalinkLocal: `cd ${SITE_PATH} && wp rewrite structure /%postname%/ && wp rewrite flush`,
+        activateTheme: `cd ${SITE_PATH} && wp theme activate storefront`,
     },
 };

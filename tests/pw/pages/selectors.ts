@@ -50,7 +50,7 @@ export const selector = {
         installWp: '#submit',
         successLoginIn: '.step a',
 
-        // Admin Login
+        // admin login
         email: '#user_login',
         password: '#user_pass',
         rememberMe: '#rememberme',
@@ -58,19 +58,19 @@ export const selector = {
         dashboardMenu: '.wp-first-item > .wp-menu-name',
         dashboardText: '.wrap h1',
 
-        // Admin Logout
+        // admin logout
         userMenu: 'li#wp-admin-bar-my-account',
         logout: 'li#wp-admin-bar-logout a',
 
-        // Logout Message
+        // logout message
         logoutSuccessMessage: 'div#login-message p',
 
-        // Login Error
+        // login error
         loginError: '#login_error',
     },
 
     wpMedia: {
-        // Wp Image Upload
+        // wp image upload
         wpUploadFiles: '#menu-item-upload',
         uploadedMedia: 'div.attachment-preview',
         uploadedMediaFirst: '(//div[contains(@class,"attachment-preview")])[1]',
@@ -80,12 +80,12 @@ export const selector = {
         select: '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[contains(@class, "media-button-select")]',
     },
 
-    // Admin
+    // admin
 
     admin: {
-        // Admin Dashboard
+        // admin dashboard
         aDashboard: {
-            // Dashboard Menus
+            // dashboard menus
             dashboard: '.wp-first-item .wp-menu-name',
             posts: '.menu-icon-post .wp-menu-name',
             media: '.menu-icon-media .wp-menu-name',
@@ -98,20 +98,20 @@ export const selector = {
             users: '.menu-icon-users .wp-menu-name',
             tools: '.menu-icon-tools .wp-menu-name',
             settings: '.menu-icon-settings .wp-menu-name',
-            // Collapse Menu
+            // collapse menu
             collapseMenu: '#collapse-button',
         },
 
-        // Dashboard
+        // dashboard
         dashboard: {
-            // Menus
+            // menus
             home: '//li[@id="menu-dashboard"]//a[contains(text(),"Home")]',
             updates: '//li[@id="menu-dashboard"]//a[contains(text(),"Updates ")]',
         },
 
         // wepos
         wepos: {
-            // Wepos Menus
+            // wepos menus
             menus: {
                 outlets: '//li[contains(@class,"toplevel_page_wepos")]//a[text()="Outlets"]',
                 receipts: '//li[contains(@class,"toplevel_page_wepos")]//a[text()="Receipts"]',
@@ -154,6 +154,7 @@ export const selector = {
                     confirmDelete: '//div[@class="confirm-action"]//button[text()="Delete"]',
                 },
 
+                // outlet details
                 outletDetails: {
                     outletName: '//input[@placeholder="Outlet Name"]',
                     outletLocation: {
@@ -162,8 +163,6 @@ export const selector = {
                         countryDropdown: 'div.outlet-country div.multiselect__select',
                         countryInput: 'div.outlet-country input.multiselect__input',
                         searchedCountry: 'div.outlet-country span.multiselect__option--highlight',
-                        // searchedCountry: '//li//span[contains(@class, "multiselect__option--highlight")]/..',
-                        // searchedCountry: (country: string) => `//li//span[text()= "${country}"]/..`,
                         stateDropdown: 'div.outlet-state div.multiselect__select',
                         stateInput: 'div.outlet-state input.multiselect__input',
                         searchedState: 'div.outlet-state span.multiselect__option--highlight',
@@ -171,6 +170,8 @@ export const selector = {
                         city: '//div[@class="wepos-modal"]//input[contains(@placeholder,"City")]',
                         zipCode: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Postal/Zip Code")]',
                     },
+
+                    // contact details
                     contactDetails: {
                         email: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Email")]',
                         phone: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Phone")]',
@@ -182,7 +183,6 @@ export const selector = {
                 createOutlet: '//button[text()="Create Outlet"]',
                 updateOutlet: '//button[text()="Update Outlet"]',
 
-                // outletMoreOption: 'div.outlet div.v-popover',
                 outletMoreOption: (outletName: string) => `//div[@class='outlet']//h3[text()='${outletName}']/../../..//div[@class="v-popover"]`,
                 outletMoreOptions: {
                     addCounter: '//div[contains(@class,"wepos-outlet-settings")]//a[contains(text(),"Add Counter")]',
@@ -345,7 +345,7 @@ export const selector = {
                 saveChanges: (type: string) => `div#wepos_${type} input#submit`,
                 saveSuccessMessage: 'div#setting-message_updated',
 
-                // Setting Menus
+                // setting menus
                 menus: {
                     general: '//a[contains(@class, "nav-tab") and contains(text(),"General")]',
                     receipts: '//a[contains(@class, "nav-tab") and contains(text(),"Receipts")]',
@@ -392,6 +392,7 @@ export const selector = {
                     logout: '//span[contains(text(),"Logout")]',
                 },
 
+                // products
                 products: {
                     productsText: '//h1[text()="Products"]',
                     searchProduct: 'div.wepos-search input[name="search"]',
@@ -400,7 +401,7 @@ export const selector = {
 
                     productTable: 'table.wepos-table',
 
-                    allrows: '(//table[@class="wepos-table"]//tr//input)[1]',
+                    allRows: '(//table[@class="wepos-table"]//tr//input)[1]',
                     productRow: (productName: string) => `//td[@class="name" and text()="${productName}"]/..`,
                     productCheckBox: (productName: string) => `//td[@class="name" and text()="${productName}"]/..//td//input[@name="check_all"]`,
                     productRowAction: (productName: string) => `//td[@class="name" and text()='${productName}']/..//td[@class="action"]`,
@@ -425,7 +426,7 @@ export const selector = {
                         visibility: '//label[text()="Visibility"]/..//select', // visible, catalog, search, hidden
                         manageStocks: 'section.product-edit-content #manage_stock',
                         stockQuantity: 'section.product-edit-content #stock_qty',
-                        allowBackorders: '//label[text()="Allow backorders?"]/..//select', // no, notify, yes
+                        allowBackOrders: '//label[text()="Allow backorders?"]/..//select', // no, notify, yes
                     },
 
                     cancel: '//footer//button[text()="Cancel"]',
@@ -436,6 +437,7 @@ export const selector = {
                     productDeleteMessage: '//h2[normalize-space()="Product has been deleted."]',
                 },
 
+                // orders
                 orders: {
                     ordersText: '//h1[text()="Orders"]',
 
@@ -469,6 +471,7 @@ export const selector = {
                     viewOrderDetails: '//a[contains(text(),"View Details")]',
                     refund: '//a[text()="Refund"]',
 
+                    // order details
                     orderDetails: {
                         ordersText: '//h1[text()="Orders"]',
 
@@ -477,7 +480,7 @@ export const selector = {
                             billingAddress: '//h3[text()="Billing Address"]/../..',
                             shippingAddress: '//h3[text()="Shipping Address"]/../..',
                             generalDetails: '//h3[text()="General Details"]/../..',
-                            ordernoteDiv: '//h3[text()="Order Notes"]/../..',
+                            orderNoteDiv: '//h3[text()="Order Notes"]/../..',
                         },
 
                         deleteNote: (note: string) => `//p[text()='${note}']/..//button[text()[normalize-space()='Delete Note']]`,
@@ -489,11 +492,12 @@ export const selector = {
                         orderNoteDeleted: '//h2[text()="Order note deleted."]',
                     },
 
-                    allrows: '(//table[@class="wepos-table"]//tr//input)[1]',
+                    allRows: '(//table[@class="wepos-table"]//tr//input)[1]',
 
                     pagination: 'ul.pagination',
                 },
 
+                // customers
                 customers: {
                     customerText: '//h1[text()[normalize-space()="Customers"]]',
                     addNewCustomer: '//button[text()[normalize-space()="Add New Customer"]]',
@@ -502,7 +506,7 @@ export const selector = {
                     apply: 'button.bulk-action-btn',
 
                     customerTable: 'table.wepos-table',
-                    allrows: '(//table[@class="wepos-table"]//tr//input)[1]',
+                    allRows: '(//table[@class="wepos-table"]//tr//input)[1]',
                     customerRowByEmail: (customerEmail: string) => `//td[@class="email" and text()="${customerEmail}"]/..`,
                     customerCheckBox: (customerEmail: string) => `//td[@class="email" and text()="${customerEmail}"]/..//td//input[@name="check_all"]`,
                     customerRowAction: (customerEmail: string) => `//td[@class="email" and text()='${customerEmail}']/..//td[@class="action"]`,
@@ -537,10 +541,10 @@ export const selector = {
                 searchedCategory: 'span.multiselect__option--highlight',
                 selectedCategory: (category: string) => `//a[contains(text(),'${category}')]/../..//li[@class='router-link-exact-active router-link-active']`,
 
-                // View Style
+                // view style
                 layoutStyle: (style: string) => `.toggle-view .${style}-view`, // list, grid
 
-                // Product Container
+                // product container
                 productContainer: '.items-wrapper',
 
                 // search customer
@@ -549,7 +553,7 @@ export const selector = {
 
                 // add new customer
                 addNewCustomer: 'span.add-new-customer',
-                customerdetails: {
+                customerDetails: {
                     firstName: '//div[@class="wepos-modal"]//input[contains(@placeholder,"First Name")]',
                     lastName: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Last Name")]',
                     email: '//div[@class="wepos-modal"]//input[contains(@placeholder,"Email")] ',
@@ -570,7 +574,7 @@ export const selector = {
 
                 // more options
                 moreOption: 'div.more-options button.wepos-button',
-                moreoptions: {
+                moreOptions: {
                     emptyCart: '//a[.="Empty Cart"]',
                     help: '//a[.="Help"]',
                     switchCounter: '//a[.="Switch Counter"]',
@@ -579,6 +583,7 @@ export const selector = {
 
                 shortcutKeys: '//h2[text()="Shortcut Keys"]',
 
+                // cart
                 cart: {
                     cart: 'div.content-cart',
                     emptyCart: '//table[@class="cart-table"]//p[text()="Empty Cart"]',
@@ -613,7 +618,7 @@ export const selector = {
                     payNow: 'tr.pay-now',
                 },
 
-                // sale Summary
+                // sale summary
                 saleSummary: {
                     payAmount: 'span.pay-amount',
 
@@ -637,7 +642,7 @@ export const selector = {
                 },
             },
 
-            // License
+            // license
             license: {
                 licenseText: '.appsero-license-settings-wrapper h1',
 

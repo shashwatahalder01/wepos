@@ -40,6 +40,7 @@ export class Outlets extends BasePage {
         }
     }
 
+    // update outlet fields
     async updateOutletFields(outlet: outlet) {
         // outlet name
         await this.clearAndType(outlets.outletDetails.outletName, outlet.outletName);

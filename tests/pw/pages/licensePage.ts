@@ -50,6 +50,7 @@ export class LicensePage extends BasePage {
         await this.clickAndWaitForResponse(data.subUrls.backend.wepos.license, licenseAdmin.refreshLicense);
         await this.toContainText(licenseAdmin.successNotice, 'License refreshed successfully.');
     }
+
     // deactivate license
     async deactivateLicense() {
         await this.goto(data.subUrls.backend.wepos.license);

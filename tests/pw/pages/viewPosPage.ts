@@ -3,7 +3,7 @@ import { BasePage } from '@pages/basePage';
 import { selector } from '@pages/selectors';
 import { data } from '@utils/testData';
 import { helpers } from '@utils/helpers';
-import { productdetails, customerDetails, cashierProfileDetails, paymentGateway, responseBody } from '@utils/interfaces';
+import { productDetails, customerDetails, cashierProfileDetails, paymentGateway, responseBody } from '@utils/interfaces';
 
 const { WEPOS_PRO } = process.env;
 
@@ -43,7 +43,7 @@ export class ViewPos extends BasePage {
     async posRenderProperly() {
         await this.goToPos();
 
-        // serach product
+        // search product
         await this.toBeVisible(pos.searchProduct);
         await this.toBeVisible(pos.searchType('Product'));
         await this.toBeVisible(pos.searchType('Scan'));
@@ -112,40 +112,40 @@ export class ViewPos extends BasePage {
         await this.toContainText(pos.searchedCustomer, customerEmail);
     }
 
-    async updateCustomerFields(customerdetails: customerDetails) {
-        await this.clearAndType(pos.customerdetails.firstName, customerdetails.firstName);
-        await this.clearAndType(pos.customerdetails.lastName, customerdetails.lastName);
-        await this.clearAndType(pos.customerdetails.email, customerdetails.email);
-        await this.clearAndType(pos.customerdetails.address1, customerdetails.address1);
-        await this.clearAndType(pos.customerdetails.address2, customerdetails.address2);
+    async updateCustomerFields(customerDetails: customerDetails) {
+        await this.clearAndType(pos.customerDetails.firstName, customerDetails.firstName);
+        await this.clearAndType(pos.customerDetails.lastName, customerDetails.lastName);
+        await this.clearAndType(pos.customerDetails.email, customerDetails.email);
+        await this.clearAndType(pos.customerDetails.address1, customerDetails.address1);
+        await this.clearAndType(pos.customerDetails.address2, customerDetails.address2);
 
-        await this.click(pos.customerdetails.countryDropdown);
-        await this.clearAndType(pos.customerdetails.countryInput, customerdetails.country);
-        await this.click(pos.customerdetails.searchedCountry);
+        await this.click(pos.customerDetails.countryDropdown);
+        await this.clearAndType(pos.customerDetails.countryInput, customerDetails.country);
+        await this.click(pos.customerDetails.searchedCountry);
 
-        await this.click(pos.customerdetails.stateDropdown);
-        await this.clearAndType(pos.customerdetails.stateInput, customerdetails.state);
-        await this.click(pos.customerdetails.searchedState);
+        await this.click(pos.customerDetails.stateDropdown);
+        await this.clearAndType(pos.customerDetails.stateInput, customerDetails.state);
+        await this.click(pos.customerDetails.searchedState);
 
-        await this.clearAndType(pos.customerdetails.city, customerdetails.city);
-        await this.clearAndType(pos.customerdetails.zipCode, customerdetails.zipCode);
-        await this.clearAndType(pos.customerdetails.phone, customerdetails.phone);
+        await this.clearAndType(pos.customerDetails.city, customerDetails.city);
+        await this.clearAndType(pos.customerDetails.zipCode, customerDetails.zipCode);
+        await this.clearAndType(pos.customerDetails.phone, customerDetails.phone);
     }
 
     // add new customer
-    async addCustomer(customerdetails: customerDetails) {
+    async addCustomer(customerDetails: customerDetails) {
         await this.goToPos();
         await this.click(pos.addNewCustomer);
-        await this.updateCustomerFields(customerdetails);
-        await this.clickAndWaitForResponse(data.subUrls.api.wepos.customers, pos.customerdetails.addCustomer, 201);
-        await this.toHaveValue(pos.searchCustomer, `${customerdetails.firstName} ${customerdetails.lastName}`);
+        await this.updateCustomerFields(customerDetails);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.customers, pos.customerDetails.addCustomer, 201);
+        await this.toHaveValue(pos.searchCustomer, `${customerDetails.firstName} ${customerDetails.lastName}`);
     }
 
     // empty cart
     async emptyCart() {
         await this.goToPos();
         await this.click(pos.moreOption);
-        await this.click(pos.moreoptions.emptyCart);
+        await this.click(pos.moreOptions.emptyCart);
         await this.toBeVisible(pos.cart.emptyCart);
     }
 
@@ -153,7 +153,7 @@ export class ViewPos extends BasePage {
     async viewKeyboardShortcut() {
         await this.goToPos();
         await this.click(pos.moreOption);
-        await this.click(pos.moreoptions.help);
+        await this.click(pos.moreOptions.help);
         await this.toBeVisible(pos.shortcutKeys);
         await this.click(wepos.modal.closeModal);
     }
@@ -162,7 +162,7 @@ export class ViewPos extends BasePage {
     async switchCounter() {
         await this.goToPos();
         await this.click(pos.moreOption);
-        await this.clickAndWaitForLoadState(pos.moreoptions.switchCounter);
+        await this.clickAndWaitForLoadState(pos.moreOptions.switchCounter);
         // todo: add switch counter logic
     }
 
@@ -170,8 +170,9 @@ export class ViewPos extends BasePage {
     async logout() {
         await this.goToPos();
         await this.click(pos.moreOption);
-        await this.clickAndWaitForLoadState(pos.moreoptions.logout);
-        await this.toBeVisible(selector.frontend.myAccount);
+        await this.clickAndWaitForLoadState(pos.moreOptions.logout);
+        const loggedInUser = await this.getCurrentUser();
+        expect(loggedInUser).toBeUndefined();
     }
 
     // add product to cart
@@ -222,7 +223,7 @@ export class ViewPos extends BasePage {
     }
 
     // add note
-    async addnote(productName: string, note: string) {
+    async addNote(productName: string, note: string) {
         await this.addToCart(productName);
         await this.click(pos.cart.addNote);
         await this.clearAndType(pos.cart.noteDetails.noteInput, note);
@@ -296,29 +297,29 @@ export class ViewPos extends BasePage {
     }
 
     // edit product
-    async editProduct(productName: string, productdetails: productdetails) {
+    async editProduct(productName: string, productDetails: productDetails) {
         await this.searchProductOnProductPage(productName);
         await this.click(pos.products.productRowAction(productName));
         await this.click(pos.products.editProduct);
 
-        await this.clearAndType(pos.products.quickEdit.title, productdetails.title);
+        await this.clearAndType(pos.products.quickEdit.title, productDetails.title);
 
         await this.click(pos.products.quickEdit.categoryDropdown);
-        await this.clearAndType(pos.products.quickEdit.categoryInput, productdetails.category);
+        await this.clearAndType(pos.products.quickEdit.categoryInput, productDetails.category);
         await this.click(pos.products.quickEdit.searchedCategory);
 
         await this.click(pos.products.quickEdit.tagsDropdown);
-        await this.clearAndType(pos.products.quickEdit.tagsInput, productdetails.tag);
+        await this.clearAndType(pos.products.quickEdit.tagsInput, productDetails.tag);
         await this.click(pos.products.quickEdit.searchedTags);
 
-        await this.clearAndType(pos.products.quickEdit.sku, productdetails.sku);
-        await this.clearAndType(pos.products.quickEdit.price, productdetails.price);
-        await this.clearAndType(pos.products.quickEdit.salePrice, String(Number(productdetails.price) - 20));
-        await this.clearAndType(pos.products.quickEdit.weight, productdetails.weight);
-        await this.selectByValue(pos.products.quickEdit.visibility, productdetails.visibility);
+        await this.clearAndType(pos.products.quickEdit.sku, productDetails.sku);
+        await this.clearAndType(pos.products.quickEdit.price, productDetails.price);
+        await this.clearAndType(pos.products.quickEdit.salePrice, String(Number(productDetails.price) - 20));
+        await this.clearAndType(pos.products.quickEdit.weight, productDetails.weight);
+        await this.selectByValue(pos.products.quickEdit.visibility, productDetails.visibility);
         await this.checkLocator(pos.products.quickEdit.manageStocks);
-        await this.clearAndType(pos.products.quickEdit.stockQuantity, productdetails.stockQuantity);
-        await this.selectByValue(pos.products.quickEdit.allowBackorders, productdetails.allowBackorders);
+        await this.clearAndType(pos.products.quickEdit.stockQuantity, productDetails.stockQuantity);
+        await this.selectByValue(pos.products.quickEdit.allowBackOrders, productDetails.allowBackOrders);
         await this.clickAndWaitForResponse(data.subUrls.api.wepos.products, pos.products.update);
     }
 
@@ -335,7 +336,7 @@ export class ViewPos extends BasePage {
     async bulkActionOnProducts(productName: string, action: string) {
         if (!productName) {
             await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.products);
-            await this.click(pos.products.allrows);
+            await this.click(pos.products.allRows);
         } else {
             await this.searchProductOnProductPage(productName);
             await this.click(pos.products.productCheckBox(productName));
@@ -453,41 +454,41 @@ export class ViewPos extends BasePage {
     }
 
     // add customer on customer page
-    async addCustomerOnCustomerPage(customerdetails: customerDetails) {
+    async addCustomerOnCustomerPage(customerDetails: customerDetails) {
         await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.customers);
         await this.click(pos.customers.addNewCustomer);
-        await this.updateCustomerFields(customerdetails);
-        await this.clickAndWaitForResponse(data.subUrls.api.wepos.customers, pos.customerdetails.addCustomer, 201);
+        await this.updateCustomerFields(customerDetails);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.customers, pos.customerDetails.addCustomer, 201);
         await this.toBeVisible(pos.customers.customerAddMessage);
     }
 
     // edit customer
-    async editCustomer(cutomerEmail: string, customerdetails: customerDetails) {
-        await this.searchCustomerOnCustomerPage(cutomerEmail);
-        await this.click(pos.customers.customerRowAction(cutomerEmail));
+    async editCustomer(customerEmail: string, customerDetails: customerDetails) {
+        await this.searchCustomerOnCustomerPage(customerEmail);
+        await this.click(pos.customers.customerRowAction(customerEmail));
         await this.click(pos.customers.editCustomer);
-        await this.updateCustomerFields(customerdetails);
-        await this.clickAndWaitForResponse(data.subUrls.api.wc.customers, pos.customerdetails.addCustomer);
+        await this.updateCustomerFields(customerDetails);
+        await this.clickAndWaitForResponse(data.subUrls.api.wc.customers, pos.customerDetails.addCustomer);
         await this.toBeVisible(pos.customers.customerUpdateMessage);
     }
 
     // delete customer
-    async deleteCustomer(cutomerEmail: string) {
-        await this.searchCustomerOnCustomerPage(cutomerEmail);
-        await this.click(pos.customers.customerRowAction(cutomerEmail));
+    async deleteCustomer(customerEmail: string) {
+        await this.searchCustomerOnCustomerPage(customerEmail);
+        await this.click(pos.customers.customerRowAction(customerEmail));
         await this.click(pos.customers.deleteCustomer);
         await this.clickAndWaitForResponse(data.subUrls.api.wc.customers, wepos.confirmAction);
         await this.toBeVisible(pos.customers.customerDeleteMessage);
     }
 
     // bulk action on customer
-    async bulkActionOnCustomers(cutomerEmail: string, action: string) {
-        if (!cutomerEmail) {
+    async bulkActionOnCustomers(customerEmail: string, action: string) {
+        if (!customerEmail) {
             await this.gotoPosSubmenu(data.subUrls.backend.wepos.submenu.customers);
-            await this.click(pos.customers.allrows);
+            await this.click(pos.customers.allRows);
         } else {
-            await this.searchCustomerOnCustomerPage(cutomerEmail);
-            await this.click(pos.customers.customerCheckBox(cutomerEmail));
+            await this.searchCustomerOnCustomerPage(customerEmail);
+            await this.click(pos.customers.customerCheckBox(customerEmail));
         }
         await this.selectByValue(pos.customers.bulkAction, action);
         await this.click(pos.customers.apply);

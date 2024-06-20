@@ -38,7 +38,7 @@ test.describe('Reports test', () => {
     });
 
     test('admin can filter report by payment method', { tag: ['@pro'] }, async () => {
-        await admin.filterReports('Cash', 'by-paymentMthod');
+        await admin.filterReports('Cash', 'by-paymentMethod');
     });
 
     test('admin can filter report by customer', { tag: ['@pro'] }, async () => {

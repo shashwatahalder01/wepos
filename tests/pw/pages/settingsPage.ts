@@ -4,8 +4,6 @@ import { selector } from '@pages/selectors';
 import { data } from '@utils/testData';
 import { weposSettings } from '@utils/interfaces';
 
-const { WEPOS_PRO } = process.env;
-
 // selectors
 const settings = selector.admin.wepos.settings;
 
