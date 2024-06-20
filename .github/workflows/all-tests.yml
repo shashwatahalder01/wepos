@@ -4,10 +4,10 @@ on:
   # workflow will run daily at 8:00 AM BDT (2:00 AM UTC)
   # schedule:
   #     - cron: 0 2 * * *
-  workflow will trigger on pull request
+  # workflow will trigger on pull request
   pull_request:
-      branches: [develop]
-  workflow will trigger on push to develop branch
+    branches: [develop]
+  # workflow will trigger on push to develop branch
   push:
     branches: [develop, e2e-all]
 
