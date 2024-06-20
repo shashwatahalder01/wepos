@@ -6,13 +6,11 @@ declare global {
             [key: string]: string;
             ADMIN: string;
             ADMIN_PASSWORD: string;
-            VENDOR: string;
             CUSTOMER: string;
             USER_PASSWORD: string;
             ADMIN_ID: string;
             CUSTOMER_ID: string;
             PRODUCT_ID: string;
-            PRODUCT_ID_V2: string;
             LOCAL: boolean;
             CI: string;
             LICENSE_KEY: string;
@@ -27,7 +25,6 @@ declare global {
             NO_SETUP: string;
             SERVER_URL: string;
             ADMIN_AUTH: string;
-            VENDOR_AUTH: string;
             CUSTOMER_AUTH: string;
             DB_HOST_NAME: string;
             DB_USER_NAME: string;
