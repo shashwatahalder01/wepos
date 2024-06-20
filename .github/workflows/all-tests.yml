@@ -9,7 +9,7 @@ on:
   #     branches: [develop]
   # workflow will trigger on push to develop branch
   push:
-    branches: [develop, e2e-pw]
+    branches: [develop, e2e-all]
 
   # workflow can be manually triggered
   workflow_dispatch:
