@@ -27,7 +27,8 @@ export class Reports extends BasePage {
         // check if overview elements are  visible
         await this.multipleElementVisible(reports.overview);
 
-        await this.toBeVisible(reports.reportsTable);
+        const noReports = await this.isVisible(reports.noReports);
+        !noReports && (await this.toBeVisible(reports.reportsTable));
     }
 
     // filter reports

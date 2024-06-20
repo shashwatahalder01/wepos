@@ -330,6 +330,7 @@ export const selector = {
                     chart: 'canvas#line-chart',
                 },
 
+                noReports: 'div.no-reports',
                 reportsTable: 'table.reports-table',
             },
 
