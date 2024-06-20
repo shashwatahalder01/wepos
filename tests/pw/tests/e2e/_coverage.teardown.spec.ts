@@ -18,12 +18,9 @@ teardown.describe('get e2e test coverage', () => {
     const feature_map = 'feature-map/feature-map.yml';
     const outputFile = 'playwright-report/e2e/coverage-report/coverage.json';
     const testReport = 'playwright-report/e2e/summary-report/results.json';
-    console.log('test report:', testReport);
 
     teardown('get coverage', { tag: ['@lite'] }, async () => {
         executed_tests = helpers.readJson(testReport)?.tests;
-        console.log(executed_tests);
-
         getCoverage(feature_map, outputFile);
     });
 });
@@ -54,7 +51,7 @@ function getCoverage(filePath: string, outputFile?: string) {
         coveredPageFeatures = 0;
     });
 
-    const totalCoverage = Math.round((coveredProductFeatures / totalProductFeatures) * 100 * 100) / 100;
+    const totalCoverage = ((coveredProductFeatures / totalProductFeatures) * 100).toFixed(2);
     coverageReport.total_features = totalProductFeatures;
     coverageReport.total_covered_features = coveredProductFeatures;
     coverageReport.coverage = totalCoverage + '%';

@@ -144,12 +144,13 @@ test.describe('View POS test', () => {
         await cashier.completeSaleWithPrintReceipt(data.predefined.simpleProduct.product1.name, data.paymentGateway);
     });
 
-    test.skip('cashier can switch counter', { tag: ['@pro'] }, async () => {
-        await cashier.switchCounter(); //todo: need to implement
-        //todo: remove endpoints json
-    });
+    test('cashier can switch counter', { tag: ['@pro'] }, async () => {
+        const [responseBodyCounter, counterId, counterName] = await apiUtils.createCounter(outletId, payloads.createCounter(), payloads.adminAuth);
+        await cashier.switchCounter(outletName, `${counterName} - ${responseBodyCounter.number}`);
 
-    //todo: logout cashier from other counter first
+        // reset: logout cashier from the counter
+        await apiUtils.logoutCashier('1', outletId, counterId, payloads.adminAuth);
+    });
 
     test('cashier can view products', { tag: ['@pro'] }, async () => {
         await cashier.viewProducts();

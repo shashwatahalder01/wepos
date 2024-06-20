@@ -529,6 +529,12 @@ export const selector = {
                     update: '//button[text()[normalize-space()="Update"]]',
                 },
 
+                //pos sections
+                posSections: {
+                    productContainer: 'div.content-product',
+                    cartContainer: 'div.content-cart',
+                },
+
                 // search product
                 searchProduct: 'input#product-search',
                 searchedProduct: (productName: string) => `//li[@class='product-search-item selected']//a[contains(text(),'${productName}')]`,

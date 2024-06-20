@@ -23,15 +23,16 @@ export class ViewPos extends BasePage {
 
     // navigation
 
-    async goToPos() {
+    async goToPos(outlet = this.outlet, counter = this.counter) {
         await this.goIfNotThere(data.subUrls.backend.wepos.viewPos);
 
         const isLoginVisible = await this.isVisible(pos.loginForm);
         if (WEPOS_PRO && isLoginVisible) {
-            await this.selectByLabel(pos.outlet, this.outlet);
-            await this.selectByLabel(pos.counter, this.counter);
+            await this.selectByLabel(pos.outlet, outlet);
+            await this.selectByLabel(pos.counter, counter);
             await this.clickAndAcceptAndWaitForResponseAndLoadState(data.subUrls.api.wepos.cashiers, pos.goToPos);
         }
+        await this.multipleElementVisible(pos.posSections);
     }
 
     async gotoPosSubmenu(submenu: string) {
@@ -159,11 +160,11 @@ export class ViewPos extends BasePage {
     }
 
     //  switch counter
-    async switchCounter() {
+    async switchCounter(outletName: string, counterName: string) {
         await this.goToPos();
         await this.click(pos.moreOption);
-        await this.clickAndWaitForLoadState(pos.moreOptions.switchCounter);
-        // todo: add switch counter logic
+        await this.clickAndWaitForResponseAndLoadState(data.subUrls.api.wepos.cashiers, pos.moreOptions.switchCounter);
+        await this.goToPos(outletName, counterName);
     }
 
     //  logout
