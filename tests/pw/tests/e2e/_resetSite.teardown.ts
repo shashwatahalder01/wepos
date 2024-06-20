@@ -34,6 +34,6 @@ teardown.describe('reset test environment', () => {
 
     teardown('delete all cashiers', async () => {
         teardown.skip(!WEPOS_PRO, 'skip on lite');
-        await apiUtils.deleteAllUsers(['cashier'], payloads.adminAuth);
+        await apiUtils.deleteAllUsers('cashier', payloads.adminAuth);
     });
 });

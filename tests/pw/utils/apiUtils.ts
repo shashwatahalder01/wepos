@@ -736,7 +736,7 @@ export class ApiUtils {
     }
 
     // get user by roles [ for multiple roles use comma separated string]
-    async getAllUsersByRole(roles: string, auth?: auth): Promise<responseBody> {
+    async getAllUsersByRoles(roles: string, auth?: auth): Promise<responseBody> {
         const [, responseBody] = await this.get(endPoints.wp.getAllUsers, { params: { per_page: 100, roles: roles }, headers: auth });
         return responseBody;
     }
@@ -782,8 +782,12 @@ export class ApiUtils {
     }
 
     // delete all users
-    async deleteAllUsers(role: string[] = [], auth?: auth): Promise<responseBody> {
-        const allUsers = role ? await this.getAllUsersByRole(role, auth) : await this.getAllUsers(auth);
+    async deleteAllUsers(role?: string, auth?: auth): Promise<responseBody> {
+        if (arguments.length === 1 && typeof role === 'object') {
+            auth = role as auth;
+            role = undefined;
+        }
+        const allUsers = role ? await this.getAllUsersByRoles(role, auth) : await this.getAllUsers(auth);
         if (!allUsers?.length) {
             console.log('No user exists');
             return;
