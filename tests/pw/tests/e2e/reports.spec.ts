@@ -12,8 +12,6 @@ test.describe('Reports test', () => {
     let outletName: string;
     let cashierName: string;
 
-    // test.use(data.auth.adminAuth);
-
     test.beforeAll(async ({ browser }) => {
         const adminContext = await browser.newContext(data.auth.adminAuth);
         aPage = await adminContext.newPage();
@@ -28,10 +26,6 @@ test.describe('Reports test', () => {
         await apiUtils.dispose();
         await aPage.close();
     });
-
-    // test.beforeEach(async ({ page }) => {
-    //     admin = new Reports(page);
-    // });
 
     test('admin can view report', { tag: ['@pro'] }, async () => {
         await admin.reportsRenderProperly();
@@ -54,7 +48,7 @@ test.describe('Reports test', () => {
     });
 
     test('admin can clear filter', { tag: ['@pro'] }, async () => {
-        await admin.filterReports('customer1', 'by-customer', false);
+        await admin.filterReports('Cash', 'by-paymentMethod', false);
         await admin.clearFilter();
     });
 

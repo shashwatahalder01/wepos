@@ -330,6 +330,7 @@ export const selector = {
                     chart: 'canvas#line-chart',
                 },
 
+                noReports: 'div.no-reports',
                 reportsTable: 'table.reports-table',
             },
 
@@ -411,13 +412,13 @@ export const selector = {
                     quickEdit: {
                         title: 'section.product-edit-content #title',
 
-                        categoryDropdown: '(//div[@class="multiselect__select"])[1]',
-                        categoryInput: '(//input[@class="multiselect__input"])[1]',
-                        searchedCategory: '(//span[@class="multiselect__option multiselect__option--highlight"])[1]',
+                        categoryDropdown: '//label[text()="Categories"]/..//div[@class="multiselect__select"]',
+                        categoryInput: '//label[text()="Categories"]/..//input[@class="multiselect__input"]',
+                        searchedCategory: '//label[text()="Categories"]/..//span[@class="multiselect__option multiselect__option--highlight"]',
 
-                        tagsDropdown: '(//div[@class="multiselect__select"])[2]',
-                        tagsInput: '(//input[@class="multiselect__input"])[2]',
-                        searchedTags: '(//span[@class="multiselect__option multiselect__option--highlight"])[2]',
+                        tagsDropdown: '//label[text()="Tags"]/..//div[@class="multiselect__select"]',
+                        tagsInput: '//label[text()="Tags"]/..//input[@class="multiselect__input"]',
+                        searchedTags: '//label[text()="Tags"]/..//span[@class="multiselect__option multiselect__option--highlight"]',
 
                         sku: 'section.product-edit-content #sku',
                         price: 'section.product-edit-content #price',

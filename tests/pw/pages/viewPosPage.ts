@@ -156,6 +156,7 @@ export class ViewPos extends BasePage {
         await this.click(pos.moreOption);
         await this.click(pos.moreOptions.help);
         await this.toBeVisible(pos.shortcutKeys);
+
         await this.click(wepos.modal.closeModal);
     }
 

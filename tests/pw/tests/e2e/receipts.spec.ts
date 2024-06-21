@@ -6,8 +6,6 @@ test.describe('Receipts test', () => {
     let admin: Receipts;
     let aPage: Page;
 
-    // test.use(data.auth.adminAuth);
-
     test.beforeAll(async ({ browser }) => {
         const adminContext = await browser.newContext(data.auth.adminAuth);
         aPage = await adminContext.newPage();
@@ -17,10 +15,6 @@ test.describe('Receipts test', () => {
     test.afterAll(async () => {
         await aPage.close();
     });
-
-    // test.beforeEach(async ({ page }) => {
-    //     admin = new Receipts(page);
-    // });
 
     test('admin can view receipts', { tag: ['@pro'] }, async () => {
         await admin.receiptsRenderProperly();

@@ -278,10 +278,18 @@ export const payloads = {
         name: faker.string.nanoid(5),
     }),
 
+    createCategory: () => ({
+        name: 'Electronics',
+    }),
+
     // tags
 
     createTagsRandom: () => ({
         name: faker.string.nanoid(5),
+    }),
+
+    createTag: () => ({
+        name: 'Gadgets',
     }),
 
     // coupon
@@ -343,6 +351,7 @@ export const payloads = {
         // payment_method_title: 'Direct Bank Transfer',
         payment_method: 'wepos_cash',
         payment_method_title: 'Cash',
+        status: 'completed',
         set_paid: true,
         customer_id: 0,
         billing: {
@@ -396,24 +405,24 @@ export const payloads = {
             },
             {
                 key: '_wepos_cash_tendered_amount',
-                value: '',
+                value: '0',
             },
             {
                 key: '_wepos_cash_change_amount',
                 value: '0',
             },
-            // {
-            //     key: '_wepos_cashier_id',
-            //     value: '',
-            // },
-            // {
-            //     key: '_wepos_counter_id',
-            //     value: '',
-            // },
-            // {
-            //     key: '_wepos_outlet_id',
-            //     value: '',
-            // },
+            {
+                key: '_wepos_cashier_id',
+                value: '',
+            },
+            {
+                key: '_wepos_counter_id',
+                value: '',
+            },
+            {
+                key: '_wepos_outlet_id',
+                value: '',
+            },
         ],
     },
 

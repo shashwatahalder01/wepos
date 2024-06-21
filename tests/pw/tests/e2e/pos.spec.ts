@@ -2,13 +2,14 @@ import { test, Page, request } from '@playwright/test';
 import { ViewPos } from '@pages/viewPosPage';
 import { LoginPage } from '@pages/loginPage';
 import { ApiUtils } from '@utils/apiUtils';
+import { dbUtils } from '@utils/dbUtils';
 import { data } from '@utils/testData';
 import { payloads } from '@utils/payloads';
 import { responseBody } from '@utils/interfaces';
 
-const { WEPOS_PRO, USER_PASSWORD } = process.env;
+const { WEPOS_PRO, USER_PASSWORD, PRODUCT_ID, CUSTOMER_ID } = process.env;
 
-test.describe('View POS test', () => {
+test.describe('Pos test', () => {
     let cashier: ViewPos;
     let cPage: Page;
     let apiUtils: ApiUtils;
@@ -17,11 +18,7 @@ test.describe('View POS test', () => {
     let outletName: string;
     let counterId: string;
     let counterName: string;
-    let productName: string;
     let orderId: string;
-    let customerEmail: string;
-
-    // test.use(data.auth.adminAuth);
 
     test.beforeAll(async ({ browser }) => {
         const adminContext = await browser.newContext(data.auth.adminAuth);
@@ -30,28 +27,23 @@ test.describe('View POS test', () => {
 
         apiUtils = new ApiUtils(await request.newContext());
         if (WEPOS_PRO) {
+            await dbUtils.deleteTable('wepos_login');
+
             [, outletId, outletName] = await apiUtils.createOutlet(payloads.createOutlet(), payloads.adminAuth);
             [responseBodyCounter, counterId, counterName] = await apiUtils.createCounter(outletId, payloads.createCounter(), payloads.adminAuth);
             await apiUtils.assignCashier(outletId, ['1'], payloads.adminAuth);
             cashier = new ViewPos(cPage, outletName, `${counterName} - ${responseBodyCounter.number}`);
-            [, , productName] = await apiUtils.createProduct(payloads.createProduct(), payloads.adminAuth);
-            [, , orderId] = await apiUtils.createOrder(payloads.createProduct(), payloads.createOrder, payloads.adminAuth);
-            [, , customerEmail] = await apiUtils.createCustomer(payloads.createCustomer(), payloads.adminAuth);
+            [, , orderId] = await apiUtils.createOrder(PRODUCT_ID, { ...payloads.createOrder, customer_id: CUSTOMER_ID }, payloads.adminAuth);
         }
     });
 
     test.afterAll(async () => {
         if (WEPOS_PRO) {
-            await apiUtils.deleteAllProducts(payloads.adminAuth);
             await apiUtils.logoutCashier('1', outletId, counterId, payloads.adminAuth);
         }
         await apiUtils.dispose();
         await cPage.close();
     });
-
-    // test.beforeEach(async ({ page }) => {
-    //     cashier = new ViewPos(page);
-    // });
 
     test('cashier can view pos', { tag: ['@lite'] }, async () => {
         await cashier.posRenderProperly();
@@ -88,9 +80,11 @@ test.describe('View POS test', () => {
     test('cashier can logout', { tag: ['@lite'] }, async ({ page }) => {
         const loginPage = new LoginPage(page);
         let cashier = new ViewPos(page);
-
         const [responseBody, cashierId] = await apiUtils.createUser({ ...payloads.createUser(), roles: 'administrator' }, payloads.adminAuth);
         if (WEPOS_PRO) {
+            const [, outletId, outletName] = await apiUtils.createOutlet(payloads.createOutlet(), payloads.adminAuth);
+            const [responseBodyCounter, , counterName] = await apiUtils.createCounter(outletId, payloads.createCounter(), payloads.adminAuth);
+
             cashier = new ViewPos(page, outletName, `${counterName} - ${responseBodyCounter.number}`);
             await apiUtils.assignCashier(outletId, [cashierId], payloads.adminAuth);
         }
@@ -137,10 +131,6 @@ test.describe('View POS test', () => {
     });
 
     test('cashier can complete sale with print receipt', { tag: ['@lite'] }, async () => {
-        // const chromeBrowser = await chromium.launch({ args: ['--kiosk-printing'] });
-        // const adminContext = await chromeBrowser.newContext(data.auth.adminAuth);
-        // const cPage = await adminContext.newPage();
-        // const cashier = new ViewPos(cPage);
         await cashier.completeSaleWithPrintReceipt(data.predefined.simpleProduct.product1.name, data.paymentGateway);
     });
 
@@ -157,13 +147,12 @@ test.describe('View POS test', () => {
     });
 
     test('cashier can search products', { tag: ['@pro'] }, async () => {
-        await cashier.searchProductOnProductPage(productName);
+        await cashier.searchProductOnProductPage(data.predefined.simpleProduct.product1.name);
     });
 
     test('cashier can edit product', { tag: ['@pro'] }, async () => {
-        const [, , categoryName] = await apiUtils.createCategory(payloads.createCategoryRandom(), payloads.adminAuth);
-        const [, , tagName] = await apiUtils.createTag(payloads.createTagsRandom(), payloads.adminAuth);
-        await cashier.editProduct(productName, { ...data.productDetails(), category: categoryName, tag: tagName });
+        const [, , productName] = await apiUtils.createProduct(payloads.createProduct(), payloads.adminAuth);
+        await cashier.editProduct(productName, { ...data.productDetails(), category: data.predefined.category, tag: data.predefined.tag });
     });
 
     test('cashier can delete product', { tag: ['@pro'] }, async () => {
@@ -203,7 +192,7 @@ test.describe('View POS test', () => {
 
     test('cashier can delete order note', { tag: ['@pro'] }, async () => {
         const orderNote = payloads.createOrderNote;
-        const [, orderId] = await apiUtils.createOrderNote(payloads.createProduct(), payloads.createOrder, orderNote, payloads.adminAuth);
+        const [, orderId] = await apiUtils.createOrderNote(PRODUCT_ID, payloads.createOrder, orderNote, payloads.adminAuth);
         await cashier.deleteOrderNote(orderId, orderNote.note);
     });
 
@@ -220,7 +209,7 @@ test.describe('View POS test', () => {
     });
 
     test('cashier can search customers', { tag: ['@pro'] }, async () => {
-        await cashier.searchCustomerOnCustomerPage(customerEmail);
+        await cashier.searchCustomerOnCustomerPage(data.predefined.customerInfo.email);
     });
 
     test('cashier can add new customer on customer page', { tag: ['@pro'] }, async () => {
@@ -228,6 +217,7 @@ test.describe('View POS test', () => {
     });
 
     test('cashier can edit customer', { tag: ['@pro'] }, async () => {
+        const [, , customerEmail] = await apiUtils.createCustomer(payloads.createCustomer(), payloads.adminAuth);
         await cashier.editCustomer(customerEmail, { ...data.customerDetails(), country: 'Canada', state: 'Alberta' });
     });
 

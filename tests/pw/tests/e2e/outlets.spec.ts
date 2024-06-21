@@ -11,8 +11,6 @@ test.describe('Outlets test', () => {
     let outletId: string;
     let outletName: string;
 
-    // test.use(data.auth.adminAuth);
-
     test.beforeAll(async ({ browser }) => {
         const adminContext = await browser.newContext(data.auth.adminAuth);
         aPage = await adminContext.newPage();
@@ -23,15 +21,9 @@ test.describe('Outlets test', () => {
     });
 
     test.afterAll(async () => {
-        // await apiUtils.deleteAllOutlets(payloads.adminAuth);
-        // await apiUtils.deleteAllUsers(['cashier'], payloads.adminAuth);
         await apiUtils.dispose();
         await aPage.close();
     });
-
-    // test.beforeEach(async ({ page }) => {
-    //     admin = new Outlets(page);
-    // });
 
     test('admin can view outlets', { tag: ['@pro'] }, async () => {
         await admin.outletsRenderProperly();

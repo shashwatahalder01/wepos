@@ -531,12 +531,27 @@ export class ApiUtils {
 
     // tags
 
+    // get all tags
+    async getAllTags(auth?: auth): Promise<responseBody> {
+        const [, responseBody] = await this.get(endPoints.wc.getAllTags, { params: { per_page: 100 }, headers: auth });
+        return responseBody;
+    }
+
     // create tag
     async createTag(payload: object, auth?: auth): Promise<[responseBody, string, string]> {
         const [, responseBody] = await this.post(endPoints.wc.createTag, { data: payload, headers: auth });
         const tagId = String(responseBody?.id);
         const tagName = String(responseBody?.name);
         return [responseBody, tagId, tagName];
+    }
+
+    // update batch tags
+    async updateBatchTags(action: string, allIds: string[], auth?: auth): Promise<[APIResponse, responseBody]> {
+        if (!allIds?.length) {
+            allIds = (await this.getAllCategories(auth)).map((a: { id: unknown }) => a.id);
+        }
+        const [response, responseBody] = await this.post(endPoints.wc.updateBatchTags, { data: { [action]: allIds }, headers: auth });
+        return [response, responseBody];
     }
 
     // order

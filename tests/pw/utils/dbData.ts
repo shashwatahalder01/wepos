@@ -1,4 +1,4 @@
-const { WEPOS_PRO } = process.env;
+const { LICENSE_KEY } = process.env;
 
 export const dbData = {
     wepos: {
@@ -7,7 +7,7 @@ export const dbData = {
         },
 
         license: {
-            key: WEPOS_PRO,
+            key: LICENSE_KEY,
             status: 'activate',
             remaining: 8,
             activation_limit: 10,
