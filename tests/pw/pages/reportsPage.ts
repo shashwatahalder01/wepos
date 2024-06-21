@@ -28,7 +28,11 @@ export class Reports extends BasePage {
         await this.multipleElementVisible(reports.overview);
 
         const noReports = await this.isVisible(reports.noReports);
-        !noReports && (await this.toBeVisible(reports.reportsTable));
+        if (noReports) {
+            console.log('No reports found');
+        } else {
+            await this.toBeVisible(reports.reportsTable);
+        }
     }
 
     // filter reports

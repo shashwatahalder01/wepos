@@ -21,8 +21,6 @@ test.describe('Outlets test', () => {
     });
 
     test.afterAll(async () => {
-        await apiUtils.deleteAllOutlets(payloads.adminAuth);
-        await apiUtils.deleteAllUsers('cashier', payloads.adminAuth);
         await apiUtils.dispose();
         await aPage.close();
     });
