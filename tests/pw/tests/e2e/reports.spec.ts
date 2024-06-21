@@ -54,7 +54,7 @@ test.describe('Reports test', () => {
     });
 
     test('admin can clear filter', { tag: ['@pro'] }, async () => {
-        await admin.filterReports('customer1', 'by-customer', false);
+        await admin.filterReports('Cash', 'by-paymentMethod', false);
         await admin.clearFilter();
     });
 

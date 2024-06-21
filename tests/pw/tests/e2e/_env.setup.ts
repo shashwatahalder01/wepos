@@ -7,7 +7,7 @@ import { data } from '@utils/testData';
 import { dbData } from '@utils/dbData';
 import { helpers } from '@utils/helpers';
 
-const { LOCAL, WEPOS_PRO } = process.env;
+const { CI, LOCAL, WEPOS_PRO } = process.env;
 
 setup.describe('Environment setup', () => {
     let apiUtils: ApiUtils;
@@ -26,7 +26,7 @@ setup.describe('Environment setup', () => {
     });
 
     setup('add a product', { tag: ['@lite'] }, async () => {
-        // delete previous store products with predefined name if any
+        // delete all products
         await apiUtils.deleteAllProducts(payloads.adminAuth);
 
         const [, productId] = await apiUtils.createProduct({ ...payloads.createProduct(), name: data.predefined.simpleProduct.product1.name }, payloads.adminAuth);
@@ -34,7 +34,8 @@ setup.describe('Environment setup', () => {
     });
 
     setup('add customer', { tag: ['@lite'] }, async () => {
-        await apiUtils.createCustomer(payloads.createCustomer1, payloads.adminAuth);
+        const [, customerId] = await apiUtils.createCustomer(payloads.createCustomer1, payloads.adminAuth);
+        helpers.createEnvVar('CUSTOMER_ID', customerId);
     });
 
     setup('wepos pro enabled or not', { tag: ['@lite'] }, async () => {
@@ -47,7 +48,7 @@ setup.describe('Environment setup', () => {
     });
 
     setup('check active plugins', { tag: ['@lite'] }, async () => {
-        setup.skip(!process.env.CI, 'skip plugin check on local');
+        setup.skip(!CI, 'skip plugin check on local');
         const activePlugins = (await apiUtils.getAllPlugins({ status: 'active' }, payloads.adminAuth)).map((a: { plugin: string }) => a.plugin.split('/')[1]);
         WEPOS_PRO ? expect(activePlugins).toEqual(expect.arrayContaining(data.plugin.plugins)) : expect(activePlugins).toEqual(expect.arrayContaining(data.plugin.pluginsLite));
     });

@@ -404,24 +404,24 @@ export const payloads = {
             },
             {
                 key: '_wepos_cash_tendered_amount',
-                value: '',
+                value: '0',
             },
             {
                 key: '_wepos_cash_change_amount',
                 value: '0',
             },
-            // {
-            //     key: '_wepos_cashier_id',
-            //     value: '',
-            // },
-            // {
-            //     key: '_wepos_counter_id',
-            //     value: '',
-            // },
-            // {
-            //     key: '_wepos_outlet_id',
-            //     value: '',
-            // },
+            {
+                key: '_wepos_cashier_id',
+                value: '',
+            },
+            {
+                key: '_wepos_counter_id',
+                value: '',
+            },
+            {
+                key: '_wepos_outlet_id',
+                value: '',
+            },
         ],
     },
 

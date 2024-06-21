@@ -205,7 +205,7 @@ const productSchema = z.object({
     tax_status: z.string(),
     tax_class: z.string().optional(),
     manage_stock: z.boolean(),
-    stock_quantity: z.null(),
+    stock_quantity: z.number().nullable(),
     backorders: z.string(),
     backorders_allowed: z.boolean(),
     backordered: z.boolean(),

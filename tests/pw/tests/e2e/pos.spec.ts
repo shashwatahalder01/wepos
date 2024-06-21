@@ -7,7 +7,7 @@ import { data } from '@utils/testData';
 import { payloads } from '@utils/payloads';
 import { responseBody } from '@utils/interfaces';
 
-const { WEPOS_PRO, USER_PASSWORD, PRODUCT_ID } = process.env;
+const { WEPOS_PRO, USER_PASSWORD, PRODUCT_ID, CUSTOMER_ID } = process.env;
 
 test.describe('Pos test', () => {
     let cashier: ViewPos;
@@ -33,7 +33,7 @@ test.describe('Pos test', () => {
             [responseBodyCounter, counterId, counterName] = await apiUtils.createCounter(outletId, payloads.createCounter(), payloads.adminAuth);
             await apiUtils.assignCashier(outletId, ['1'], payloads.adminAuth);
             cashier = new ViewPos(cPage, outletName, `${counterName} - ${responseBodyCounter.number}`);
-            [, , orderId] = await apiUtils.createOrder(PRODUCT_ID, payloads.createOrder, payloads.adminAuth);
+            [, , orderId] = await apiUtils.createOrder(PRODUCT_ID, { ...payloads.createOrder, customer_id: CUSTOMER_ID }, payloads.adminAuth);
         }
     });
 
