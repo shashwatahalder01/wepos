@@ -26,6 +26,8 @@ export class Pos extends BasePage {
     async goToPos(outlet = this.outlet, counter = this.counter) {
         await this.goIfNotThere(data.subUrls.backend.wepos.viewPos);
 
+        console.log(WEPOS_PRO);
+
         if (WEPOS_PRO) {
             await this.toBeVisible(pos.loginForm);
 
