@@ -76,7 +76,7 @@ export const selector = {
         uploadedMediaFirst: '(//div[contains(@class,"attachment-preview")])[1]',
         selectFiles: '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[@class="browser button button-hero"]',
         selectFilesInput: '//div[@class="supports-drag-drop" and @style="position: relative;"]//input[@type="file"]',
-        selectUploadedMedia: '(//h2[contains(text(),"Media list")]/..//ul//li)[1]',
+        selectUploadedMedia: '(//h2[contains(text(),"Media list")]/..//ul//li/div)[1]',
         select: '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[contains(@class, "media-button-select")]',
     },
 

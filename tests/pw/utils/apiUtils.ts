@@ -2,6 +2,7 @@ import { expect, Request, APIRequestContext, APIResponse } from '@playwright/tes
 import { endPoints } from '@utils/apiEndPoints';
 import { payloads } from '@utils/payloads';
 import { helpers } from '@utils/helpers';
+import fs from 'fs';
 import { auth, user_api, taxRate, reqOptions, coupon_api, params, headers, storageState, responseBody } from '@utils/interfaces';
 
 export class ApiUtils {
@@ -548,7 +549,7 @@ export class ApiUtils {
     // update batch tags
     async updateBatchTags(action: string, allIds: string[], auth?: auth): Promise<[APIResponse, responseBody]> {
         if (!allIds?.length) {
-            allIds = (await this.getAllCategories(auth)).map((a: { id: unknown }) => a.id);
+            allIds = (await this.getAllTags(auth)).map((a: { id: unknown }) => a.id);
         }
         const [response, responseBody] = await this.post(endPoints.wc.updateBatchTags, { data: { [action]: allIds }, headers: auth });
         return [response, responseBody];

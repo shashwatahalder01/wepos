@@ -11,7 +11,7 @@ const { WEPOS_PRO } = process.env;
 const wepos = selector.admin.wepos;
 const pos = selector.admin.wepos.viewPos;
 
-export class ViewPos extends BasePage {
+export class Pos extends BasePage {
     outlet: string;
     counter: string;
 

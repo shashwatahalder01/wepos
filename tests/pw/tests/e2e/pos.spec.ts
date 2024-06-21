@@ -1,5 +1,5 @@
 import { test, Page, request } from '@playwright/test';
-import { ViewPos } from '@pages/viewPosPage';
+import { Pos } from '@pages/posPage';
 import { LoginPage } from '@pages/loginPage';
 import { ApiUtils } from '@utils/apiUtils';
 import { dbUtils } from '@utils/dbUtils';
@@ -10,7 +10,7 @@ import { responseBody } from '@utils/interfaces';
 const { WEPOS_PRO, USER_PASSWORD, PRODUCT_ID, CUSTOMER_ID } = process.env;
 
 test.describe('Pos test', () => {
-    let cashier: ViewPos;
+    let cashier: Pos;
     let cPage: Page;
     let apiUtils: ApiUtils;
     let responseBodyCounter: responseBody;
@@ -23,7 +23,7 @@ test.describe('Pos test', () => {
     test.beforeAll(async ({ browser }) => {
         const adminContext = await browser.newContext(data.auth.adminAuth);
         cPage = await adminContext.newPage();
-        cashier = new ViewPos(cPage);
+        cashier = new Pos(cPage);
 
         apiUtils = new ApiUtils(await request.newContext());
         if (WEPOS_PRO) {
@@ -32,7 +32,7 @@ test.describe('Pos test', () => {
             [, outletId, outletName] = await apiUtils.createOutlet(payloads.createOutlet(), payloads.adminAuth);
             [responseBodyCounter, counterId, counterName] = await apiUtils.createCounter(outletId, payloads.createCounter(), payloads.adminAuth);
             await apiUtils.assignCashier(outletId, ['1'], payloads.adminAuth);
-            cashier = new ViewPos(cPage, outletName, `${counterName} - ${responseBodyCounter.number}`);
+            cashier = new Pos(cPage, outletName, `${counterName} - ${responseBodyCounter.number}`);
             [, , orderId] = await apiUtils.createOrder(PRODUCT_ID, { ...payloads.createOrder, customer_id: CUSTOMER_ID }, payloads.adminAuth);
         }
     });
@@ -79,13 +79,13 @@ test.describe('Pos test', () => {
 
     test('cashier can logout', { tag: ['@lite'] }, async ({ page }) => {
         const loginPage = new LoginPage(page);
-        let cashier = new ViewPos(page);
+        let cashier = new Pos(page);
         const [responseBody, cashierId] = await apiUtils.createUser({ ...payloads.createUser(), roles: 'administrator' }, payloads.adminAuth);
         if (WEPOS_PRO) {
             const [, outletId, outletName] = await apiUtils.createOutlet(payloads.createOutlet(), payloads.adminAuth);
             const [responseBodyCounter, , counterName] = await apiUtils.createCounter(outletId, payloads.createCounter(), payloads.adminAuth);
 
-            cashier = new ViewPos(page, outletName, `${counterName} - ${responseBodyCounter.number}`);
+            cashier = new Pos(page, outletName, `${counterName} - ${responseBodyCounter.number}`);
             await apiUtils.assignCashier(outletId, [cashierId], payloads.adminAuth);
         }
 
@@ -98,8 +98,7 @@ test.describe('Pos test', () => {
     });
 
     test('cashier can add customer to cart', { tag: ['@lite'] }, async () => {
-        const [responseBody, , customerEmail] = await apiUtils.createCustomer(payloads.createCustomer(), payloads.adminAuth);
-        await cashier.addCustomerToCart(customerEmail, `${responseBody.billing.first_name} ${responseBody.billing.last_name}`);
+        await cashier.addCustomerToCart(data.predefined.customerInfo.email, data.predefined.customerInfo.billingName);
     });
 
     test('cashier can edit product quantity', { tag: ['@lite'] }, async () => {

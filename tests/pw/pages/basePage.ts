@@ -1558,8 +1558,8 @@ export class BasePage {
             await this.uploadFile(selector.wpMedia.selectFilesInput, file);
             const isSelectDisabled = await this.isDisabled(selector.wpMedia.select);
             isSelectDisabled && (await this.click(selector.wpMedia.selectUploadedMedia));
-            await this.click(selector.wpMedia.select);
         }
+        await this.click(selector.wpMedia.select);
     }
 
     // upload file
