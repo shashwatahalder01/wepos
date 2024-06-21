@@ -351,6 +351,7 @@ export const payloads = {
         // payment_method_title: 'Direct Bank Transfer',
         payment_method: 'wepos_cash',
         payment_method_title: 'Cash',
+        status: 'completed',
         set_paid: true,
         customer_id: 0,
         billing: {

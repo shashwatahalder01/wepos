@@ -30,6 +30,7 @@ test.describe('Pos test', () => {
             await dbUtils.deleteTable('wepos_login');
 
             [, outletId, outletName] = await apiUtils.createOutlet(payloads.createOutlet(), payloads.adminAuth);
+            console.log('outletId:', outletId, 'outletName:', outletName);
             [responseBodyCounter, counterId, counterName] = await apiUtils.createCounter(outletId, payloads.createCounter(), payloads.adminAuth);
             await apiUtils.assignCashier(outletId, ['1'], payloads.adminAuth);
             cashier = new ViewPos(cPage, outletName, `${counterName} - ${responseBodyCounter.number}`);
@@ -135,6 +136,7 @@ test.describe('Pos test', () => {
     });
 
     test('cashier can switch counter', { tag: ['@pro'] }, async () => {
+        console.log(outletId);
         const [responseBodyCounter, counterId, counterName] = await apiUtils.createCounter(outletId, payloads.createCounter(), payloads.adminAuth);
         await cashier.switchCounter(outletName, `${counterName} - ${responseBodyCounter.number}`);
 

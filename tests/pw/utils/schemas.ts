@@ -209,7 +209,7 @@ const productSchema = z.object({
     backorders: z.string(),
     backorders_allowed: z.boolean(),
     backordered: z.boolean(),
-    low_stock_amount: z.null(),
+    low_stock_amount: z.number().nullable(),
     sold_individually: z.boolean(),
     weight: z.string().optional(),
     dimensions: dimensionsSchema,
