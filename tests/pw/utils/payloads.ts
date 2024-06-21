@@ -278,10 +278,18 @@ export const payloads = {
         name: faker.string.nanoid(5),
     }),
 
+    createCategory: () => ({
+        name: 'Electronics',
+    }),
+
     // tags
 
     createTagsRandom: () => ({
         name: faker.string.nanoid(5),
+    }),
+
+    createTag: () => ({
+        name: 'Gadgets',
     }),
 
     // coupon

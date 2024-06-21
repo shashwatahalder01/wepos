@@ -4,7 +4,7 @@ import { payloads } from '@utils/payloads';
 
 const { WEPOS_PRO } = process.env;
 
-teardown.describe('reset test environment', () => {
+teardown.describe('Environment reset', () => {
     let apiUtils: ApiUtils;
 
     teardown.beforeAll(async () => {

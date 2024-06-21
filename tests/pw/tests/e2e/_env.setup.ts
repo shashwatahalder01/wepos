@@ -27,9 +27,10 @@ setup.describe('Environment setup', () => {
 
     setup('add a product', { tag: ['@lite'] }, async () => {
         // delete previous store products with predefined name if any
-        await apiUtils.deleteAllProducts(data.predefined.simpleProduct.product1.name, payloads.adminAuth);
+        await apiUtils.deleteAllProducts(payloads.adminAuth);
 
-        await apiUtils.createProduct({ ...payloads.createProduct(), name: data.predefined.simpleProduct.product1.name }, payloads.adminAuth);
+        const [, productId] = await apiUtils.createProduct({ ...payloads.createProduct(), name: data.predefined.simpleProduct.product1.name }, payloads.adminAuth);
+        helpers.createEnvVar('PRODUCT_ID', productId);
     });
 
     setup('add customer', { tag: ['@lite'] }, async () => {
@@ -58,6 +59,16 @@ setup.describe('Environment setup', () => {
 
     setup('set tax rate', { tag: ['@lite'] }, async () => {
         await apiUtils.setUpTaxRate(payloads.enableTaxRate, payloads.createTaxRate, payloads.adminAuth);
+    });
+
+    setup('add categories and tags', { tag: ['@pro'] }, async () => {
+        setup.skip(!WEPOS_PRO, 'skip on lite');
+        // delete previous categories and tags
+        await apiUtils.updateBatchCategories('delete', [], payloads.adminAuth);
+        await apiUtils.updateBatchTags('delete', [], payloads.adminAuth);
+
+        await apiUtils.createCategory(payloads.createCategory(), payloads.adminAuth);
+        await apiUtils.createTag(payloads.createTag(), payloads.adminAuth);
     });
 
     setup('get test environment info', { tag: ['@lite'] }, async () => {

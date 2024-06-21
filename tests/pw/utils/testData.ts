@@ -239,8 +239,8 @@ export const data = {
     predefined: {
         simpleProduct: {
             product1: {
-                name: 'p1_v1 (simple)',
-                productName: () => 'p1_v1 (simple)',
+                name: 'p1_a1',
+                productName: () => 'p1_a1',
             },
         },
 
@@ -251,6 +251,9 @@ export const data = {
             username: 'customer1',
             email: CUSTOMER + '@yopmail.com',
         },
+
+        category: 'Electronics',
+        tag: 'Gadgets',
     },
 
     subUrls: {
