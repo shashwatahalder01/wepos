@@ -2,6 +2,7 @@ import { expect, Request, APIRequestContext, APIResponse } from '@playwright/tes
 import { endPoints } from '@utils/apiEndPoints';
 import { payloads } from '@utils/payloads';
 import { helpers } from '@utils/helpers';
+import fs from 'fs';
 import { auth, user_api, taxRate, reqOptions, coupon_api, params, headers, storageState, responseBody } from '@utils/interfaces';
 
 export class ApiUtils {

@@ -248,6 +248,7 @@ export const data = {
             firstName: 'customer1',
             lastName: 'c1',
             fullName: 'customer1 c1',
+            billingName: 'customer1 c1',
             username: 'customer1',
             email: CUSTOMER + '@yopmail.com',
         },

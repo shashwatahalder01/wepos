@@ -1,15 +1,20 @@
-import { test, Page } from '@playwright/test';
+import { test, Page, request } from '@playwright/test';
 import { Receipts } from '@pages/receiptsPage';
+import { ApiUtils } from '@utils/apiUtils';
+import { payloads } from '@utils/payloads';
 import { data } from '@utils/testData';
 
 test.describe('Receipts test', () => {
     let admin: Receipts;
     let aPage: Page;
+    let apiUtils: ApiUtils;
 
     test.beforeAll(async ({ browser }) => {
         const adminContext = await browser.newContext(data.auth.adminAuth);
         aPage = await adminContext.newPage();
         admin = new Receipts(aPage);
+
+        apiUtils = new ApiUtils(await request.newContext());
     });
 
     test.afterAll(async () => {
@@ -21,6 +26,7 @@ test.describe('Receipts test', () => {
     });
 
     test('admin can set receipt logo', { tag: ['@pro'] }, async () => {
+        await apiUtils.uploadMedia(data.receipt.logoDetails.logo, payloads.mimeTypes.png, payloads.adminAuth);
         await admin.setReceiptLogo(data.receipt.logoDetails);
     });
 

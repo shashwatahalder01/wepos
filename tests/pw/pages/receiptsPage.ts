@@ -71,11 +71,11 @@ export class Receipts extends BasePage {
         await this.clickIfVisible(receipts.logoDetails.uploadedImage);
         await this.click(receipts.logoDetails.uploadLogo);
         await this.uploadMedia(receipt.logo);
-        await this.clearAndType(receipts.logoDetails.height, receipt.height);
         await this.clearAndType(receipts.logoDetails.width, receipt.width);
+        await this.clearAndType(receipts.logoDetails.height, receipt.height);
 
         // save receipt
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.receipts, receipts.saveReceipt);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.receipts, receipts.saveReceipt);
     }
 
     // set receipt style
@@ -92,7 +92,7 @@ export class Receipts extends BasePage {
         await this.clearAndType(receipts.styleDetails.paragraphFontSize, receipt.paragraphFontSize);
 
         // save receipt
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.receipts, receipts.saveReceipt);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.receipts, receipts.saveReceipt);
     }
 
     // ser receipt header details
@@ -124,7 +124,7 @@ export class Receipts extends BasePage {
         await this.enableSwitcher(receipts.headersDetails.showOrderNote);
 
         // save receipt
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.receipts, receipts.saveReceipt);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.receipts, receipts.saveReceipt);
     }
 
     // set receipt item details
@@ -144,7 +144,7 @@ export class Receipts extends BasePage {
         await this.enableSwitcher(receipts.itemDetails.showPaymentMethod);
 
         // save receipt
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.receipts, receipts.saveReceipt);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.receipts, receipts.saveReceipt);
     }
 
     // set receipt footer details
@@ -157,6 +157,6 @@ export class Receipts extends BasePage {
         await this.typeFrameSelector(receipts.footerDetails.footerIframe, receipts.footerDetails.footerHtmlBody, footerText);
 
         // save receipt
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.receipts, receipts.saveReceipt);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.receipts, receipts.saveReceipt);
     }
 }
