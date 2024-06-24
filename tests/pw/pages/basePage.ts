@@ -1552,7 +1552,7 @@ export class BasePage {
     }
 
     async uploadMedia(file: string) {
-        // await this.wait(0.5);
+        await this.wait(0.5);
         await this.click(selector.wpMedia.mediaLibrary);
         const uploadedMediaIsVisible = await this.isVisible(selector.wpMedia.uploadedMediaFirst);
         if (uploadedMediaIsVisible) {
@@ -1564,7 +1564,7 @@ export class BasePage {
         const isSelectDisabled = await this.isDisabled(selector.wpMedia.select);
         isSelectDisabled && (await this.click(selector.wpMedia.selectUploadedMedia));
 
-        await this.click(selector.wpMedia.select);
+        !isSelectDisabled && (await this.click(selector.wpMedia.select));
     }
 
     // upload file
