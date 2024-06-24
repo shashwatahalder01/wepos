@@ -611,7 +611,7 @@ export const schemas = {
             paragraphFontSize: z.string().or(z.number()),
         }),
         logo: z.object({
-            id: z.string(),
+            id: z.string().or(z.number()),
             title: z.string(),
             url: z.string(),
             width: z.string().or(z.number()),
