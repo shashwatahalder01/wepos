@@ -138,7 +138,7 @@ export class Outlets extends BasePage {
             await this.clearAndType(outlets.cashier.cashierInput, cashier as string);
             await this.click(outlets.cashier.searchedCashier);
             await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.assignCashier);
-            await this.toBeVisible(outlets.outletContent.cashier((cashier as string).toLowerCase()));
+            await this.toBeVisible(outlets.outletContent.cashier(helpers.capitalizeEachWord(cashier as string)));
         } else {
             await this.clearAndType(outlets.cashier.cashierInput, '......'); // to invoke add cashier option
             await this.click(outlets.cashier.createCashier);
@@ -151,7 +151,7 @@ export class Outlets extends BasePage {
                 await this.clearAndType(outlets.cashier.cashierDetails.phone, cashier.phone);
                 await this.clearAndType(outlets.cashier.cashierDetails.website, cashier.website);
                 await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.cashierDetails.create);
-                await this.toBeVisible(outlets.outletContent.cashier(`${cashier.firstName} ${cashier.lastName}`.toLowerCase()));
+                await this.toBeVisible(outlets.outletContent.cashier(helpers.capitalizeEachWord(`${cashier.firstName} ${cashier.lastName}`)));
             }
         }
     }
@@ -163,6 +163,6 @@ export class Outlets extends BasePage {
         await this.hover(outlets.outletContent.cashier(helpers.capitalizeEachWord(cashierName)));
         await this.click(outlets.outletContent.deleteCashier(cashierName));
         await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmDelete);
-        await this.notToBeVisible(outlets.outletContent.cashier(cashierName.toLowerCase()));
+        await this.notToBeVisible(outlets.outletContent.cashier(helpers.capitalizeEachWord(cashierName)));
     }
 }
