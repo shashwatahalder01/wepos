@@ -3,11 +3,12 @@ import { execSync } from 'child_process';
 import { Browser, BrowserContextOptions, Page } from '@playwright/test';
 
 export const helpers = {
-    // replace '_' to space & capitalize first letter of string
-    replaceAndCapitalize: (str: string) => str.replace('_', ' ').replace(/^\w{1}/, letter => letter.toUpperCase()),
-
-    // replace '_' to space & capitalize first letter of each word
-    replaceAndCapitalizeEachWord: (str: string) => str.replace('_', ' ').replace(/(^\w{1})|(\s+\w{1})/g, (letter: string) => letter.toUpperCase()),
+    // capitalize first letter of each word
+    capitalizeEachWord: (str: string) =>
+        str
+            .split(' ')
+            .map(word => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+            .join(' '),
 
     // capitalize
     capitalize: (word: string) => word[0]?.toUpperCase() + word.substring(1).toLowerCase(),
