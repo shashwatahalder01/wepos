@@ -70,13 +70,15 @@ export const selector = {
     },
 
     wpMedia: {
+        uploadFiles: '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[@id="menu-item-upload"]',
+        mediaLibrary: '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[@id="menu-item-browse"]',
         // wp image upload
         wpUploadFiles: '#menu-item-upload',
         uploadedMedia: 'div.attachment-preview',
-        uploadedMediaFirst: '(//div[contains(@class,"attachment-preview")])[1]',
+        uploadedMediaFirst: '(//div[@class="supports-drag-drop" and @style="position: relative;"]//div[contains(@class,"attachment-preview")])[1]',
         selectFiles: '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[@class="browser button button-hero"]',
         selectFilesInput: '//div[@class="supports-drag-drop" and @style="position: relative;"]//input[@type="file"]',
-        selectUploadedMedia: '(//h2[contains(text(),"Media list")]/..//ul//li/div)[1]',
+        selectUploadedMedia: '(//div[@class="supports-drag-drop" and @style="position: relative;"]//h2[contains(text(),"Media list")]/..//ul//li/div)[1]',
         select: '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[contains(@class, "media-button-select")]',
     },
 
