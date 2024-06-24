@@ -446,6 +446,17 @@ export const payloads = {
         password: USER_PASSWORD,
     }),
 
+    //cashier user
+    cashier: {
+        username: 'admin2',
+        first_name: 'admin2',
+        last_name: 'a2',
+        full_name: 'admin2 a2',
+        email: 'admin2' + '@yopmail.com',
+        roles: 'administrator',
+        password: USER_PASSWORD,
+    },
+
     // site settings
 
     siteSettings: {

@@ -68,6 +68,14 @@ export const dbUtils = {
         return res;
     },
 
+    // delete a table
+    async deleteLoginData(table: string, userId: string): Promise<any> {
+        const queryDelete = `DELETE FROM ${dbPrefix}_${table} WHERE user_id = ${userId};`;
+        const res = await dbUtils.dbQuery(queryDelete);
+        // console.log(res);
+        return res;
+    },
+
     // get wepos settings
     async getWeposSettings(optionName: string): Promise<any> {
         const querySelect = `Select option_value FROM ${dbPrefix}_options WHERE option_name = '${optionName}';`;

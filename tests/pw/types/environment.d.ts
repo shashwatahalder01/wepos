@@ -7,9 +7,11 @@ declare global {
             ADMIN: string;
             ADMIN_PASSWORD: string;
             CUSTOMER: string;
+            CASHIER: string;
             USER_PASSWORD: string;
             ADMIN_ID: string;
             CUSTOMER_ID: string;
+            CASHIER_ID: string;
             PRODUCT_ID: string;
             LOCAL: boolean;
             CI: string;

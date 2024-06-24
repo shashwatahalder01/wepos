@@ -40,6 +40,7 @@ permissions:
 env:
   ADMIN: admin
   ADMIN_PASSWORD: password
+  CASHIER: admin2
   CUSTOMER: customer1
   USER_PASSWORD: 01wepos01
   LICENSE_KEY: ${{secrets.LICENSE_KEY}}
