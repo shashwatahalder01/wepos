@@ -1553,14 +1553,17 @@ export class BasePage {
 
     async uploadMedia(file: string) {
         // await this.wait(0.5);
+        await this.click(selector.wpMedia.mediaLibrary);
         const uploadedMediaIsVisible = await this.isVisible(selector.wpMedia.uploadedMediaFirst);
         if (uploadedMediaIsVisible) {
             await this.click(selector.wpMedia.uploadedMediaFirst);
         } else {
+            await this.click(selector.wpMedia.uploadFiles);
             await this.uploadFile(selector.wpMedia.selectFilesInput, file);
-            const isSelectDisabled = await this.isDisabled(selector.wpMedia.select);
-            isSelectDisabled && (await this.click(selector.wpMedia.selectUploadedMedia));
         }
+        const isSelectDisabled = await this.isDisabled(selector.wpMedia.select);
+        isSelectDisabled && (await this.click(selector.wpMedia.selectUploadedMedia));
+
         await this.click(selector.wpMedia.select);
     }
 

@@ -380,7 +380,7 @@ export class Pos extends BasePage {
                 break;
         }
 
-        await this.wait(1.2);
+        await this.wait(1);
         const count = await this.getElementCount(pos.orders.numberOfRowsFound);
         await this.toHaveCount(pos.orders.orderRowByCustomer(input), Number(count));
     }
