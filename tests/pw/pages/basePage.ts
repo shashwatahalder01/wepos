@@ -85,6 +85,8 @@ export class BasePage {
     isCurrentUrl(subPath: string): boolean {
         const url = new URL(this.getCurrentUrl());
         const currentURL = url.href;
+        // console.log('currentURL: ', currentURL);
+        // console.log('newURL: ', this.createUrl(subPath));
         return currentURL === this.createUrl(subPath);
     }
 
@@ -671,7 +673,7 @@ export class BasePage {
 
     // type in input field
     async type(selector: string, text: string): Promise<void> {
-        await this.page.locator(selector).pressSequentially(text);
+        await this.page.locator(selector).pressSequentially(text, { delay: 200 });
     }
 
     // fill in input field

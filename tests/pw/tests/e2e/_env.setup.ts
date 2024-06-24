@@ -38,6 +38,16 @@ setup.describe('Environment setup', () => {
         helpers.createEnvVar('CUSTOMER_ID', customerId);
     });
 
+    setup('add cashier', { tag: ['@pro'] }, async () => {
+        const [, cashierId] = await apiUtils.createCashierUser(payloads.cashier, payloads.adminAuth);
+        helpers.createEnvVar('CASHIER_ID', cashierId);
+    });
+
+    setup('authenticate cashier', { tag: ['@pro'] }, async ({ page }) => {
+        const loginPage = new LoginPage(page);
+        await loginPage.adminLogin(data.cashierUser, data.auth.cashierAuthFile);
+    });
+
     setup('wepos pro enabled or not', { tag: ['@lite'] }, async () => {
         setup.skip(LOCAL, 'Skip on Local testing');
         let res = await apiUtils.checkPluginsExistence(data.plugin.weposPro, payloads.adminAuth);

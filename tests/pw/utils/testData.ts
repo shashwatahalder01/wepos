@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker';
 import 'dotenv/config';
 
-const { ADMIN, CUSTOMER, ADMIN_PASSWORD, USER_PASSWORD, LICENSE_KEY, SITE_PATH } = process.env;
+const { ADMIN, CUSTOMER, CASHIER, ADMIN_PASSWORD, USER_PASSWORD, LICENSE_KEY, SITE_PATH } = process.env;
 
 interface user {
     username: string;
@@ -22,19 +22,14 @@ export const data = {
 
     auth: {
         adminAuthFile: 'playwright/.auth/adminStorageState.json',
-        vendorAuthFile: 'playwright/.auth/vendorStorageState.json',
-        customerAuthFile: 'playwright/.auth/customerStorageState.json',
+        cashierAuthFile: 'playwright/.auth/cashierStorageState.json',
 
         adminAuth: {
             storageState: 'playwright/.auth/adminStorageState.json',
         },
 
-        vendorAuth: {
-            storageState: 'playwright/.auth/vendorStorageState.json',
-        },
-
-        customerAuth: {
-            storageState: 'playwright/.auth/customerStorageState.json',
+        cashierAuth: {
+            storageState: 'playwright/.auth/cashierStorageState.json',
         },
 
         noAuth: {
@@ -82,6 +77,11 @@ export const data = {
     admin: {
         username: String(ADMIN),
         password: String(ADMIN_PASSWORD),
+    },
+
+    cashierUser: {
+        username: String(CASHIER),
+        password: String(USER_PASSWORD),
     },
 
     // customer details

@@ -602,20 +602,20 @@ export const schemas = {
     receiptSchema: z.object({
         style: z.object({
             padding: z.object({
-                top: z.string().regex(/^\d+$/),
-                right: z.string().regex(/^\d+$/),
-                bottom: z.string().regex(/^\d+$/),
-                left: z.string().regex(/^\d+$/),
+                top: z.string().or(z.number()),
+                right: z.string().or(z.number()),
+                bottom: z.string().or(z.number()),
+                left: z.string().or(z.number()),
             }),
-            headingFontSize: z.string().regex(/^\d+$/),
-            paragraphFontSize: z.string().regex(/^\d+$/),
+            headingFontSize: z.string().or(z.number()),
+            paragraphFontSize: z.string().or(z.number()),
         }),
         logo: z.object({
             id: z.string(),
             title: z.string(),
             url: z.string(),
-            width: z.string().regex(/^\d+$/),
-            height: z.string().regex(/^\d+$/),
+            width: z.string().or(z.number()),
+            height: z.string().or(z.number()),
         }),
         header: z.object({
             showOutletName: z.boolean(),
@@ -645,7 +645,7 @@ export const schemas = {
             orderNote: z.string(),
         }),
         items: z.object({
-            colSpanNo: z.string().regex(/^\d+$/),
+            colSpanNo: z.string().or(z.number()),
             showUnitCostColumn: z.boolean(),
             productColumnLabel: z.string(),
             costColumnLabel: z.string(),

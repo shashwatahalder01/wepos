@@ -147,7 +147,7 @@ export const selector = {
                     deleteCounter: (counterName: string) => `//div[@class='counter-content']//span[text()='${counterName}']/../..//span[@class="flaticon-delete"]/..`,
 
                     // cashier
-                    cashier: (counterName: string) => `//div[@class='cashier-content']//span[translate(text(), 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', 'abcdefghijklmnopqrstuvwxyz')='${counterName}']/../..`,
+                    cashier: (counterName: string) => `//div[@class='cashier-content']//span[text()='${counterName}']/../..`,
                     deleteCashier: (counterName: string) => `//div[@class='cashier-content']//span[text()='${counterName}']/../..//span[@class="flaticon-delete"]/..`,
 
                     cancelDelete: '//div[@class="confirm-action"]//button[text()="Cancel"]',

@@ -3,6 +3,7 @@ import { BasePage } from '@pages/basePage';
 import { selector } from '@pages/selectors';
 import { data } from '@utils/testData';
 import { outlet, counter, cashier } from '@utils/interfaces';
+import { helpers } from '@utils/helpers';
 
 // selectors
 const wepos = selector.admin.wepos;
@@ -159,7 +160,7 @@ export class Outlets extends BasePage {
     async deleteCashier(outletName: string, cashierName: string) {
         await this.goToOutlets();
         await this.click(outlets.outletContent.outletCashier(outletName));
-        await this.hover(outlets.outletContent.cashier(cashierName.toLowerCase()));
+        await this.hover(outlets.outletContent.cashier(helpers.capitalizeEachWord(cashierName)));
         await this.click(outlets.outletContent.deleteCashier(cashierName));
         await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmDelete);
         await this.notToBeVisible(outlets.outletContent.cashier(cashierName.toLowerCase()));

@@ -170,6 +170,22 @@ export class ApiUtils {
         return [responseBody, cashierId, cashierName];
     }
 
+    async createCashierUser(payload: any, auth?: auth): Promise<[responseBody, string, string]> {
+        const [response, responseBody] = await this.post(endPoints.wp.createUser, { data: payload, headers: auth }, false);
+        let userId, fullName;
+        if (responseBody.code) {
+            expect(response.status()).toBe(500);
+
+            // get cashier id if already exists
+            userId = await this.getUserId(payload.full_name, auth);
+            fullName = payload.full_name;
+        } else {
+            userId = String(responseBody?.id);
+            fullName = String(responseBody?.name);
+        }
+        return [responseBody, userId, fullName];
+    }
+
     // assign cashier
     async assignCashier(outletId: string, cashierIds: string[], auth?: auth): Promise<[responseBody]> {
         const [, responseBody] = await this.post(endPoints.assignCashier(outletId), { data: { user_ids: cashierIds }, headers: auth });

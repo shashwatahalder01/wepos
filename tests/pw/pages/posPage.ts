@@ -25,12 +25,8 @@ export class Pos extends BasePage {
 
     async goToPos(outlet = this.outlet, counter = this.counter) {
         await this.goIfNotThere(data.subUrls.backend.wepos.viewPos);
-
-        console.log(WEPOS_PRO);
-
-        if (WEPOS_PRO) {
-            await this.toBeVisible(pos.loginForm);
-
+        const isLoginVisible = await this.isVisible(pos.loginForm);
+        if (WEPOS_PRO && isLoginVisible) {
             await this.selectByLabel(pos.outlet, outlet);
             await this.selectByLabel(pos.counter, counter);
             await this.clickAndAcceptAndWaitForResponseAndLoadState(data.subUrls.api.wepos.cashiers, pos.goToPos);
@@ -374,22 +370,19 @@ export class Pos extends BasePage {
                 await this.clearAndType(pos.orders.filters.filterByCustomer.customerInput, input);
                 await this.click(pos.orders.filters.filterByCustomer.searchedCustomer);
                 await this.clickAndWaitForResponseAndLoadState(data.subUrls.api.wepos.orders, pos.orders.filters.filter);
-                await this.wait(1);
-                const count = await this.getElementCount(pos.orders.numberOfRowsFound);
-                await this.toHaveCount(pos.orders.orderRowByCustomer(input), Number(count));
-
                 break;
             }
             case 'by-status': {
                 await this.clickAndWaitForResponseAndLoadState(data.subUrls.api.wepos.orders, pos.orders.filters.filterByStatus(input));
-                await this.wait(1);
-                const count = await this.getElementCount(pos.orders.numberOfRowsFound);
-                await this.toHaveCount(pos.orders.orderRowByStatus(input), Number(count));
                 break;
             }
             default:
                 break;
         }
+
+        await this.wait(1);
+        const count = await this.getElementCount(pos.orders.numberOfRowsFound);
+        await this.toHaveCount(pos.orders.orderRowByCustomer(input), Number(count));
     }
 
     // search order
