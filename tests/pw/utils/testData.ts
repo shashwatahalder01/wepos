@@ -81,7 +81,7 @@ export const data = {
 
     cashierUser: {
         username: String(CASHIER),
-        password: String(ADMIN_PASSWORD),
+        password: String(USER_PASSWORD),
     },
 
     // customer details
