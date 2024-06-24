@@ -1558,14 +1558,25 @@ export class BasePage {
         const uploadedMediaIsVisible = await this.isVisible(selector.wpMedia.uploadedMediaFirst);
         if (uploadedMediaIsVisible) {
             await this.click(selector.wpMedia.uploadedMediaFirst);
+            console.log('File Already Uploaded');
         } else {
             await this.click(selector.wpMedia.uploadFiles);
             await this.uploadFile(selector.wpMedia.selectFilesInput, file);
+            console.log('File Uploaded');
         }
-        const isSelectDisabled = await this.isDisabled(selector.wpMedia.select);
-        isSelectDisabled && (await this.click(selector.wpMedia.selectUploadedMedia));
+        await this.click(selector.wpMedia.selectUploadedMedia);
 
-        !isSelectDisabled && (await this.click(selector.wpMedia.select));
+        // check if the uploaded media is selected or not for 3 times
+        for (let i = 0; i < 3; i++) {
+            const isSelectDisabled = await this.isDisabled(selector.wpMedia.select);
+            if (!isSelectDisabled) {
+                console.log('Media Selected');
+                break;
+            }
+            isSelectDisabled && (await this.click(selector.wpMedia.selectUploadedMedia));
+        }
+
+        await this.click(selector.wpMedia.select);
     }
 
     // upload file
