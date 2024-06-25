@@ -324,6 +324,7 @@ export const data = {
                 products: 'wepos/v1/products',
                 orders: 'wepos/v1/orders',
                 customers: 'wepos/v1/customers',
+                posDashboard: ['wepos/v1/settings', '/wepos/v1/taxes', 'wepos/v1/products', 'wepos/v1/payment/gateways', 'wepos/v1/receipts', 'wc/v3/products/categories'],
             },
 
             wc: {

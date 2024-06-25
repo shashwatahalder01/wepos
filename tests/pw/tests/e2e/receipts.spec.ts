@@ -15,6 +15,7 @@ test.describe('Receipts test', () => {
         admin = new Receipts(aPage);
 
         apiUtils = new ApiUtils(await request.newContext());
+        await apiUtils.uploadMedia(data.receipt.logoDetails.logo, payloads.mimeTypes.png, payloads.adminAuth);
     });
 
     test.afterAll(async () => {

@@ -252,6 +252,22 @@ export class BasePage {
         return response;
     }
 
+    // click & wait for responses
+    async clickAndWaitForResponses(subUrls: string[], selector: string, codes: number[] = [200]): Promise<Response[]> {
+        const responsePromises = subUrls.map((subUrl, index) => this.page.waitForResponse(resp => resp.url().includes(subUrl) && resp.status() === codes[index % codes.length]));
+        await this.page.locator(selector).click();
+        const responses = await Promise.all(responsePromises);
+        return responses;
+    }
+
+    // click & wait for responses
+    async clickAndWaitForResponsesAndLoadState(subUrls: string[], selector: string, codes: number[] = [200]): Promise<Response[]> {
+        const responsePromises = subUrls.map((subUrl, index) => this.page.waitForResponse(resp => resp.url().includes(subUrl) && resp.status() === codes[index % codes.length]));
+        await this.page.locator(selector).click();
+        const [, ...responses] = await Promise.all([this.page.waitForLoadState('networkidle'), ...responsePromises]);
+        return responses;
+    }
+
     // click & wait for multiple responses
     async clickAndWaitForMultipleResponses(subUrls: string[][], selector: string, code = 200): Promise<void[] | Response[]> {
         // todo: fix this; also update for same and different subUrls
@@ -262,7 +278,7 @@ export class BasePage {
             promises.push(promise);
         });
         promises.push(this.page.locator(selector).click());
-        const response = await Promise.all([...promises, this.page.locator(selector).click()]);
+        const response = await Promise.all(promises);
         return response;
     }
 
@@ -405,6 +421,7 @@ export class BasePage {
 
     // returns whether the element is visible
     async isVisible(selector: string): Promise<boolean> {
+        await this.wait(1); // to add a buffer time for the element to be visible //todo: need to resolve in future
         return await this.isVisibleLocator(selector);
         // return await this.isVisibleByPage(selector);
     }
@@ -1552,17 +1569,28 @@ export class BasePage {
     }
 
     async uploadMedia(file: string) {
-        // await this.wait(0.5);
+        await this.wait(0.5);
         await this.click(selector.wpMedia.mediaLibrary);
         const uploadedMediaIsVisible = await this.isVisible(selector.wpMedia.uploadedMediaFirst);
         if (uploadedMediaIsVisible) {
             await this.click(selector.wpMedia.uploadedMediaFirst);
+            console.log('File Already Uploaded');
         } else {
             await this.click(selector.wpMedia.uploadFiles);
             await this.uploadFile(selector.wpMedia.selectFilesInput, file);
+            console.log('File Uploaded');
         }
-        const isSelectDisabled = await this.isDisabled(selector.wpMedia.select);
-        isSelectDisabled && (await this.click(selector.wpMedia.selectUploadedMedia));
+        await this.click(selector.wpMedia.selectUploadedMedia);
+
+        // check if the uploaded media is selected or not for 3 times
+        for (let i = 0; i < 3; i++) {
+            const isSelectDisabled = await this.isDisabled(selector.wpMedia.select);
+            if (!isSelectDisabled) {
+                console.log('Media Selected');
+                break;
+            }
+            isSelectDisabled && (await this.click(selector.wpMedia.selectUploadedMedia));
+        }
 
         await this.click(selector.wpMedia.select);
     }
