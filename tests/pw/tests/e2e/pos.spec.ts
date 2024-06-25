@@ -80,9 +80,11 @@ test.describe('Pos test', () => {
 
     test('cashier can logout', { tag: ['@lite'] }, async ({ page }) => {
         const loginPage = new LoginPage(page);
-        let cashier = new Pos(page);
+        let cashier: Pos;
         const [responseBody, cashierId] = await apiUtils.createUser({ ...payloads.createUser(), roles: 'administrator' }, payloads.adminAuth);
-        if (WEPOS_PRO) {
+        if (!WEPOS_PRO) {
+            cashier = new Pos(page);
+        } else {
             const [, outletId, outletName] = await apiUtils.createOutlet(payloads.createOutlet(), payloads.adminAuth);
             const [responseBodyCounter, , counterName] = await apiUtils.createCounter(outletId, payloads.createCounter(), payloads.adminAuth);
 

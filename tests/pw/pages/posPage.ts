@@ -25,11 +25,12 @@ export class Pos extends BasePage {
 
     async goToPos(outlet = this.outlet, counter = this.counter) {
         await this.goIfNotThere(data.subUrls.backend.wepos.viewPos);
+
         const isLoginVisible = await this.isVisible(pos.loginForm);
         if (WEPOS_PRO && isLoginVisible) {
             await this.selectByLabel(pos.outlet, outlet);
             await this.selectByLabel(pos.counter, counter);
-            await this.clickAndAcceptAndWaitForResponseAndLoadState(data.subUrls.api.wepos.cashiers, pos.goToPos);
+            await this.clickAndWaitForResponsesAndLoadState(data.subUrls.api.wepos.posDashboard, pos.goToPos);
         }
         await this.multipleElementVisible(pos.posSections);
     }

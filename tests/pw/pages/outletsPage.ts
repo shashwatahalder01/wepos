@@ -73,7 +73,7 @@ export class Outlets extends BasePage {
         await this.goToOutlets();
         await this.click(outlets.addOutlet);
         await this.updateOutletFields(outlet);
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.createOutlet);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.createOutlet);
         await this.toBeVisible(outlets.outlet(outlet.outletName));
     }
 
@@ -83,7 +83,7 @@ export class Outlets extends BasePage {
         await this.click(outlets.outletMoreOption(outletName));
         await this.click(outlets.outletMoreOptions.editOutlet);
         await this.updateOutletFields(outlet);
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.updateOutlet);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.updateOutlet);
         await this.toBeVisible(outlets.outlet(outlet.outletName));
     }
 
@@ -92,7 +92,7 @@ export class Outlets extends BasePage {
         await this.goToOutlets();
         await this.click(outlets.outletMoreOption(outletName));
         await this.click(outlets.outletMoreOptions.deleteOutlet);
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, wepos.confirmAction);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.outlet, wepos.confirmAction);
         await this.notToBeVisible(outlets.outlet(outletName));
     }
 
@@ -103,7 +103,7 @@ export class Outlets extends BasePage {
         await this.click(outlets.outletMoreOptions.addCounter);
         await this.clearAndType(outlets.counter.name, counter.name);
         await this.clearAndType(outlets.counter.number, counter.number);
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.counter.addCounter);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.counter.addCounter);
         await this.toBeVisible(outlets.outletContent.counter(counter.name));
     }
 
@@ -114,7 +114,7 @@ export class Outlets extends BasePage {
         await this.click(outlets.outletContent.editCounter(counterName));
         await this.clearAndType(outlets.counter.name, counter.name);
         await this.clearAndType(outlets.counter.number, counter.number);
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.counter.updateCounter);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.counter.updateCounter);
         await this.toBeVisible(outlets.outletContent.counter(counter.name));
     }
 
@@ -123,7 +123,7 @@ export class Outlets extends BasePage {
         await this.goToOutlets();
         await this.hover(outlets.outletContent.counter(counterName));
         await this.click(outlets.outletContent.deleteCounter(counterName));
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmDelete);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmDelete);
         await this.notToBeVisible(outlets.outletContent.counter(counterName));
     }
 
@@ -137,7 +137,7 @@ export class Outlets extends BasePage {
         if (existingCashier) {
             await this.clearAndType(outlets.cashier.cashierInput, cashier as string);
             await this.click(outlets.cashier.searchedCashier);
-            await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.assignCashier);
+            await this.clickAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.assignCashier);
             await this.toBeVisible(outlets.outletContent.cashier(helpers.capitalizeEachWord(cashier as string)));
         } else {
             await this.clearAndType(outlets.cashier.cashierInput, '......'); // to invoke add cashier option
@@ -150,7 +150,7 @@ export class Outlets extends BasePage {
                 await this.clearAndType(outlets.cashier.cashierDetails.email, cashier.email);
                 await this.clearAndType(outlets.cashier.cashierDetails.phone, cashier.phone);
                 await this.clearAndType(outlets.cashier.cashierDetails.website, cashier.website);
-                await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.cashierDetails.create);
+                await this.clickAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.cashierDetails.create);
                 await this.toBeVisible(outlets.outletContent.cashier(helpers.capitalizeEachWord(`${cashier.firstName} ${cashier.lastName}`)));
             }
         }
@@ -162,7 +162,7 @@ export class Outlets extends BasePage {
         await this.click(outlets.outletContent.outletCashier(outletName));
         await this.hover(outlets.outletContent.cashier(helpers.capitalizeEachWord(cashierName)));
         await this.click(outlets.outletContent.deleteCashier(cashierName));
-        await this.clickAndAcceptAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmDelete);
+        await this.clickAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmDelete);
         await this.notToBeVisible(outlets.outletContent.cashier(helpers.capitalizeEachWord(cashierName)));
     }
 }
