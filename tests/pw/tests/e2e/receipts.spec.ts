@@ -27,7 +27,6 @@ test.describe('Receipts test', () => {
     });
 
     test('admin can set receipt logo', { tag: ['@pro'] }, async () => {
-        await apiUtils.uploadMedia(data.receipt.logoDetails.logo, payloads.mimeTypes.png, payloads.adminAuth);
         await admin.setReceiptLogo(data.receipt.logoDetails);
     });
 
