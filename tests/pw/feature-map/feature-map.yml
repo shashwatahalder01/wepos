@@ -62,7 +62,7 @@
           cashier can complete sale by cash [lite]: true
           cashier can complete sale by card: true
           cashier can complete sale with print receipt [lite]: true
-          cashier can switch counter: false
+          cashier can switch counter: true
           cashier can view products: true
           cashier can search products: true
           cashier can edit product: true

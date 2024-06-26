@@ -61,7 +61,7 @@ export const helpers = {
     },
 
     // convert string to regex
-    stringToRegex: (str: string): RegExp => new RegExp(str), // todo: need to update, multiple cases unhandled
+    stringToRegex: (str: string): RegExp => new RegExp(str),
 
     // convert string to price format
     price: (str: string): number =>
