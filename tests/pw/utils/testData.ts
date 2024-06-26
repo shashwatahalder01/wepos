@@ -331,6 +331,7 @@ export const data = {
                 products: 'wc/v3/products',
                 orders: 'wc/v3/orders',
                 customers: 'wc/v3/customers',
+                coupons: 'wepos/v1/coupons',
             },
         },
     },

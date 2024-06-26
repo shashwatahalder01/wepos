@@ -25,7 +25,6 @@ export class Pos extends BasePage {
 
     async goToPos(outlet = this.outlet, counter = this.counter) {
         await this.goIfNotThere(data.subUrls.backend.wepos.viewPos);
-
         const isLoginVisible = await this.isVisible(pos.loginForm);
         if (WEPOS_PRO && isLoginVisible) {
             await this.selectByLabel(pos.outlet, outlet);
@@ -211,7 +210,7 @@ export class Pos extends BasePage {
         await this.addToCart(productName);
         await this.click(pos.cart.addDiscount);
         await this.clearAndType(pos.cart.feeDetails.feeInput, amount);
-        await this.click(pos.cart.feeDetails.feeType(type));
+        await this.clickAndWaitForResponse(data.subUrls.api.wc.coupons, pos.cart.feeDetails.feeType(type), 201);
         await this.toContainText(pos.cart.feeDetails.feeAmount('Discount'), amount);
     }
 
