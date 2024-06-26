@@ -138,7 +138,7 @@ export class Outlets extends BasePage {
             await this.clearAndType(outlets.cashier.cashierInput, cashier as string);
             await this.click(outlets.cashier.searchedCashier);
             await this.clickAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.assignCashier);
-            await this.toBeVisible(outlets.outletContent.cashier(helpers.capitalizeEachWord(cashier as string)));
+            await this.toBeVisible(outlets.outletContent.cashier(helpers.capitalizeWords(cashier as string)));
         } else {
             await this.clearAndType(outlets.cashier.cashierInput, '......'); // to invoke add cashier option
             await this.click(outlets.cashier.createCashier);
@@ -151,7 +151,7 @@ export class Outlets extends BasePage {
                 await this.clearAndType(outlets.cashier.cashierDetails.phone, cashier.phone);
                 await this.clearAndType(outlets.cashier.cashierDetails.website, cashier.website);
                 await this.clickAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.cashier.cashierDetails.create);
-                await this.toBeVisible(outlets.outletContent.cashier(helpers.capitalizeEachWord(`${cashier.firstName} ${cashier.lastName}`)));
+                await this.toBeVisible(outlets.outletContent.cashier(helpers.capitalizeWords(`${cashier.firstName} ${cashier.lastName}`)));
             }
         }
     }
@@ -160,9 +160,9 @@ export class Outlets extends BasePage {
     async deleteCashier(outletName: string, cashierName: string) {
         await this.goToOutlets();
         await this.click(outlets.outletContent.outletCashier(outletName));
-        await this.hover(outlets.outletContent.cashier(helpers.capitalizeEachWord(cashierName)));
+        await this.hover(outlets.outletContent.cashier(helpers.capitalizeWords(cashierName)));
         await this.click(outlets.outletContent.deleteCashier(cashierName));
         await this.clickAndWaitForResponse(data.subUrls.api.wepos.outlet, outlets.outletContent.confirmDelete);
-        await this.notToBeVisible(outlets.outletContent.cashier(helpers.capitalizeEachWord(cashierName)));
+        await this.notToBeVisible(outlets.outletContent.cashier(helpers.capitalizeWords(cashierName)));
     }
 }

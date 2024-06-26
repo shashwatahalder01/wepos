@@ -3,6 +3,9 @@ import { execSync } from 'child_process';
 import { Browser, BrowserContextOptions, Page } from '@playwright/test';
 
 export const helpers = {
+    // capitalize first letter of a string [also capitalize after hyphen]
+    capitalizeWords: (str: string) => str.replace(/\b\w/g, char => char.toUpperCase()).replace(/-\w/g, char => char.toUpperCase()),
+
     // capitalize first letter of each word
     capitalizeEachWord: (str: string) =>
         str
