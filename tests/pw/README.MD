@@ -30,11 +30,6 @@
 
 <br/>
 
--   [Contributing to Wepos-e2e-api-test](#Contributing-to-wepos-e2e-api-test)
-    -   [How to wright tests](#how-to-run-tests)
-
-<br/>
-
 ## :pushpin: Pre-requisites
 
 #### :o: Install Node
@@ -290,5 +285,3 @@ Running tests involves executing the predefined test cases or scripts to evaluat
 :radio_button: Server test report
 
     npx playwright show-report
-
-## Contributing to playwright-api-test
