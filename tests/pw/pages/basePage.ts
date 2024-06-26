@@ -1410,6 +1410,24 @@ export class BasePage {
         }
     }
 
+    // admin enable switcher , if enabled then Skip : admin settings switcher
+    async enableSwitcher(selector: string): Promise<void> {
+        /^(\/\/|\(\/\/)/.test(selector) ? (selector += '//span') : (selector += ' span');
+        const value = await this.getElementBackgroundColor(selector);
+        if (!value.includes('rgb(59, 128, 244)')) {
+            await this.click(selector);
+        }
+    }
+
+    // admin disable switcher , if disabled then skip : admin settings switcher
+    async disableSwitcher(selector: string): Promise<void> {
+        /^(\/\/|\(\/\/)/.test(selector) ? (selector += '//span') : (selector += ' span');
+        const value = await this.getElementBackgroundColor(selector);
+        if (value.includes('rgb(59, 128, 244)')) {
+            await this.click(selector);
+        }
+    }
+
     // admin Enable payment methods via Slider
     async enablePaymentMethod(selector: string): Promise<void> {
         const classValueBefore = await this.getClassValue(selector);
@@ -1455,5 +1473,33 @@ export class BasePage {
         }
 
         await this.click(selector.wpMedia.select);
+    }
+
+    // upload file
+    async wpUploadFile(filePath: string | string[]) {
+        // wp image upload
+        const wpUploadFiles = '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[@id="menu-item-upload"]';
+        const uploadedMedia = '.attachment-preview';
+        const selectFiles = '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[@class="browser button button-hero"]';
+        const select = '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[contains(@class, "media-button-select")]';
+        const crop = '//div[@class="supports-drag-drop" and @style="position: relative;"]//button[contains(@class, "media-button-insert")]';
+        const uploadedMediaIsVisible = await this.isVisible(uploadedMedia);
+        if (uploadedMediaIsVisible) {
+            await this.click(wpUploadFiles);
+        } else {
+            await this.uploadFile(selectFiles, filePath);
+            await this.click(select);
+            await this.clickIfVisible(crop);
+        }
+    }
+
+    // Remove Previous Uploaded media If Exists
+    async removePreviouslyUploadedImage(previousUploadedImageSelector: string, removePreviousUploadedImageSelector: string) {
+        const previousUploadedImageIsVisible = await this.isVisible(previousUploadedImageSelector);
+        if (previousUploadedImageIsVisible) {
+            await this.hover(previousUploadedImageSelector);
+            await this.click(removePreviousUploadedImageSelector);
+            await this.wait(2);
+        }
     }
 }
