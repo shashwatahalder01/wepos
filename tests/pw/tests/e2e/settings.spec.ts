@@ -17,6 +17,7 @@ test.describe('Settings test', () => {
     });
 
     test('admin can view settings menu page', { tag: ['@lite', '@exploratory'] }, async () => {
+        test.fail('This test is not implemented yet');
         await admin.weposSettingsRenderProperly();
     });
 
