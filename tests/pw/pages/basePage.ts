@@ -1410,6 +1410,24 @@ export class BasePage {
         }
     }
 
+    // admin enable switcher , if enabled then Skip : admin settings switcher
+    async enableSwitcher(selector: string): Promise<void> {
+        /^(\/\/|\(\/\/)/.test(selector) ? (selector += '//span') : (selector += ' span');
+        const value = await this.getElementBackgroundColor(selector);
+        if (!value.includes('rgb(59, 128, 244)')) {
+            await this.click(selector);
+        }
+    }
+
+    // admin disable switcher , if disabled then skip : admin settings switcher
+    async disableSwitcher(selector: string): Promise<void> {
+        /^(\/\/|\(\/\/)/.test(selector) ? (selector += '//span') : (selector += ' span');
+        const value = await this.getElementBackgroundColor(selector);
+        if (value.includes('rgb(59, 128, 244)')) {
+            await this.click(selector);
+        }
+    }
+
     // admin Enable payment methods via Slider
     async enablePaymentMethod(selector: string): Promise<void> {
         const classValueBefore = await this.getClassValue(selector);
