@@ -190,12 +190,9 @@ jobs:
         id: e2e-test
         if: success() && (github.event_name != 'workflow_dispatch' || ( github.event_name == 'workflow_dispatch' && (github.event.inputs.testsuite == 'E2E' || github.event.inputs.testsuite == 'All')))
         timeout-minutes: 40
-        continue-on-error: true
         run: |
           cd tests/pw 
           npm run test:e2e:lite
-        outputs:
-        tests-run: ${{ steps.e2e-test.outcome }}
 
       - name: 🧪 Running e2e coverage
         if: steps.e2e-test.outcome
