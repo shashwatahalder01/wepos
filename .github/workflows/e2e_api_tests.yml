@@ -193,7 +193,15 @@ jobs:
         continue-on-error: true
         run: |
           cd tests/pw 
-          npm run test:e2e:lite || true
+          npm run test:e2e:lite
+        outputs:
+        tests-run: ${{ steps.e2e-test.outcome }}
+
+      - name: 🧪 Running e2e coverage
+        if: steps.e2e-test.outcome
+        timeout-minutes: 40
+        run: |
+          cd tests/pw 
           npm run e2e_coverage
 
       # Run API tests
