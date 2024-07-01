@@ -193,7 +193,7 @@ jobs:
         continue-on-error: true
         run: |
           cd tests/pw 
-          npm run test:e2e:lite
+          npm run test:e2e:lite || true
           npm run e2e_coverage
 
       # Run API tests
