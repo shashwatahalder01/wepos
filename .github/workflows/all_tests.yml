@@ -223,6 +223,12 @@ jobs:
         run: |
           cd tests/pw 
           npm run test:e2e:pro
+
+      - name: 🧪 Running e2e coverage
+        if: always() && (steps.e2e-test.outcome == 'success' || steps.e2e-test.outcome == 'failure')
+        timeout-minutes: 40
+        run: |
+          cd tests/pw 
           npm run e2e_coverage
 
       # Run API tests
