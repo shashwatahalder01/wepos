@@ -70,7 +70,6 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Use desired version of NodeJS
-        if: success()
         uses: actions/setup-node@v4
         with:
           node-version: 20
