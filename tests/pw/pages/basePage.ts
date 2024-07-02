@@ -345,7 +345,7 @@ export class BasePage {
 
     // is locator exists
     async isLocatorExists(selector: string): Promise<boolean> {
-        return (await this.page.locator(selector).count()) ? true : false;
+        return (await this.page.locator(selector).count()) > 0;
     }
 
     // is element exists
@@ -475,7 +475,7 @@ export class BasePage {
     // get element has test or not
     async hasText(selector: string, text: string): Promise<boolean> {
         const elementText = await this.textContentOfLocator(selector);
-        return elementText?.trim() === text ? true : false;
+        return elementText?.trim() === text;
     }
 
     // get element inner text
@@ -565,7 +565,7 @@ export class BasePage {
     async hasColor(selector: string, color: string): Promise<boolean> {
         const elementColor = await this.getElementColor(selector);
         // console.log(elementColor);
-        return elementColor === color ? true : false;
+        return elementColor === color;
     }
 
     // get pseudo element style
@@ -1383,7 +1383,7 @@ export class BasePage {
 
     // admin enable switcher , if enabled then Skip : admin settings switcher
     async switcherHasColor(selector: string, color: string): Promise<void> {
-        /^(\/\/|\(\/\/)/.test(selector) ? (selector += '//span') : (selector += ' span');
+        selector = /^(\/\/|\(\/\/)/.test(selector) ? `${selector}//span` : `${selector} span`;
         await this.toHaveBackgroundColor(selector, color);
     }
 
@@ -1412,7 +1412,7 @@ export class BasePage {
 
     // admin enable switcher , if enabled then Skip : admin settings switcher
     async enableSwitcher(selector: string): Promise<void> {
-        /^(\/\/|\(\/\/)/.test(selector) ? (selector += '//span') : (selector += ' span');
+        selector = /^(\/\/|\(\/\/)/.test(selector) ? `${selector}//span` : `${selector} span`;
         const value = await this.getElementBackgroundColor(selector);
         if (!value.includes('rgb(59, 128, 244)')) {
             await this.click(selector);
@@ -1421,7 +1421,7 @@ export class BasePage {
 
     // admin disable switcher , if disabled then skip : admin settings switcher
     async disableSwitcher(selector: string): Promise<void> {
-        /^(\/\/|\(\/\/)/.test(selector) ? (selector += '//span') : (selector += ' span');
+        selector = /^(\/\/|\(\/\/)/.test(selector) ? `${selector}//span` : `${selector} span`;
         const value = await this.getElementBackgroundColor(selector);
         if (value.includes('rgb(59, 128, 244)')) {
             await this.click(selector);

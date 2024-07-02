@@ -33,12 +33,12 @@ export class Outlets extends BasePage {
         if (!outletExists) {
             console.log('No outlet found');
             return;
-        } else {
-            await this.notToHaveCount(outlets.outlets, 0);
-            await this.notToHaveCount(outlets.outletBody.outletHeader, 0);
-            await this.notToHaveCount(outlets.outletBody.outletContent, 0);
-            await this.notToHaveCount(outlets.outletBody.outletFooter, 0);
         }
+
+        await this.notToHaveCount(outlets.outlets, 0);
+        await this.notToHaveCount(outlets.outletBody.outletHeader, 0);
+        await this.notToHaveCount(outlets.outletBody.outletContent, 0);
+        await this.notToHaveCount(outlets.outletBody.outletFooter, 0);
     }
 
     // update outlet fields
