@@ -1,3 +1,15 @@
+- page: 'plugins'
+  features:
+      admin:
+          admin can install Wepos plugin [lite]: false
+          admin can activate Wepos plugin [lite]: false
+          admin can deactivate Wepos plugin [lite]: false
+          admin can delete Wepos plugin [lite]: false
+          admin can install Wepos pro plugin: false
+          admin can activate Wepos pro plugin: false
+          admin can deactivate Wepos pro plugin: false
+          admin can delete Wepos pro plugin: false
+
 - page: 'outlets'
   features:
       admin:
@@ -40,12 +52,16 @@
           admin can view settings menu page [lite]: true
           admin can set Wepos general settings [lite]: true
           admin can set Wepos receipts settings [lite]: true
+          admin can disable tax for fee [lite]: false
+          admin can set custom field for barcode [lite]: false
 
 - page: 'pos'
   features:
       cashier:
           cashier can view pos [lite]: true
-          cashier can search product [lite]: true
+          cashier can search product by name [lite]: true
+          cashier can search product by id [lite]: false
+          cashier can search product by SKU [lite]: false
           cashier can filter product [lite]: true
           cashier can toggle product view layout [lite]: true
           cashier can search customer [lite]: true
@@ -54,6 +70,7 @@
           cashier can view keyboard shortcuts [lite]: true
           cashier can logout [lite]: true
           cashier can add product to cart [lite]: true
+          cashier can add variable product to cart [lite]: false
           cashier can edit product quantity [lite]: true
           cashier can remove product from cart [lite]: true
           cashier can add discount [lite]: true
