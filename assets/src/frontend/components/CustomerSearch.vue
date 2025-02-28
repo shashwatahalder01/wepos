@@ -323,8 +323,14 @@ export default {
                     $contentWrap.unblock();
                     this.closeNewCustomerModal();
                 }).fail( response => {
+                    let errorMessage = response?.responseJSON?.message;
+
+                    if ( 'rest_invalid_email' === response?.responseJSON?.data?.details?.billing.code ) {
+                        errorMessage = response.responseJSON.data.details.billing.message;
+                    }
+
                     $contentWrap.unblock();
-                    alert( response.responseJSON.message );
+                    alert( errorMessage );
                 } );
             } else {
                 alert( this.__( 'Please enter an email address for customer', 'wepos' ) );
