@@ -32,6 +32,9 @@
                             </template>
                         </td>
                     </tr>
+                    <tr class="divider">
+                        <td colspan="3"></td>
+                    </tr>
                     <tr class="cart-meta-data">
                         <td colspan="2" class="name">
                             {{ __( 'Subtotal', 'wepos' ) }}
@@ -74,6 +77,9 @@
                             <td class="price">{{ formatPrice( printdata.changeamount ) }}</td>
                         </tr>
                     </template>
+                    <tr class="divider">
+                        <td colspan="3"></td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -166,7 +172,6 @@ export default {
                             padding: 8px 10px;
                             &.name {
                                 width: 60%;
-                                font-weight: bold;
                                 .tax-info {
                                     display: block;
                                     font-size: 13px;
