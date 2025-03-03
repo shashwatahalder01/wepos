@@ -8,6 +8,16 @@
         </div>
         <div class="content">
             <table class="sale-summary">
+                <thead>
+                    <tr class="item-header">
+                        <th class="name">{{ __( 'Product', 'wepos' ) }}</th>
+                        <th class="quantity">{{ __( 'Quantity', 'wepos' ) }}</th>
+                        <th class="price">{{ __( 'Total', 'wepos' ) }}</th>
+                    </tr>
+                    <tr class="divider">
+                        <td colspan="3"></td>
+                    </tr>
+                </thead>
                 <tbody>
                     <tr v-for="item in printdata.line_items">
                         <td class="name">
@@ -165,6 +175,34 @@ export default {
             table.sale-summary {
                 width: 100%;
                 border-collapse: collapse;
+
+                thead {
+                    tr {
+                        th {
+                            padding: 0 10px 8px;
+
+                            &.name {
+                                width: 60%;
+                                text-align: left;
+                            }
+
+                            &.quantity {
+                                width: 12%;
+                                text-align: center;
+                            }
+
+                            &.price {
+                                text-align: right;
+                            }
+                        }
+
+                        &.divider {
+                            border-bottom: 1px dashed #b7b7b7;
+                            color: #b5b5b5;
+                        }
+                    }
+                }
+
                 tbody {
                     tr {
                         td {
