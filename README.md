@@ -3,11 +3,11 @@
 **Donate Link:** http://tareq.co/donate/
 **Tags:** WooCommerce POS, point of sale, free pos, pos plugin, woocommerce point of sale
 **Requires at least:** 6.5
-**Tested up to:** 6.7.1
-**WC requires at least:** 8.0.0
-**WC tested up to:** 9.5.2
+**Tested up to:** 6.8.1
+**WC requires at least:** 8.5.0
+**WC tested up to:** 9.9.4
 **Requires PHP:** 7.4
-**Stable tag:** 1.3.0
+**Stable tag:** 1.3.1
 **License:** GPLv2 or later
 **License URI:** http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -59,6 +59,16 @@ No FAQ
 9. Admin Dashboard Settings
 
 ## Changelog ##
+
+### v1.3.1 -> 20 June, 2025 ###
+- **feat**: Added `refund` support for card payment method.
+- **update**: Added High Performance Order Storage support.
+- **update**: Product price included in the frontend POS grid layout.
+- **update**: Optimized customer create form on POS home screen.
+- **fix:** Resolved an issue where search wasn't working on product categories dropdown.
+- **fix:** Resolved an issue of creating orders for existing customers without billing email.
+- **fix:** Resolved an issue where the general section under admin settings wasn't expanding by default after activating wePOS Pro.
+- **fix:** Resolved an issue of inconsistency in print receipt.
 
 ### v1.3.0 -> 10 January, 2025 ###
 - **Fix:** POS discount coupons were accessible from single order page on admin dashboard
