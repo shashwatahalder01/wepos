@@ -3,13 +3,13 @@
 Plugin Name: wePOS - Point Of Sale (POS) for WooCommerce
 Plugin URI: https://wedevs.com/wepos
 Description: A beautiful and fast Point of Sale (POS) system for WooCommerce
-Version: 1.3.0
+Version: 1.3.1
 Author: weDevs
 Author URI: https://wedevs.com/
 Text Domain: wepos
 Domain Path: /languages
-WC requires at least: 8.0.0
-WC tested up to: 9.5.2
+WC requires at least: 8.5.0
+WC tested up to: 9.9.4
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -57,7 +57,7 @@ final class WePOS {
      *
      * @var string
      */
-    public $version = '1.3.0';
+    public $version = '1.3.1';
 
     /**
      * Holds various class instances
@@ -83,6 +83,9 @@ final class WePOS {
 
         add_action( 'init', [ $this, 'add_rewrite_rules' ] );
         add_filter( 'query_vars', [ $this, 'register_query_var' ] );
+
+        // Declaring High Performance Order Storage Support
+        add_action( 'before_woocommerce_init', [ $this, 'declare_woocommerce_feature_compatibility' ] );
 
         add_action( 'plugins_loaded', [ $this, 'woocommerce_not_loaded' ], 11 );
 
@@ -117,6 +120,20 @@ final class WePOS {
 
         if (  current_user_can( 'activate_plugins' ) ) {
             require_once WEPOS_PATH . '/templates/woocommerce-dependency-notice.php';
+        }
+    }
+
+    /**
+     * Add High Performance Order Storage Support
+     *
+     * @since WEPOS_SINCE
+     * @see https://developer.woocommerce.com/docs/hpos-extension-recipe-book/
+     *
+     * @return void
+     */
+    public function declare_woocommerce_feature_compatibility() {
+        if ( class_exists( \Automattic\WooCommerce\Utilities\FeaturesUtil::class ) ) {
+            \Automattic\WooCommerce\Utilities\FeaturesUtil::declare_compatibility( 'custom_order_tables', WEPOS_FILE, true );
         }
     }
 
@@ -313,6 +330,7 @@ final class WePOS {
     public function init_hooks() {
         add_action( 'init', [ $this, 'init_classes' ] );
         add_action( 'init', [ $this, 'localization_setup' ] );
+        add_action( 'wepos_loaded', [ $this, 'load_payment_gateways' ] );
     }
 
     /**
@@ -340,9 +358,6 @@ final class WePOS {
         $this->container['common'] = new WeDevs\WePOS\Common();
         $this->container['rest']   = new WeDevs\WePOS\REST\Manager();
         $this->container['assets'] = new WeDevs\WePOS\Assets();
-
-        // Payment gateway manager
-        $this->container['gateways'] = new \WeDevs\WePOS\Gateways\Manager();
     }
 
     /**
@@ -352,6 +367,18 @@ final class WePOS {
      */
     public function localization_setup() {
         load_plugin_textdomain( 'wepos', false, dirname( plugin_basename( __FILE__ ) ) . '/languages/' );
+    }
+
+    /**
+     * Load the payment gateways.
+     *
+     * @since WEPOS_SINCE
+     *
+     * @return void
+     */
+    public function load_payment_gateways() {
+        // Payment gateway manager
+        $this->container['gateways'] = new \WeDevs\WePOS\Gateways\Manager();
     }
 
     /**
