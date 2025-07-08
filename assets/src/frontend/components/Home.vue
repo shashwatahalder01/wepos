@@ -923,11 +923,13 @@ export default {
                     }
                 }).fail( data => {
                     $contentWrap.unblock();
-                    alert( data.responseJSON.message );
+                    const errorMessage = data?.responseJSON?.message ? data.responseJSON.message : this.__( 'Failed to process the payment.', 'wepos' );
+                    alert( errorMessage );
                 });
             }).fail( response => {
                 $contentWrap.unblock();
-                alert( response.responseJSON.message );
+                const errorMessage = response?.responseJSON?.message ? response.responseJSON.message : this.__( 'Failed to process the order.', 'wepos' );
+                alert( errorMessage );
             } );
         },
 
