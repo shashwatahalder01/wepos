@@ -254,8 +254,8 @@ export default {
                         product.name.toLowerCase().includes( input ) ||
                         product.sku.includes( this.serachInput )
                     );
-                })
-                .sort((a, b) => a.name.localeCompare(b.name)); // Ascending by name
+                } )
+                .sort( ( a, b ) => a.name.localeCompare( b.name ) ); // Ascending by name
         },
 
         selectVariation( product ) {
