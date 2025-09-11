@@ -3,14 +3,14 @@
 Plugin Name: wePOS - Point Of Sale (POS) for WooCommerce
 Plugin URI: https://wedevs.com/wepos
 Description: A beautiful and fast Point of Sale (POS) system for WooCommerce
-Version: 1.3.1
+Version: 1.3.2
 Author: weDevs
 Author URI: https://wedevs.com/
 Text Domain: wepos
 Requires Plugins: woocommerce
 Domain Path: /languages
 WC requires at least: 8.5.0
-WC tested up to: 9.9.4
+WC tested up to: 10.1.2
 License: GPL2
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 */
@@ -58,7 +58,7 @@ final class WePOS {
      *
      * @var string
      */
-    public $version = '1.3.1';
+    public $version = '1.3.2';
 
     /**
      * Holds various class instances
@@ -127,7 +127,7 @@ final class WePOS {
     /**
      * Add High Performance Order Storage Support
      *
-     * @since WEPOS_SINCE
+     * @since 1.3.1
      * @see https://developer.woocommerce.com/docs/hpos-extension-recipe-book/
      *
      * @return void
@@ -373,7 +373,7 @@ final class WePOS {
     /**
      * Load the payment gateways.
      *
-     * @since WEPOS_SINCE
+     * @since 1.3.1
      *
      * @return void
      */
