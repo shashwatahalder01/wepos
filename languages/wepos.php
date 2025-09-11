@@ -85,6 +85,8 @@ return [
 	__( 'Cash', 'wepos' ),
 	__( 'Change money', 'wepos' ),
 	__( 'All categories', 'wepos' ),
+	__( 'Failed to process the payment.', 'wepos' ),
+	__( 'Failed to process the order.', 'wepos' ),
 	__( 'This product is out of stock.', 'wepos' ),
 	__( 'Product is out of stock!', 'wepos-pro' ),
 	__( 'Order ID', 'wepos' ),

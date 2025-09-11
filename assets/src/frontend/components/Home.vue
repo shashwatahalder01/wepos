@@ -573,6 +573,13 @@
                                             <p>{{ __( 'Change money', 'wepos' ) }}: {{ formatPrice( changeAmount ) }}</p>
                                         </div>
                                     </div>
+                                    <component
+                                        v-for="(value, key ) in afterPaymentContents"
+                                        :key="key"
+                                        :is="value"
+                                        :selectedGateway="selectedGateway"
+                                        :cashAmount="cashAmount"
+                                    />
                                 </div>
                             </template>
 
@@ -587,6 +594,13 @@
                         <div class="footer wepos-clearfix">
                             <a href="#" class="back-btn wepos-left" @click.prevent="backToSale()">{{ __( 'Back to Sale', 'wepos' ) }}</a>
                             <button class="process-checkout-btn wepos-right" @click.prevent="processPayment" :disabled="! $store.getters['Order/getCanProcessPayment']">{{ __( 'Process Payment', 'wepos' ) }}</button>
+                            <component
+                                v-for="(afterPaymentButton, key ) in afterPaymentButtons"
+                                :key="key"
+                                :is="afterPaymentButton"
+                                :selectedGateway="selectedGateway"
+                                :cashAmount="cashAmount"
+                            />
                         </div>
                     </div>
                 </div>
@@ -676,6 +690,8 @@ export default {
             availableGatewayContent: wepos.hooks.applyFilters( 'wepos_avaialable_gateway_content', [] ),
             afterMainContents: wepos.hooks.applyFilters( 'wepos_after_main_content', [] ),
             beforCartPanels: wepos.hooks.applyFilters( 'wepos_before_cart_panel', [] ),
+            afterPaymentContents: wepos.hooks.applyFilters( 'wepos_after_payment_content', [] ),
+            afterPaymentButtons: wepos.hooks.applyFilters( 'wepos_after_payment_buttons', [] ),
             couponData: {},
         }
     },
@@ -923,11 +939,13 @@ export default {
                     }
                 }).fail( data => {
                     $contentWrap.unblock();
-                    alert( data.responseJSON.message );
+                    const errorMessage = data?.responseJSON?.message ? data.responseJSON.message : this.__( 'Failed to process the payment.', 'wepos' );
+                    alert( errorMessage );
                 });
             }).fail( response => {
                 $contentWrap.unblock();
-                alert( response.responseJSON.message );
+                const errorMessage = response?.responseJSON?.message ? response.responseJSON.message : this.__( 'Failed to process the order.', 'wepos' );
+                alert( errorMessage );
             } );
         },
 
