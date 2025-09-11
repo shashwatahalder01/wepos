@@ -7,6 +7,7 @@ Version: 1.3.1
 Author: weDevs
 Author URI: https://wedevs.com/
 Text Domain: wepos
+Requires Plugins: woocommerce
 Domain Path: /languages
 WC requires at least: 8.5.0
 WC tested up to: 9.9.4
